@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Accountry</string>
+
+    <string name="hint_username">نام کاربری</string>
+    <string name="hint_password">کلمه ی عبور</string>
+
+    <string name="login">ورود</string>
+
+    <string name="err_wrong_credential">نام کاربری یا کلمه ی عبور اشتباه است</string>
+</resources>

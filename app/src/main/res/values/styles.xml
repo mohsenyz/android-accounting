@@ -1,0 +1,33 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+
+    <style name="AppTheme.NoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="editTextStyle">@style/AppTheme.EditText</item>
+    </style>
+
+    <style name="AppTheme.EditText" parent="Base.V7.Widget.AppCompat.EditText">
+        <item name="android:textSize">14dp</item>
+    </style>
+
+    <style name="AppTheme.TextInputLayout" parent="Widget.Design.TextInputLayout">
+        <item name="errorTextAppearance">@style/AppTheme.TextInputLayout.ErrorTextAppearance</item>
+    </style>
+
+    <style name="AppTheme.TextInputLayout.ErrorTextAppearance" parent="AppTheme.TextInputLayout.ErrorTextAppearance">
+        <item name="android:gravity">right</item>
+        <item name="android:layout_gravity">right</item>
+    </style>
+
+</resources>
