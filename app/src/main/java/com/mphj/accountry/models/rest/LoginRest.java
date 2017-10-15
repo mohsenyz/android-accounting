@@ -1,11 +1,10 @@
-package com.mphj.accountry.activity.models.rest;
+package com.mphj.accountry.models.rest;
 
 import com.mphj.accountry.AccountryApplication;
-import com.mphj.accountry.activity.models.LoginModel;
-import com.mphj.accountry.activity.presenters.LoginPresenter;
-import com.mphj.accountry.activity.rest.ApiClient;
-import com.mphj.accountry.activity.rest.ApiInterface;
-import com.mphj.accountry.activity.utils.DeviceUtils;
+import com.mphj.accountry.models.LoginModel;
+import com.mphj.accountry.rest.ApiClient;
+import com.mphj.accountry.rest.ApiInterface;
+import com.mphj.accountry.utils.DeviceUtils;
 
 import retrofit2.Call;
 import retrofit2.Callback;

@@ -1,6 +1,6 @@
-package com.mphj.accountry.activity.rest;
+package com.mphj.accountry.rest;
 
-import com.mphj.accountry.activity.models.LoginModel;
+import com.mphj.accountry.models.LoginModel;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

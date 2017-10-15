@@ -1,4 +1,4 @@
-package com.mphj.accountry.activity.interfaces;
+package com.mphj.accountry.interfaces;
 
 /**
  * Created by mphj on 10/15/2017.

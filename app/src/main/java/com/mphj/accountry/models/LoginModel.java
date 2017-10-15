@@ -1,4 +1,4 @@
-package com.mphj.accountry.activity.models;
+package com.mphj.accountry.models;
 
 import com.google.gson.annotations.SerializedName;
 

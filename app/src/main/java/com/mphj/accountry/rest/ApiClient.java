@@ -1,4 +1,4 @@
-package com.mphj.accountry.activity.rest;
+package com.mphj.accountry.rest;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;

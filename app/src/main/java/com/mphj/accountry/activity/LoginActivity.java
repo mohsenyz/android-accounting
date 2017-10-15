@@ -1,24 +1,19 @@
 package com.mphj.accountry.activity;
 
-import android.animation.Animator;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.CardView;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.mphj.accountry.R;
-import com.mphj.accountry.activity.interfaces.LoginView;
-import com.mphj.accountry.activity.presenters.LoginPresenter;
-import com.mphj.accountry.activity.presenters.LoginPresenterImpl;
-import com.mphj.accountry.activity.utils.ViewAnimator;
+import com.mphj.accountry.interfaces.LoginView;
+import com.mphj.accountry.presenters.LoginPresenter;
+import com.mphj.accountry.presenters.LoginPresenterImpl;
+import com.mphj.accountry.utils.ViewAnimator;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

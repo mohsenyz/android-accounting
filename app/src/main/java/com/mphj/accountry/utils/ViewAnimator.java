@@ -1,4 +1,4 @@
-package com.mphj.accountry.activity.utils;
+package com.mphj.accountry.utils;
 
 import android.animation.Animator;
 import android.view.View;

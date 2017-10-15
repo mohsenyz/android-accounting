@@ -1,7 +1,7 @@
-package com.mphj.accountry.activity.utils;
+package com.mphj.accountry.utils;
 
 import com.mphj.accountry.AccountryApplication;
-import com.mphj.accountry.activity.models.LoginModel;
+import com.mphj.accountry.models.LoginModel;
 import com.snappydb.DB;
 import com.snappydb.DBFactory;
 

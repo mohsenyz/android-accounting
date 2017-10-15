@@ -1,19 +1,9 @@
-package com.mphj.accountry.activity.presenters;
+package com.mphj.accountry.presenters;
 
-import android.app.Activity;
-
-import com.mphj.accountry.AccountryApplication;
-import com.mphj.accountry.activity.interfaces.LoginView;
-import com.mphj.accountry.activity.models.LoginModel;
-import com.mphj.accountry.activity.models.rest.LoginRest;
-import com.mphj.accountry.activity.rest.ApiClient;
-import com.mphj.accountry.activity.rest.ApiInterface;
-import com.mphj.accountry.activity.utils.Auth;
-import com.mphj.accountry.activity.utils.DeviceUtils;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import com.mphj.accountry.interfaces.LoginView;
+import com.mphj.accountry.models.LoginModel;
+import com.mphj.accountry.models.rest.LoginRest;
+import com.mphj.accountry.utils.Auth;
 
 /**
  * Created by mphj on 10/15/2017.
