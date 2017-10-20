@@ -1,13 +1,8 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="6dp"
-    android:paddingLeft="6dp"
-    android:paddingRight="6dp"
-    android:paddingTop="6dp"
-    android:layoutDirection="rtl"
-    tools:context="com.mphj.accountry.activity.DashboardActivity$PlaceholderFragment">
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layoutDirection="rtl">
     <com.mphj.accountry.views.BorderedCard
         android:layout_width="match_parent"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -47,4 +42,4 @@
             </LinearLayout>
         </FrameLayout>
     </com.mphj.accountry.views.BorderedCard>
-</RelativeLayout>
+</LinearLayout>

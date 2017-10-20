@@ -5,7 +5,7 @@ android {
     buildToolsVersion "26.0.2"
     defaultConfig {
         applicationId "com.mphj.accountry"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
@@ -42,4 +42,5 @@ dependencies {
     compile 'com.journeyapps:zxing-android-embedded:3.2.0@aar'
     compile 'me.dm7.barcodescanner:zxing:1.9.8'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+    compile 'com.facebook.shimmer:shimmer:0.1.0@aar'
 }

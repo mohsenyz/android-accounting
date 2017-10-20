@@ -13,6 +13,7 @@ import com.mphj.accountry.R;
 import com.mphj.accountry.adapter.SectionsPagerAdapter;
 import com.mphj.accountry.interfaces.DashboardView;
 import com.mphj.accountry.presenters.DashboardPresenter;
+import com.mphj.accountry.presenters.DashboardPresenterImpl;
 import com.mphj.accountry.utils.TabLayoutUtils;
 
 import butterknife.BindView;
@@ -53,6 +54,8 @@ public class DashboardActivity extends BaseActivity implements DashboardView, Ta
         tabLayout.setupWithViewPager(mViewPager);
         tabLayout.addOnTabSelectedListener(this);
         TabLayoutUtils.changeTabsFont(tabLayout);
+
+        presenter = new DashboardPresenterImpl(this);
     }
 
     @OnClick(R.id.fab)
