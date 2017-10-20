@@ -1,5 +1,7 @@
 package com.mphj.accountry.models.db;
 
+import org.json.JSONObject;
+
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
@@ -54,5 +56,19 @@ public class Customer extends RealmObject {
 
     public void setServerId(int serverId) {
         this.serverId = serverId;
+    }
+
+    public static String toJson(Customer customer){
+        try{
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("name", customer.getName());
+            jsonObject.put("phone", customer.getPhone());
+            jsonObject.put("createdAt", customer.getCreatedAt());
+            jsonObject.put("serverId", customer.getServerId());
+            return jsonObject.toString();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
     }
 }

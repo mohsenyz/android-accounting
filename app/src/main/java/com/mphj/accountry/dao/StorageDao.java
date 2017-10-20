@@ -4,6 +4,7 @@ import com.mphj.accountry.models.db.Log;
 import com.mphj.accountry.models.db.Storage;
 
 import io.realm.Realm;
+import io.realm.RealmResults;
 
 /**
  * Created by mphj on 10/20/2017.
@@ -19,9 +20,19 @@ public class StorageDao extends RealmBaseDao{
         storage.setId(countAll());
         realm.beginTransaction();
         realm.copyToRealmOrUpdate(storage);
-        LogDao logDao = new LogDao(Realm.getDefaultInstance());
-        logDao.create(Log.Builder.create(Storage.class).id(storage.getId()).object(storage).build());
         realm.commitTransaction();
+        // Nested transaction are not allowed
+        makeCreateLog(storage);
+    }
+
+    private void makeCreateLog(Storage storage){
+        LogDao logDao = new LogDao(Realm.getDefaultInstance());
+        logDao.create(Log.Builder.create(Storage.class).id(storage.getId()).object(Storage.toJson(storage)).build());
+    }
+
+    public RealmResults<Storage> listAll(){
+        realm.refresh();
+        return realm.where(Storage.class).findAll();
     }
 
     public int countAll(){

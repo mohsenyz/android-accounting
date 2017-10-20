@@ -1,5 +1,8 @@
 package com.mphj.accountry.models.db;
 
+
+import org.json.JSONObject;
+
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
@@ -36,5 +39,18 @@ public class Storage extends RealmObject{
 
     public void setServerId(int serverId) {
         this.serverId = serverId;
+    }
+
+
+    public static String toJson(Storage storage) {
+        try {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("name", storage.name);
+            jsonObject.put("serverId", storage.serverId);
+            return jsonObject.toString();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
     }
 }

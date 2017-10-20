@@ -107,6 +107,11 @@ public class DashboardActivity extends BaseActivity implements DashboardView, Ta
     }
 
     @Override
+    public void showNewCustomerActivity() {
+        startActivity(new Intent(this, NewCustomerActivity.class));
+    }
+
+    @Override
     public void onTabSelected(TabLayout.Tab tab) {
         presenter.onPageChanged(tab.getPosition());
     }

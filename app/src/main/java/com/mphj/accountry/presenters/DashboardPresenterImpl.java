@@ -44,6 +44,12 @@ public class DashboardPresenterImpl implements DashboardPresenter {
             case SectionsPagerAdapter.STORAGE:
                 view.showNewStorageActivity();
                 break;
+            case SectionsPagerAdapter.CUSTOMERS:
+                view.showNewCustomerActivity();
+                break;
+            case SectionsPagerAdapter.PRODUCTS:
+                view.showNewProductActivity();
+                break;
             default:
                 throw new RuntimeException(
                         new StringBuilder().append("Nothing implemnted for position ").append(currentPosition).toString()

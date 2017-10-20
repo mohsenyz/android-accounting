@@ -12,4 +12,5 @@ public interface DashboardView {
     void showNewProductActivity();
     void showNewStorageActivity();
     void showNewTransactionActivity();
+    void showNewCustomerActivity();
 }

@@ -1,6 +1,5 @@
 package com.mphj.accountry.models.db;
 
-import com.google.gson.Gson;
 
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
@@ -74,8 +73,8 @@ public class Log extends RealmObject {
             return this;
         }
 
-        public Builder object(Object obj){
-            body = new Gson().toJson(obj);
+        public Builder object(String json){
+            body = json;
             return this;
         }
 

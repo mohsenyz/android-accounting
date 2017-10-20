@@ -40,6 +40,7 @@ public class NewStoragePresenterImpl implements NewStoragePresenter {
         Storage storage = new Storage();
         storage.setName(name);
         dao.create(storage);
+        dao.close();
         view.finishActivity();
     }
 }

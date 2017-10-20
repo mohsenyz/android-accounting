@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.mphj.accountry">
-    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".AccountryApplication"
         android:allowBackup="true"
@@ -17,14 +19,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.LoginActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".activity.LoginActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.DashboardActivity"
             android:label="@string/title_activity_dashboard"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activity.NewStorageActivity"
-            android:theme="@style/AppTheme.Dialog.NoTitle"></activity>
+        <activity
+            android:name=".activity.NewStorageActivity"
+            android:theme="@style/AppTheme.Dialog.NoTitle" />
+        <activity android:name=".activity.NewCustomerActivity"
+            android:theme="@style/AppTheme.Dialog.NoTitle" />
     </application>
 
 </manifest>
