@@ -11,6 +11,7 @@
     <string name="turning_on_internet">روشن کردن اینترنت</string>
     <string name="err_while_connecting">خطا در اتصال!</string>
     <string name="hint_new_storage">نام انبار جدید</string>
+    <string name="err_invalid_storage_name">نام انبار غیر معتبر است</string>
     <string name="submit">تایید</string>
     <string name="err_datas_may_wrong_because_network">لطفا به اینترنت متصل شوید. ممکن است اطلاعاتی که میبینید معتبر نباشند.</string>
     <string name="action_settings">Settings</string>
