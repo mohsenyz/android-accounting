@@ -7,4 +7,12 @@
     <string name="login">ورود</string>
 
     <string name="err_wrong_credential">نام کاربری یا کلمه ی عبور اشتباه است</string>
+    <string name="title_activity_dashboard">حسابداری شفق</string>
+    <string name="turning_on_internet">روشن کردن اینترنت</string>
+    <string name="err_while_connecting">خطا در اتصال!</string>
+    <string name="hint_new_storage">نام انبار جدید</string>
+    <string name="submit">تایید</string>
+    <string name="err_datas_may_wrong_because_network">لطفا به اینترنت متصل شوید. ممکن است اطلاعاتی که میبینید معتبر نباشند.</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
 </resources>

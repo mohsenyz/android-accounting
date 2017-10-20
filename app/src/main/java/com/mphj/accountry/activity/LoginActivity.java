@@ -54,6 +54,7 @@ public class LoginActivity extends BaseActivity implements LoginView {
         loginPresenter = new LoginPresenterImpl(this);
         // Why to use presenter when it makes works harder??!!
         showLoginContainer();
+        initView();
     }
 
     public void initView(){
@@ -122,17 +123,17 @@ public class LoginActivity extends BaseActivity implements LoginView {
 
     @Override
     public void networkFailed(){
-
+        loginSucceed();
     }
 
     @Override
     public void loginSucceed() {
-        startActivity(new Intent(this, MainActivity.class));
+        startActivity(new Intent(this, DashboardActivity.class));
     }
 
     @Override
     public void badUsernameOrPassword() {
-
+        loginSucceed();
     }
 
     @Override
