@@ -93,7 +93,7 @@ public class DashboardActivity extends BaseActivity implements DashboardView, Ta
 
     @Override
     public void showNewProductActivity() {
-        // @TODO
+        startActivity(new Intent(this, NewProductActivity.class));
     }
 
     @Override

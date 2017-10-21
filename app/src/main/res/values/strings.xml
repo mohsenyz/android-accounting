@@ -16,5 +16,7 @@
     <string name="err_datas_may_wrong_because_network">لطفا به اینترنت متصل شوید. ممکن است اطلاعاتی که میبینید معتبر نباشند.</string>
     <string name="hint_name">نام</string>
     <string name="hint_phone">شماره تلفن</string>
+    <string name="hint_serial">شناسه</string>
+    <string name="pls_scan_barcode">لطفا دوربین را مقابل بارکد قرار دهید</string>
     <string name="err_input_not_valid">ورودی معتبر نمی باشد</string>
 </resources>

@@ -3,6 +3,7 @@
     package="com.mphj.accountry">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:name=".AccountryApplication"
@@ -29,8 +30,14 @@
         <activity
             android:name=".activity.NewStorageActivity"
             android:theme="@style/AppTheme.Dialog.NoTitle" />
-        <activity android:name=".activity.NewCustomerActivity"
+        <activity
+            android:name=".activity.NewCustomerActivity"
             android:theme="@style/AppTheme.Dialog.NoTitle" />
+        <activity
+            android:name=".activity.NewProductActivity"
+            android:theme="@style/AppTheme.Dialog.NoTitle" />
+        <activity android:name=".activity.BarcodeReaderActivity"
+            android:theme="@style/AppTheme.Dialog.NoTitle"></activity>
     </application>
 
 </manifest>
