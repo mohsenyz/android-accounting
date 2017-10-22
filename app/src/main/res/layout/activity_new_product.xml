@@ -17,9 +17,44 @@
             android:id="@+id/input_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textAlignment="center"
             android:hint="@string/hint_name" />
 
     </android.support.design.widget.TextInputLayout>
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/input_layout_price"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/input_price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:textAlignment="center"
+            android:hint="@string/hint_price" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/input_layout_off"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/input_off"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:textAlignment="center"
+            android:hint="@string/hint_off" />
+
+    </android.support.design.widget.TextInputLayout>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -34,6 +69,7 @@
                 android:id="@+id/input_serial"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textAlignment="center"
                 android:hint="@string/hint_serial" />
         </android.support.design.widget.TextInputLayout>
         <ImageView

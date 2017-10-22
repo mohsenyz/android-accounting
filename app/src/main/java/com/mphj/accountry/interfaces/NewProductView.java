@@ -9,6 +9,8 @@ import android.graphics.Bitmap;
 public interface NewProductView {
     void invalidName();
     void invalidSerial();
+    void invalidPrice();
+    void invalidOff();
     void setSerial(Bitmap bitmap);
     void setSerial(String serial);
     void finishActivity();

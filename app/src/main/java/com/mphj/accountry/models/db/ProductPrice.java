@@ -1,5 +1,7 @@
 package com.mphj.accountry.models.db;
 
+import org.json.JSONObject;
+
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
@@ -54,5 +56,19 @@ public class ProductPrice extends RealmObject {
 
     public void setCreatedAt(long createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public static String toJson(ProductPrice productPrice) {
+        try {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("productId", productPrice.productId);
+            jsonObject.put("price", productPrice.price);
+            jsonObject.put("off", productPrice.off);
+            jsonObject.put("createdAt", productPrice.createdAt);
+            return jsonObject.toString();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
     }
 }

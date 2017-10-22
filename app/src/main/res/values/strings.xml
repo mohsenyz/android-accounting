@@ -19,4 +19,6 @@
     <string name="hint_serial">شناسه</string>
     <string name="pls_scan_barcode">لطفا دوربین را مقابل بارکد قرار دهید</string>
     <string name="err_input_not_valid">ورودی معتبر نمی باشد</string>
+    <string name="hint_price">قیمت</string>
+    <string name="hint_off">تخفیف</string>
 </resources>

@@ -28,6 +28,12 @@ public class NewProductActivity extends BaseActivity implements NewProductView {
     @BindView(R.id.input_serial)
     EditText serial;
 
+    @BindView(R.id.input_price)
+    EditText price;
+
+    @BindView(R.id.input_off)
+    EditText off;
+
     @BindView(R.id.serial_img)
     ImageView serialImage;
 
@@ -72,6 +78,16 @@ public class NewProductActivity extends BaseActivity implements NewProductView {
     }
 
     @Override
+    public void invalidPrice() {
+        price.setError(errInputNotValid);
+    }
+
+    @Override
+    public void invalidOff() {
+        off.setError(errInputNotValid);
+    }
+
+    @Override
     public void setSerial(Bitmap bitmap) {
         serialImage.setImageBitmap(bitmap);
     }
@@ -88,7 +104,11 @@ public class NewProductActivity extends BaseActivity implements NewProductView {
 
     @OnClick(R.id.submit)
     void onSubmit(){
-        presenter.createProduct(name.getText().toString(), serial.getText().toString());
+        presenter.createProduct(
+                name.getText().toString(),
+                serial.getText().toString(),
+                price.getText().toString(),
+                off.getText().toString());
     }
 
 

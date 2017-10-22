@@ -16,6 +16,7 @@
         <EditText
             android:id="@+id/input_name"
             android:layout_width="match_parent"
+            android:textAlignment="center"
             android:layout_height="wrap_content"
             android:hint="@string/hint_name" />
 
@@ -32,6 +33,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="phone"
+            android:textAlignment="center"
             android:hint="@string/hint_phone" />
 
     </android.support.design.widget.TextInputLayout>

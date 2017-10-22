@@ -17,6 +17,7 @@
             android:id="@+id/input_storage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textAlignment="center"
             android:hint="@string/hint_new_storage" />
 
     </android.support.design.widget.TextInputLayout>
