@@ -45,7 +45,13 @@
         <activity
             android:name=".activity.SelectCustomerActivity"
             android:theme="@style/AppTheme.Dialog.NoTitle" />
-        <activity android:name=".activity.SelectProductActivity"
+        <activity
+            android:name=".activity.SelectProductActivity"
+            android:theme="@style/AppTheme.Dialog.NoTitle" />
+        <activity
+            android:name=".activity.ImportProductActivity"
+            android:theme="@style/AppTheme.Dialog.NoTitle" />
+        <activity android:name=".activity.GetCountActivity"
             android:theme="@style/AppTheme.Dialog.NoTitle"></activity>
     </application>
 

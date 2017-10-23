@@ -24,6 +24,9 @@ public class Product extends RealmObject {
     @Ignore @Transient
     private ProductPrice currentProductPrice;
 
+    @Ignore
+    private int count;
+
     public ProductPrice getCurrentProductPrice() {
         return currentProductPrice;
     }
@@ -70,6 +73,14 @@ public class Product extends RealmObject {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
     }
 
     public static String toJson(Product product) {

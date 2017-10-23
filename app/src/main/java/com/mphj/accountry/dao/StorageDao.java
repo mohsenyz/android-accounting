@@ -35,6 +35,11 @@ public class StorageDao extends RealmBaseDao{
         return realm.where(Storage.class).findAll();
     }
 
+    public Storage findById(int id){
+        realm.refresh();
+        return realm.where(Storage.class).equalTo("id", id).findFirst();
+    }
+
     public int countAll(){
         realm.refresh();
         return (int)realm.where(Storage.class).count();

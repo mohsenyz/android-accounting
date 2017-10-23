@@ -62,7 +62,7 @@ public class StorageSettingDialog extends BottomSheetDialogFragment implements D
             title.setText(Html.fromHtml(getResources().getString(R.string.html_storage_title).replace("xxx", storage.getName())));
         }
         presenter = new D_StorageSettingPresenterImpl(this);
-        presenter.loadList();
+        presenter.loadList(storage);
     }
 
     public void setupRecyclerView(){

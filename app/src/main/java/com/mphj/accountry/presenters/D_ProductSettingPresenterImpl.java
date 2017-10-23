@@ -38,6 +38,8 @@ public class D_ProductSettingPresenterImpl implements D_ProductSettingPresenter 
         list.add(model);
         model = new SimpleListModel("نمودار تغییر قیمت", R.drawable.ic_gray_line_chart);
         list.add(model);
+        model = new SimpleListModel("خروجی گرفتن از بارکد", R.drawable.ic_gray_texture);
+        list.add(model);
         view.setAdapter(list);
     }
 }

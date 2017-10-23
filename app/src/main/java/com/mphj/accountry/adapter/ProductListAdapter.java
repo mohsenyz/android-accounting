@@ -59,6 +59,15 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         final Product product = list.get(i);
         if (product.getServerId() != 0)
             viewHolder.loading.setVisibility(View.GONE);
+        if (product.getCount() != 0) {
+            viewHolder.centerText.setVisibility(View.VISIBLE);
+            viewHolder.centerText.setText(
+                    Html.fromHtml(viewHolder.rightText.getResources().getString(
+                            R.string.html_count_eq).replace("xxx", LocaleUtils.englishNumberToArabic( "" + product.getCount()))
+                    )
+            );
+            viewHolder.barcode.setVisibility(View.GONE);
+        }
         viewHolder.text.setText(product.getName());
         BarcodeGenerator.bind(viewHolder.barcode, product.getToken(), DeviceUtils.getScreenWidth(), 60);
         ProductPrice productPrice = product.getCurrentProductPrice();
@@ -98,6 +107,9 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
         @BindView(R.id.leftText)
         public TextView leftText;
+
+        @BindView(R.id.centerText)
+        public TextView centerText;
 
         @BindView(R.id.rightText)
         public TextView rightText;
