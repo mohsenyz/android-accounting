@@ -1,6 +1,7 @@
 package com.mphj.accountry.adapter;
 
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 
 import com.mphj.accountry.R;
 import com.mphj.accountry.models.db.Customer;
+import com.mphj.accountry.utils.LocaleUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -38,8 +40,9 @@ public class CustomerListAdapter extends RecyclerView.Adapter<CustomerListAdapte
         Customer customer = list.get(i);
         if (customer.getServerId() != 0)
             viewHolder.loading.setVisibility(View.GONE);
+        viewHolder.subText.setText(Html.fromHtml(
+                viewHolder.text.getResources().getString(R.string.html_phone_eq).replace("xxx", LocaleUtils.englishNumberToArabic(customer.getPhone()))));
         viewHolder.text.setText(customer.getName());
-        viewHolder.subText.setText(customer.getPhone());
     }
 
     @Override

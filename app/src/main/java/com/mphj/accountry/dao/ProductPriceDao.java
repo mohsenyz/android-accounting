@@ -38,6 +38,14 @@ public class ProductPriceDao extends RealmBaseDao {
         return realm.where(ProductPrice.class).findAll();
     }
 
+    public ProductPrice findLatestByProductId(int id){
+        realm.refresh();
+        return realm.where(ProductPrice.class)
+                .equalTo("productId", id)
+                .findAllSorted("createdAt", false)
+                .get(0);
+    }
+
     public int countAll(){
         realm.refresh();
         return (int)realm.where(ProductPrice.class).count();

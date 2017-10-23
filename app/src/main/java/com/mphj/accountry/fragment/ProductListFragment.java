@@ -10,37 +10,42 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.mphj.accountry.R;
-import com.mphj.accountry.adapter.StorageListAdapter;
-import com.mphj.accountry.interfaces.F_StorageListView;
-import com.mphj.accountry.models.db.Storage;
-import com.mphj.accountry.presenters.F_StorageListPresenter;
-import com.mphj.accountry.presenters.F_StorageListPresenterImpl;
+import com.mphj.accountry.adapter.ProductListAdapter;
+import com.mphj.accountry.interfaces.F_ProductListView;
+import com.mphj.accountry.models.db.Product;
+import com.mphj.accountry.presenters.F_ProductListPresenter;
+import com.mphj.accountry.presenters.F_ProductListPresenterImpl;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.realm.RealmResults;
 
-public class StorageListFragment extends Fragment implements F_StorageListView {
+/**
+ * Created by mphj on 10/22/2017.
+ */
+
+public class ProductListFragment extends Fragment implements F_ProductListView {
 
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
 
-    StorageListAdapter storageListAdapter;
+    ProductListAdapter productListAdapter;
 
-    F_StorageListPresenter presenter;
+    F_ProductListPresenter presenter;
 
-    public StorageListFragment(){
+    public ProductListFragment(){
 
     }
 
-    public static StorageListFragment newInstance(){
-        return new StorageListFragment();
+    public static ProductListFragment newInstance(){
+        return new ProductListFragment();
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        presenter = new F_StorageListPresenterImpl(this);
+        presenter = new F_ProductListPresenterImpl(this);
     }
 
     @Override
@@ -73,8 +78,8 @@ public class StorageListFragment extends Fragment implements F_StorageListView {
     }
 
     @Override
-    public void setAdapter(RealmResults<Storage> realmResults) {
-        storageListAdapter = new StorageListAdapter(realmResults, getActivity());
-        recyclerView.setAdapter(storageListAdapter);
+    public void setAdapter(List<Product> realmResults) {
+        productListAdapter = new ProductListAdapter(realmResults, getActivity());
+        recyclerView.setAdapter(productListAdapter);
     }
 }

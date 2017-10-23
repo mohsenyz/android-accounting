@@ -81,6 +81,15 @@
             android:layout_alignParentLeft="true"
             android:id="@+id/pick_from_camera"
             android:src="@drawable/ic_blue_camera"/>
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_centerVertical="true"
+            android:translationY="5dp"
+            android:layout_marginLeft="47dp"
+            android:layout_alignParentLeft="true"
+            android:id="@+id/pick_random"
+            android:src="@drawable/ic_green_renew"/>
     </RelativeLayout>
     <ImageView
         android:layout_width="match_parent"

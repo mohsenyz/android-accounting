@@ -117,6 +117,11 @@ public class NewProductActivity extends BaseActivity implements NewProductView {
         startActivityForResult(new Intent(this, BarcodeReaderActivity.class), BARCODE_READER_REQUEST_CODE);
     }
 
+    @OnClick(R.id.pick_random)
+    void onRequestRandom(){
+        presenter.generateBarcode();
+    }
+
     final Runnable typingStatusRunnable = new Runnable() {
         @Override
         public void run() {
@@ -131,6 +136,7 @@ public class NewProductActivity extends BaseActivity implements NewProductView {
             if(resultCode == Activity.RESULT_OK){
                 String serial = data.getStringExtra("serial");
                 presenter.generateBarcode(serial);
+                setSerial(serial);
             }
         }
     }

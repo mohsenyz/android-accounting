@@ -3,6 +3,7 @@ package com.mphj.accountry.models.db;
 import org.json.JSONObject;
 
 import io.realm.RealmObject;
+import io.realm.annotations.Ignore;
 import io.realm.annotations.PrimaryKey;
 
 /**
@@ -17,6 +18,17 @@ public class Product extends RealmObject {
     private long createdAt;
     private String token;
     private int serverId;
+
+    @Ignore
+    private ProductPrice currentProductPrice;
+
+    public ProductPrice getCurrentProductPrice() {
+        return currentProductPrice;
+    }
+
+    public void setCurrentProductPrice(ProductPrice currentProductPrice) {
+        this.currentProductPrice = currentProductPrice;
+    }
 
     public int getServerId() {
         return serverId;

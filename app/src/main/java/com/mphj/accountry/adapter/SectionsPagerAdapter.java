@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import com.mphj.accountry.activity.DashboardActivity;
 import com.mphj.accountry.fragment.CustomerListFragment;
 import com.mphj.accountry.fragment.PlaceHolderFragment;
+import com.mphj.accountry.fragment.ProductListFragment;
 import com.mphj.accountry.fragment.StorageListFragment;
 
 /**
@@ -25,6 +26,8 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
         switch (position) {
             case 0:
                 return StorageListFragment.newInstance();
+            case 1:
+                return ProductListFragment.newInstance();
             case 3:
                 return CustomerListFragment.newInstance();
         }

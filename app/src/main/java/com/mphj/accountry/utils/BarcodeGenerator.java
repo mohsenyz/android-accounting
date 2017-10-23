@@ -1,12 +1,14 @@
 package com.mphj.accountry.utils;
 
 import android.graphics.Bitmap;
+import android.widget.ImageView;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
+import com.vincentbrison.openlibraries.android.dualcache.DualCache;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
@@ -49,6 +51,11 @@ public class BarcodeGenerator {
                     public void accept(Bitmap bitmap) throws Exception {
                         onLoadListener.onBitmapLoad(bitmap);
                     }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        // DO NOTHING
+                    }
                 });
     }
 
@@ -56,7 +63,31 @@ public class BarcodeGenerator {
         create(serial, BarcodeFormat.CODE_128, width, height, onLoadListener);
     }
 
+    public static void bind(final ImageView imageView, String serial, int width, int height){
+        create(serial, BarcodeFormat.CODE_128, width, height, new OnLoadListener() {
+            @Override
+            public void onBitmapLoad(Bitmap bitmap) {
+                imageView.setImageBitmap(bitmap);
+            }
+        });
+    }
+
+    public static void bind(final ImageView imageView, final String serial, int width, int height, final DualCache<Bitmap> cache){
+        Bitmap bitmap = cache.get(serial);
+        if (bitmap != null) {
+            imageView.setImageBitmap(bitmap);
+            return;
+        }
+        create(serial, BarcodeFormat.CODE_128, width, height, new OnLoadListener() {
+            @Override
+            public void onBitmapLoad(Bitmap bitmap) {
+                cache.put(serial, bitmap);
+                imageView.setImageBitmap(bitmap);
+            }
+        });
+    }
+
     public static String random(int size){
-        return ""; // @TODO serial must be random
+        return MathUtils.randomIntString(size);
     }
 }

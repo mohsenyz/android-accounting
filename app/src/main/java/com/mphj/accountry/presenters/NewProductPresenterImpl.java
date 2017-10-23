@@ -47,12 +47,12 @@ public class NewProductPresenterImpl implements NewProductPresenter, BarcodeGene
             return;
         }
 
-        if (!TextUtils.isEmpty(name)){
+        if (TextUtils.isEmpty(name)){
             view.invalidName();
             return;
         }
 
-        if (!TextUtils.isEmpty(token)){
+        if (TextUtils.isEmpty(token)){
             view.invalidSerial();
             return;
         }
