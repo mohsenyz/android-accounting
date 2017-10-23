@@ -1,6 +1,7 @@
 package com.mphj.accountry.models.db;
 
 import org.json.JSONObject;
+import org.parceler.Transient;
 
 import io.realm.RealmObject;
 import io.realm.annotations.Ignore;
@@ -19,7 +20,7 @@ public class Product extends RealmObject {
     private String token;
     private int serverId;
 
-    @Ignore
+    @Ignore @Transient
     private ProductPrice currentProductPrice;
 
     public ProductPrice getCurrentProductPrice() {

@@ -74,7 +74,7 @@ public class CustomerListFragment extends Fragment implements F_CustomerListView
 
     @Override
     public void setAdapter(RealmResults<Customer> realmResults) {
-        customerListAdapter = new CustomerListAdapter(realmResults);
+        customerListAdapter = new CustomerListAdapter(realmResults, getActivity());
         recyclerView.setAdapter(customerListAdapter);
     }
 }
