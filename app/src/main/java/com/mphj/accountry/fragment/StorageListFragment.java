@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import com.mphj.accountry.R;
 import com.mphj.accountry.adapter.StorageListAdapter;
 import com.mphj.accountry.interfaces.F_StorageListView;
+import com.mphj.accountry.interfaces.OnObjectItemClick;
 import com.mphj.accountry.models.db.Storage;
 import com.mphj.accountry.presenters.F_StorageListPresenter;
 import com.mphj.accountry.presenters.F_StorageListPresenterImpl;
@@ -29,12 +30,22 @@ public class StorageListFragment extends Fragment implements F_StorageListView {
 
     F_StorageListPresenter presenter;
 
+    OnObjectItemClick<Storage> click;
+
     public StorageListFragment(){
 
     }
 
     public static StorageListFragment newInstance(){
         return new StorageListFragment();
+    }
+
+    public static StorageListFragment newInstance(boolean isForSelect){
+        StorageListFragment storageListFragment = new StorageListFragment();
+        Bundle bundle = new Bundle();
+        bundle.putBoolean("select", isForSelect);
+        storageListFragment.setArguments(bundle);
+        return storageListFragment;
     }
 
     @Override
@@ -72,9 +83,17 @@ public class StorageListFragment extends Fragment implements F_StorageListView {
         presenter.onDestroy();
     }
 
+    public void setOnObjectItemClickListener(OnObjectItemClick<Storage> click){
+        this.click = click;
+    }
+
     @Override
     public void setAdapter(RealmResults<Storage> realmResults) {
-        storageListAdapter = new StorageListAdapter(realmResults, getActivity());
+        if (getArguments() != null && getArguments().getBoolean("select")) {
+            storageListAdapter = new StorageListAdapter(realmResults, getActivity(), click);
+        } else {
+            storageListAdapter = new StorageListAdapter(realmResults, getActivity());
+        }
         recyclerView.setAdapter(storageListAdapter);
     }
 }

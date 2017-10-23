@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import com.mphj.accountry.R;
 import com.mphj.accountry.adapter.CustomerListAdapter;
 import com.mphj.accountry.interfaces.F_CustomerListView;
+import com.mphj.accountry.interfaces.OnObjectItemClick;
 import com.mphj.accountry.models.db.Customer;
 import com.mphj.accountry.presenters.F_CustomerListPresenter;
 import com.mphj.accountry.presenters.F_CustomerListPresenterImpl;
@@ -29,12 +30,22 @@ public class CustomerListFragment extends Fragment implements F_CustomerListView
 
     F_CustomerListPresenter presenter;
 
+    OnObjectItemClick<Customer> click;
+
     public CustomerListFragment(){
 
     }
 
     public static CustomerListFragment newInstance(){
         return new CustomerListFragment();
+    }
+
+    public static CustomerListFragment newInstance(boolean isForSelect){
+        CustomerListFragment customerListFragment = new CustomerListFragment();
+        Bundle bundle = new Bundle();
+        bundle.putBoolean("select", isForSelect);
+        customerListFragment.setArguments(bundle);
+        return customerListFragment;
     }
 
     @Override
@@ -74,7 +85,15 @@ public class CustomerListFragment extends Fragment implements F_CustomerListView
 
     @Override
     public void setAdapter(RealmResults<Customer> realmResults) {
-        customerListAdapter = new CustomerListAdapter(realmResults, getActivity());
+        if (getArguments() != null && getArguments().getBoolean("select")){
+            customerListAdapter = new CustomerListAdapter(realmResults, getActivity(), click);
+        } else {
+            customerListAdapter = new CustomerListAdapter(realmResults, getActivity());
+        }
         recyclerView.setAdapter(customerListAdapter);
+    }
+
+    public void setOnObjectItemClickListener(OnObjectItemClick<Customer> click){
+        this.click = click;
     }
 }

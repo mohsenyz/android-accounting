@@ -36,7 +36,16 @@
         <activity
             android:name=".activity.NewProductActivity"
             android:theme="@style/AppTheme.Dialog.NoTitle" />
-        <activity android:name=".activity.BarcodeReaderActivity"
+        <activity
+            android:name=".activity.BarcodeReaderActivity"
+            android:theme="@style/AppTheme.Dialog.NoTitle" />
+        <activity
+            android:name=".activity.SelectStorageActivity"
+            android:theme="@style/AppTheme.Dialog.NoTitle" />
+        <activity
+            android:name=".activity.SelectCustomerActivity"
+            android:theme="@style/AppTheme.Dialog.NoTitle" />
+        <activity android:name=".activity.SelectProductActivity"
             android:theme="@style/AppTheme.Dialog.NoTitle"></activity>
     </application>
 

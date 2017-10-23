@@ -2,6 +2,7 @@ package com.mphj.accountry.models.db;
 
 
 import org.json.JSONObject;
+import org.parceler.Parcel;
 
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
@@ -10,6 +11,7 @@ import io.realm.annotations.PrimaryKey;
  * Created by mphj on 10/20/2017.
  */
 
+@Parcel(value = Parcel.Serialization.BEAN, analyze = {Storage.class})
 public class Storage extends RealmObject{
 
     @PrimaryKey

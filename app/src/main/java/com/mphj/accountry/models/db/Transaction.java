@@ -1,5 +1,7 @@
 package com.mphj.accountry.models.db;
 
+import org.parceler.Parcel;
+
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
@@ -7,6 +9,7 @@ import io.realm.annotations.PrimaryKey;
  * Created by mphj on 10/20/2017.
  */
 
+@Parcel(value = Parcel.Serialization.BEAN, analyze = {Transaction.class})
 public class Transaction extends RealmObject{
 
     @PrimaryKey

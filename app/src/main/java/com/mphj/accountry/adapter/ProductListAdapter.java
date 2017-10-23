@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.mphj.accountry.R;
 import com.mphj.accountry.dialog.ProductSettingDialog;
+import com.mphj.accountry.interfaces.OnObjectItemClick;
 import com.mphj.accountry.models.db.Product;
 import com.mphj.accountry.models.db.ProductPrice;
 import com.mphj.accountry.utils.BarcodeGenerator;
@@ -33,10 +34,17 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
     List<Product> list;
     FragmentActivity fragmentActivity;
+    OnObjectItemClick<Product> onObjectItemClick;
 
     public ProductListAdapter(List<Product> list, FragmentActivity fragmentActivity){
         this.list = list;
         this.fragmentActivity = fragmentActivity;
+    }
+
+    public ProductListAdapter(List<Product> list, FragmentActivity fragmentActivity, OnObjectItemClick<Product> click){
+        this.list = list;
+        this.fragmentActivity = fragmentActivity;
+        this.onObjectItemClick = click;
     }
 
     @Override
@@ -68,7 +76,11 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         viewHolder.container.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BottomSheetDialogFragment bottomSheetDialogFragment = ProductSettingDialog.create(product.getName());
+                if (onObjectItemClick != null){
+                    onObjectItemClick.onClick(v, product);
+                    return;
+                }
+                BottomSheetDialogFragment bottomSheetDialogFragment = ProductSettingDialog.create(product);
                 bottomSheetDialogFragment.show(fragmentActivity.getSupportFragmentManager(), "");
             }
         });

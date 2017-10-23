@@ -13,8 +13,11 @@ import com.mphj.accountry.R;
 import com.mphj.accountry.adapter.SimpleListAdapter;
 import com.mphj.accountry.interfaces.D_StorageSettingView;
 import com.mphj.accountry.models.SimpleListModel;
+import com.mphj.accountry.models.db.Storage;
 import com.mphj.accountry.presenters.D_StorageSettingPresenter;
 import com.mphj.accountry.presenters.D_StorageSettingPresenterImpl;
+
+import org.parceler.Parcels;
 
 import java.util.List;
 
@@ -37,10 +40,12 @@ public class StorageSettingDialog extends BottomSheetDialogFragment implements D
 
     SimpleListAdapter simpleListAdapter;
 
-    public static StorageSettingDialog create(String storageName){
+    Storage storage;
+
+    public static StorageSettingDialog create(Storage storage){
         StorageSettingDialog dialog = new StorageSettingDialog();
         Bundle bundle = new Bundle();
-        bundle.putString("name", storageName);
+        bundle.putParcelable("storage", Parcels.wrap(Storage.class, storage));
         dialog.setArguments(bundle);
         return dialog;
     }
@@ -53,8 +58,8 @@ public class StorageSettingDialog extends BottomSheetDialogFragment implements D
         ButterKnife.bind(this, contentView);
         setupRecyclerView();
         if (getArguments() != null){
-            String caption = getArguments().getString("name");
-            title.setText(Html.fromHtml(getResources().getString(R.string.html_storage_title).replace("xxx", caption)));
+            storage = Parcels.unwrap(getArguments().getParcelable("storage"));
+            title.setText(Html.fromHtml(getResources().getString(R.string.html_storage_title).replace("xxx", storage.getName())));
         }
         presenter = new D_StorageSettingPresenterImpl(this);
         presenter.loadList();

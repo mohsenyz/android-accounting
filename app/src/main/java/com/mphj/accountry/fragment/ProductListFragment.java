@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import com.mphj.accountry.R;
 import com.mphj.accountry.adapter.ProductListAdapter;
 import com.mphj.accountry.interfaces.F_ProductListView;
+import com.mphj.accountry.interfaces.OnObjectItemClick;
 import com.mphj.accountry.models.db.Product;
 import com.mphj.accountry.presenters.F_ProductListPresenter;
 import com.mphj.accountry.presenters.F_ProductListPresenterImpl;
@@ -34,12 +35,22 @@ public class ProductListFragment extends Fragment implements F_ProductListView {
 
     F_ProductListPresenter presenter;
 
+    OnObjectItemClick<Product> click;
+
     public ProductListFragment(){
 
     }
 
     public static ProductListFragment newInstance(){
         return new ProductListFragment();
+    }
+
+    public static ProductListFragment newInstance(boolean isForSelect){
+        ProductListFragment productListFragment = new ProductListFragment();
+        Bundle bundle = new Bundle();
+        bundle.putBoolean("select", isForSelect);
+        productListFragment.setArguments(bundle);
+        return productListFragment;
     }
 
     @Override
@@ -77,9 +88,17 @@ public class ProductListFragment extends Fragment implements F_ProductListView {
         presenter.onDestroy();
     }
 
+    public void setOnObjectItemClickListener(OnObjectItemClick<Product> click){
+        this.click = click;
+    }
+
     @Override
     public void setAdapter(List<Product> realmResults) {
-        productListAdapter = new ProductListAdapter(realmResults, getActivity());
+        if (getArguments() != null && getArguments().getBoolean("select")){
+            productListAdapter = new ProductListAdapter(realmResults, getActivity(), click);
+        } else {
+            productListAdapter = new ProductListAdapter(realmResults, getActivity());
+        }
         recyclerView.setAdapter(productListAdapter);
     }
 }

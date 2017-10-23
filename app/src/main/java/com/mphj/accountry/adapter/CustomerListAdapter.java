@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.mphj.accountry.R;
 import com.mphj.accountry.dialog.CustomerSettingDialog;
+import com.mphj.accountry.interfaces.OnObjectItemClick;
 import com.mphj.accountry.models.db.Customer;
 import com.mphj.accountry.utils.LocaleUtils;
 
@@ -30,9 +31,17 @@ public class CustomerListAdapter extends RecyclerView.Adapter<CustomerListAdapte
 
     FragmentActivity fragmentActivity;
 
+    OnObjectItemClick<Customer> onObjectItemClick;
+
     public CustomerListAdapter(RealmResults<Customer> list, FragmentActivity fragmentActivity){
         this.list = list;
         this.fragmentActivity = fragmentActivity;
+    }
+
+    public CustomerListAdapter(RealmResults<Customer> list, FragmentActivity fragmentActivity, OnObjectItemClick<Customer> click){
+        this.list = list;
+        this.fragmentActivity = fragmentActivity;
+        this.onObjectItemClick = click;
     }
 
     @Override
@@ -53,6 +62,10 @@ public class CustomerListAdapter extends RecyclerView.Adapter<CustomerListAdapte
         viewHolder.container.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (onObjectItemClick != null){
+                    onObjectItemClick.onClick(v, customer);
+                    return;
+                }
                 BottomSheetDialogFragment bottomSheetDialogFragment = CustomerSettingDialog.create(customer);
                 bottomSheetDialogFragment.show(fragmentActivity.getSupportFragmentManager(), "");
             }

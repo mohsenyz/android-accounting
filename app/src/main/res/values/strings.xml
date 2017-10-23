@@ -27,4 +27,7 @@
     <string name="html_storage_title"><![CDATA[انبار <font color="#297cde">xxx</font>]]></string>
     <string name="html_product_title"><![CDATA[محصول <font color="#297cde">xxx</font>]]></string>
     <string name="html_customer_title"><![CDATA[مشتری :  <font color="#297cde">xxx</font>]]></string>
+    <string name="select_storage">انتخاب انبار</string>
+    <string name="select_customer">انتخاب مشتری</string>
+    <string name="select_product">انتخاب محصول</string>
 </resources>

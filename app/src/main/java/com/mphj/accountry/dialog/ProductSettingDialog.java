@@ -13,8 +13,11 @@ import com.mphj.accountry.R;
 import com.mphj.accountry.adapter.SimpleListAdapter;
 import com.mphj.accountry.interfaces.D_ProductSettingView;
 import com.mphj.accountry.models.SimpleListModel;
+import com.mphj.accountry.models.db.Product;
 import com.mphj.accountry.presenters.D_ProductSettingPresenter;
 import com.mphj.accountry.presenters.D_ProductSettingPresenterImpl;
+
+import org.parceler.Parcels;
 
 import java.util.List;
 
@@ -38,10 +41,12 @@ public class ProductSettingDialog extends BottomSheetDialogFragment implements D
 
     SimpleListAdapter simpleListAdapter;
 
-    public static ProductSettingDialog create(String storageName){
+    Product product;
+
+    public static ProductSettingDialog create(Product product){
         ProductSettingDialog dialog = new ProductSettingDialog();
         Bundle bundle = new Bundle();
-        bundle.putString("name", storageName);
+        bundle.putParcelable("product", Parcels.wrap(Product.class, product));
         dialog.setArguments(bundle);
         return dialog;
     }
@@ -54,8 +59,8 @@ public class ProductSettingDialog extends BottomSheetDialogFragment implements D
         ButterKnife.bind(this, contentView);
         setupRecyclerView();
         if (getArguments() != null){
-            String caption = getArguments().getString("name");
-            title.setText(Html.fromHtml(getResources().getString(R.string.html_product_title).replace("xxx", caption)));
+            product = Parcels.unwrap(getArguments().getParcelable("product"));
+            title.setText(Html.fromHtml(getResources().getString(R.string.html_product_title).replace("xxx", product.getName())));
         }
         presenter = new D_ProductSettingPresenterImpl(this);
         presenter.loadList();

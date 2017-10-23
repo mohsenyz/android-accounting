@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.mphj.accountry.R;
 import com.mphj.accountry.dialog.StorageSettingDialog;
+import com.mphj.accountry.interfaces.OnObjectItemClick;
 import com.mphj.accountry.models.db.Storage;
 
 import butterknife.BindView;
@@ -26,10 +27,17 @@ public class StorageListAdapter extends RecyclerView.Adapter<StorageListAdapter.
 
     RealmResults<Storage> list;
     FragmentActivity fragmentActivity;
+    OnObjectItemClick<Storage> onObjectItemClick;
 
     public StorageListAdapter(RealmResults<Storage> list, FragmentActivity fragmentActivity){
         this.list = list;
         this.fragmentActivity = fragmentActivity;
+    }
+
+    public StorageListAdapter(RealmResults<Storage> list, FragmentActivity fragmentActivity, OnObjectItemClick<Storage> click){
+        this.list = list;
+        this.fragmentActivity = fragmentActivity;
+        this.onObjectItemClick = click;
     }
 
     @Override
@@ -48,7 +56,11 @@ public class StorageListAdapter extends RecyclerView.Adapter<StorageListAdapter.
         viewHolder.container.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BottomSheetDialogFragment bottomSheetDialogFragment = StorageSettingDialog.create(storage.getName());
+                if (onObjectItemClick != null){
+                    onObjectItemClick.onClick(v, storage);
+                    return;
+                }
+                BottomSheetDialogFragment bottomSheetDialogFragment = StorageSettingDialog.create(storage);
                 bottomSheetDialogFragment.show(fragmentActivity.getSupportFragmentManager(), "");
             }
         });
