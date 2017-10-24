@@ -10,4 +10,5 @@ import java.util.List;
 
 public interface D_StorageSettingView {
     void setAdapter(List<SimpleListModel> list);
+    void showProductList();
 }

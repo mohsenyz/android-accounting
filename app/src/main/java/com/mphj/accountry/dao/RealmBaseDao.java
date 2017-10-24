@@ -18,4 +18,14 @@ public class RealmBaseDao implements BaseDao {
     public void close() {
         realm.close();
     }
+
+    @Override
+    public void beginTransaction() {
+        realm.beginTransaction();
+    }
+
+    @Override
+    public void commitTransaction() {
+        realm.commitTransaction();
+    }
 }

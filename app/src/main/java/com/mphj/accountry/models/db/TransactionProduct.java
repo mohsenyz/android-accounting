@@ -1,5 +1,6 @@
 package com.mphj.accountry.models.db;
 
+import org.json.JSONObject;
 import org.parceler.Parcel;
 
 import io.realm.RealmObject;
@@ -17,6 +18,19 @@ public class TransactionProduct extends RealmObject {
     private int transactionId;
     private int productId;
     private int count;
+
+    public static String toJson(TransactionProduct transactionProduct) {
+        try {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("transactionId", transactionProduct.getTransactionId());
+            jsonObject.put("productId", transactionProduct.getProductId());
+            jsonObject.put("count", transactionProduct.getCount());
+            return jsonObject.toString();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     public int getId() {
         return id;

@@ -40,4 +40,14 @@ public class ProductDao extends RealmBaseDao {
         realm.refresh();
         return (int)realm.where(Product.class).count();
     }
+
+    public Product findBySerial(String serial){
+        realm.refresh();
+        return realm.where(Product.class).equalTo("token", serial).findFirst();
+    }
+
+    public Product findById(int id){
+        realm.refresh();
+        return realm.where(Product.class).equalTo("id", id).findFirst();
+    }
 }

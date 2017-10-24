@@ -5,17 +5,17 @@ import android.os.Bundle;
 import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
 import android.view.View;
 import android.widget.TextView;
 
 import com.mphj.accountry.R;
-import com.mphj.accountry.adapter.SimpleListAdapter;
-import com.mphj.accountry.interfaces.D_StorageSettingView;
-import com.mphj.accountry.models.SimpleListModel;
+import com.mphj.accountry.adapter.ProductListAdapter;
+import com.mphj.accountry.interfaces.D_StorageProductListView;
+import com.mphj.accountry.interfaces.OnObjectItemClick;
+import com.mphj.accountry.models.db.Product;
 import com.mphj.accountry.models.db.Storage;
-import com.mphj.accountry.presenters.D_StorageSettingPresenter;
-import com.mphj.accountry.presenters.D_StorageSettingPresenterImpl;
+import com.mphj.accountry.presenters.D_StorageProductListPresenter;
+import com.mphj.accountry.presenters.D_StorageProductListPresenterImpl;
 
 import org.parceler.Parcels;
 
@@ -25,25 +25,24 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Created by mphj on 10/23/2017.
+ * Created by mphj on 10/24/2017.
  */
 
-public class StorageSettingDialog extends BottomSheetDialogFragment implements D_StorageSettingView {
+public class StorageProductListDialog extends BottomSheetDialogFragment implements D_StorageProductListView {
+    D_StorageProductListPresenter presenter;
 
-
-    D_StorageSettingPresenter presenter;
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
 
     @BindView(R.id.title)
     TextView title;
 
-    SimpleListAdapter simpleListAdapter;
+    ProductListAdapter productListAdapter;
 
     Storage storage;
 
-    public static StorageSettingDialog create(Storage storage){
-        StorageSettingDialog dialog = new StorageSettingDialog();
+    public static StorageProductListDialog create(Storage storage){
+        StorageProductListDialog dialog = new StorageProductListDialog();
         Bundle bundle = new Bundle();
         bundle.putParcelable("storage", Parcels.wrap(Storage.class, storage));
         dialog.setArguments(bundle);
@@ -59,9 +58,9 @@ public class StorageSettingDialog extends BottomSheetDialogFragment implements D
         setupRecyclerView();
         if (getArguments() != null){
             storage = Parcels.unwrap(getArguments().getParcelable("storage"));
-            title.setText(Html.fromHtml(getResources().getString(R.string.html_storage_title).replace("xxx", storage.getName())));
+            title.setText("لیست محصولات");
         }
-        presenter = new D_StorageSettingPresenterImpl(this);
+        presenter = new D_StorageProductListPresenterImpl(this);
         presenter.loadList(storage);
     }
 
@@ -72,14 +71,13 @@ public class StorageSettingDialog extends BottomSheetDialogFragment implements D
     }
 
     @Override
-    public void setAdapter(List<SimpleListModel> list) {
-        simpleListAdapter = new SimpleListAdapter(list);
-        recyclerView.setAdapter(simpleListAdapter);
-    }
+    public void setAdapter(List<Product> list) {
+        productListAdapter = new ProductListAdapter(list, getActivity(), new OnObjectItemClick<Product>() {
+            @Override
+            public void onClick(View v, Product object) {
 
-    @Override
-    public void showProductList() {
-        BottomSheetDialogFragment bottomSheetDialogFragment = StorageProductListDialog.create(storage);
-        bottomSheetDialogFragment.show(getActivity().getSupportFragmentManager(), "");
+            }
+        });
+        recyclerView.setAdapter(productListAdapter);
     }
 }

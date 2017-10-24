@@ -1,8 +1,10 @@
 package com.mphj.accountry.models.db;
 
+import org.json.JSONObject;
 import org.parceler.Parcel;
 
 import io.realm.RealmObject;
+import io.realm.annotations.Ignore;
 import io.realm.annotations.PrimaryKey;
 
 /**
@@ -11,6 +13,9 @@ import io.realm.annotations.PrimaryKey;
 
 @Parcel(value = Parcel.Serialization.BEAN, analyze = {Transaction.class})
 public class Transaction extends RealmObject{
+
+    @Ignore
+    public static final int TYPE_INCOMING = 1, TYPE_OUTCOMING = 2;
 
     @PrimaryKey
     private int id;
@@ -23,6 +28,25 @@ public class Transaction extends RealmObject{
     private double tax;
     private double off;
     private int serverId;
+
+    public static String toJson(Transaction transaction) {
+        try {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("customerId", transaction.getCustomerId());
+            jsonObject.put("canceled", transaction.isCanceled());
+            jsonObject.put("storageId", transaction.getStorageId());
+            jsonObject.put("createdAt", transaction.getCreatedAt());
+            jsonObject.put("type", transaction.getType());
+            jsonObject.put("description", transaction.getDescription());
+            jsonObject.put("tax", transaction.getTax());
+            jsonObject.put("off", transaction.getOff());
+            jsonObject.put("serverId", transaction.getServerId());
+            return jsonObject.toString();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     public int getId() {
         return id;

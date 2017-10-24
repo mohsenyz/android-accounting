@@ -46,7 +46,12 @@ public class D_StorageSettingPresenterImpl implements D_StorageSettingPresenter 
             }
         });
         list.add(model);
-        model = new SimpleListModel("لیست محصولات", R.drawable.ic_gray_list);
+        model = new SimpleListModel("لیست محصولات", R.drawable.ic_gray_list, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                view.showProductList();
+            }
+        });
         list.add(model);
         view.setAdapter(list);
     }

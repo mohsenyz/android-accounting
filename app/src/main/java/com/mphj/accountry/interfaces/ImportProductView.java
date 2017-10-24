@@ -1,11 +1,14 @@
 package com.mphj.accountry.interfaces;
 
-import com.mphj.accountry.models.db.Storage;
-
 /**
  * Created by mphj on 10/23/2017.
  */
 
 public interface ImportProductView {
-    void setStorage(Storage storage);
+    void productAlreadyExists();
+    void productNotFound();
+    void showGetCountActivity();
+    void setStorageName(String name);
+    void notifyDataSetChanged();
+    void finishActivity();
 }

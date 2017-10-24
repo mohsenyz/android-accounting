@@ -10,29 +10,25 @@ import android.widget.Toast;
 
 import com.mphj.accountry.R;
 import com.mphj.accountry.adapter.ProductListAdapter;
-import com.mphj.accountry.dao.StorageDao;
 import com.mphj.accountry.interfaces.ImportProductView;
 import com.mphj.accountry.interfaces.OnObjectItemClick;
 import com.mphj.accountry.models.db.Product;
 import com.mphj.accountry.models.db.Storage;
+import com.mphj.accountry.presenters.ImportProductPresenter;
+import com.mphj.accountry.presenters.ImportProductPresenterImpl;
 
 import org.parceler.Parcels;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.realm.Realm;
 
 public class ImportProductActivity extends BaseActivity implements ImportProductView, OnObjectItemClick<Product> {
 
-    Storage storage;
-
     private static final int REQUEST_STORAGE = 1,
             REQUEST_PRODUCT_LIST = 2,
-            REQUEST_GET_COUNT = 3;
+            REQUEST_GET_COUNT = 3,
+            REQUEST_CAMERA = 4;
 
     @BindView(R.id.input_storage)
     EditText storageInput;
@@ -41,22 +37,21 @@ public class ImportProductActivity extends BaseActivity implements ImportProduct
     RecyclerView recyclerView;
 
     ProductListAdapter productListAdapter;
-    List<Product> list = new ArrayList<>();
 
-    private Product pendingProduct;
+    ImportProductPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_import_product);
         ButterKnife.bind(this);
+        presenter = new ImportProductPresenterImpl(this);
         setupRecyclerView();
         Intent data = getIntent();
         if (data != null){
             int storageId = data.getIntExtra("storage_id", -1);
             if (storageId != -1) {
-                StorageDao storageDao = new StorageDao(Realm.getDefaultInstance());
-                setStorage(storageDao.findById(storageId));
+                presenter.setStorageById(storageId);
             }
         }
     }
@@ -65,7 +60,7 @@ public class ImportProductActivity extends BaseActivity implements ImportProduct
         final LinearLayoutManager layoutManager = new LinearLayoutManager(recyclerView.getContext());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
-        productListAdapter = new ProductListAdapter(list, this, this);
+        productListAdapter = new ProductListAdapter(presenter.getProductList(), this, this);
     }
 
     @OnClick(R.id.input_storage)
@@ -74,10 +69,21 @@ public class ImportProductActivity extends BaseActivity implements ImportProduct
         startActivityForResult(i, REQUEST_STORAGE);
     }
 
+    @OnClick(R.id.submit)
+    void submit(){
+        presenter.saveTransaction();
+    }
+
     @OnClick(R.id.fromList)
     void onRequestList(){
         Intent i = new Intent(this, SelectProductActivity.class);
         startActivityForResult(i, REQUEST_PRODUCT_LIST);
+    }
+
+    @OnClick(R.id.fromCamera)
+    void onRequestCamera(){
+        Intent i = new Intent(this, BarcodeReaderActivity.class);
+        startActivityForResult(i, REQUEST_CAMERA);
     }
 
 
@@ -87,71 +93,63 @@ public class ImportProductActivity extends BaseActivity implements ImportProduct
         if (data == null)
             return;
         if (requestCode == REQUEST_STORAGE && resultCode == 200){
-            setStorage((Storage) Parcels.unwrap(data.getParcelableExtra("storage")));
+            presenter.setStorage((Storage) Parcels.unwrap(data.getParcelableExtra("storage")));
         }
 
         if (requestCode == REQUEST_PRODUCT_LIST){
-            pendingProduct = Parcels.unwrap(data.getParcelableExtra("product"));
-            if (isProductExists(pendingProduct.getId())){
-                errProductAlreadyExists();
-                return;
-            }
-            showCountActivity();
+            Product product = Parcels.unwrap(data.getParcelableExtra("product"));
+            presenter.addProduct(product);
         }
 
         if (requestCode == REQUEST_GET_COUNT){
             int count = data.getIntExtra("count", 1);
-            if (count <= 0){
-                deleteProduct(pendingProduct.getId());
-                pendingProduct = null;
-            } else {
-                pendingProduct.setCount(count);
-                if (!isProductExists(pendingProduct.getId())){
-                    list.add(pendingProduct);
-                }
-                recyclerView.setAdapter(productListAdapter);
-            }
+                    if (count < 0)
+                        showGetCountActivity();
+            presenter.setProductCount(count);
+        }
+
+        if (requestCode == REQUEST_CAMERA){
+            String serial = data.getStringExtra("serial");
+            presenter.addProduct(serial);
         }
     }
 
-    private void errProductAlreadyExists(){
+    @Override
+    public void productAlreadyExists() {
         Toast.makeText(this, "محصول تکراری میباشد", Toast.LENGTH_SHORT).show();
     }
 
-    private boolean isProductExists(int id){
-        for (Product product : list)
-            if (product.getId() == id)
-                return true;
-
-        return false;
+    @Override
+    public void productNotFound() {
+        Toast.makeText(this, "محصول یافت نشد", Toast.LENGTH_SHORT).show();
     }
 
-    private void deleteProduct(int id){
-        for (Product product : list) {
-            if (product.getId() == id) {
-                list.remove(product);
-            }
-        }
-        recyclerView.setAdapter(productListAdapter);
-    }
-
-
-    private void showCountActivity(){
+    @Override
+    public void showGetCountActivity() {
         Intent i = new Intent(this, GetCountActivity.class);
         i.putExtra("count", 1);
         startActivityForResult(i, REQUEST_GET_COUNT);
     }
 
     @Override
-    public void setStorage(Storage storage) {
-        this.storage = storage;
-        storageInput.setText(storage.getName());
-        storageInput.clearFocus();
+    public void setStorageName(String name) {
+        storageInput.setText(name);
+    }
+
+    @Override
+    public void notifyDataSetChanged() {
+        productListAdapter.notifyDataSetChanged();
+        recyclerView.setAdapter(productListAdapter);
     }
 
     @Override
     public void onClick(View v, Product object) {
-        pendingProduct = object;
-        showCountActivity();
+        presenter.setPendingProduct(object);
+        showGetCountActivity();
+    }
+
+    @Override
+    public void finishActivity() {
+        finish();
     }
 }

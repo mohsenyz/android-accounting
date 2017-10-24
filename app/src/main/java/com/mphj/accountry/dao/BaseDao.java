@@ -6,4 +6,6 @@ package com.mphj.accountry.dao;
 
 public interface BaseDao {
     void close();
+    void beginTransaction();
+    void commitTransaction();
 }
