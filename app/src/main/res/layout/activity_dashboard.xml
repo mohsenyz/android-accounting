@@ -58,6 +58,7 @@
             app:tabIndicatorHeight="3dp"
             app:tabSelectedTextColor="@color/colorBlueAccent"
             app:tabIndicatorColor="@color/colorBlueAccent"
+            app:tabMode="scrollable"
             android:layout_height="wrap_content" />
     </android.support.design.widget.AppBarLayout>
     <android.support.v4.widget.SwipeRefreshLayout

@@ -15,7 +15,7 @@ import io.realm.annotations.PrimaryKey;
 public class Transaction extends RealmObject{
 
     @Ignore
-    public static final int TYPE_INCOMING = 1, TYPE_OUTCOMING = 2;
+    public static final int TYPE_INCOMING = 1, TYPE_OUTGOING = 2;
 
     @PrimaryKey
     private int id;

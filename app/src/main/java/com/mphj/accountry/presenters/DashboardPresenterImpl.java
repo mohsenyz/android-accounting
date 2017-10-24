@@ -50,6 +50,9 @@ public class DashboardPresenterImpl implements DashboardPresenter {
             case SectionsPagerAdapter.PRODUCTS:
                 view.showNewProductActivity();
                 break;
+            case SectionsPagerAdapter.SELL_PRODUCT:
+                view.showExportProductActivity();
+                break;
             default:
                 throw new RuntimeException(
                         new StringBuilder().append("Nothing implemnted for position ").append(currentPosition).toString()

@@ -11,6 +11,6 @@ public interface DashboardView {
     void hideFab();
     void showNewProductActivity();
     void showNewStorageActivity();
-    void showNewTransactionActivity();
     void showNewCustomerActivity();
+    void showExportProductActivity();
 }

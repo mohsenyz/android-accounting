@@ -36,7 +36,7 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 4;
+        return 5;
     }
 
     @Override
@@ -50,10 +50,12 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
                 return "گزارشات";
             case 3:
                 return "مشتریان";
+            case 4:
+                return "فروش محصول";
         }
         return null;
     }
 
 
-    public static final int STORAGE = 0, PRODUCTS = 1, REPORTS = 2, CUSTOMERS = 3;
+    public static final int STORAGE = 0, PRODUCTS = 1, REPORTS = 2, CUSTOMERS = 3, SELL_PRODUCT = 4;
 }

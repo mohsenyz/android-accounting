@@ -30,6 +30,13 @@ public class CustomerDao extends  RealmBaseDao{
         logDao.create(Log.Builder.create(Customer.class).id(customer.getId()).object(Customer.toJson(customer)).build());
     }
 
+    public Customer findById(int id){
+        realm.refresh();
+        return realm.where(Customer.class)
+                .equalTo("id", id)
+                .findFirst();
+    }
+
     public RealmResults<Customer> listAll(){
         realm.refresh();
         return realm.where(Customer.class).findAll();

@@ -5,7 +5,6 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,7 +70,6 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         viewHolder.text.setText(product.getName());
         BarcodeGenerator.bind(viewHolder.barcode, product.getToken(), DeviceUtils.getScreenWidth(), 60);
         ProductPrice productPrice = product.getCurrentProductPrice();
-        Log.i("hi", "" + productPrice.getPrice());
         viewHolder.rightText.setText(
                 Html.fromHtml(viewHolder.rightText.getResources().getString(
                         R.string.html_price_eq).replace("xxx", LocaleUtils.englishNumberToArabic( "" + productPrice.getPrice()))
