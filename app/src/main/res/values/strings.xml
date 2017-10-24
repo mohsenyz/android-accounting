@@ -17,6 +17,7 @@
     <string name="hint_name">نام</string>
     <string name="hint_phone">شماره تلفن</string>
     <string name="hint_serial">شناسه</string>
+    <string name="hint_customer_price">قیمت مصرف کننده</string>
     <string name="pls_scan_barcode">لطفا دوربین را مقابل بارکد قرار دهید</string>
     <string name="err_input_not_valid">ورودی معتبر نمی باشد</string>
     <string name="hint_price">قیمت</string>

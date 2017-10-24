@@ -36,6 +36,8 @@ public class ExportProductPresenterImpl implements ExportProductPresenter{
 
     Customer customer;
 
+    boolean isPriceStatusShown = false;
+
     public ExportProductPresenterImpl(ExportProductView view){
         this.view = view;
     }
@@ -94,6 +96,19 @@ public class ExportProductPresenterImpl implements ExportProductPresenter{
         view.showGetCountActivity();
     }
 
+    private void invalidatePrice(){
+        double totalPrice = 0;
+        double totalCustomerPrice = 0;
+        double totalCustomerPriceWithOff = 0;
+        for (Product product : list){
+            totalPrice += product.getCurrentProductPrice().getPrice() * product.getCount();
+            totalCustomerPrice += product.getCurrentProductPrice().getCustomerPrice() * product.getCount();
+            totalCustomerPriceWithOff += product.getCurrentProductPrice().getCustomerPrice()
+                    * (100 - product.getCurrentProductPrice().getOff()) / 100 * product.getCount();
+        }
+        view.setPriceStatus(totalPrice, totalCustomerPrice, totalCustomerPriceWithOff);
+    }
+
     @Override
     public void addProduct(String serial) {
         ProductDao productDao = new ProductDao(Realm.getDefaultInstance());
@@ -120,6 +135,18 @@ public class ExportProductPresenterImpl implements ExportProductPresenter{
             }
             view.notifyDataSetChanged();
         }
+        if (list.size() == 0){
+            if (isPriceStatusShown) {
+                view.hidePriceStatus();
+                isPriceStatusShown = false;
+            }
+        } else {
+            if (!isPriceStatusShown) {
+                view.showPriceStatus();
+                isPriceStatusShown = true;
+            }
+            invalidatePrice();
+        }
     }
 
     @Override
@@ -138,6 +165,11 @@ public class ExportProductPresenterImpl implements ExportProductPresenter{
             storageProductDao.beginTransaction();
             storageProduct.setCount(storageProduct.getCount() - product.getCount());
             storageProductDao.commitTransaction();
+            if (storageProduct.getCount() == 0){
+                storageProductDao.beginTransaction();
+                storageProduct.removeFromRealm();
+                storageProductDao.commitTransaction();
+            }
         }
         storageProductDao.close();
         TransactionDao transactionDao = new TransactionDao(Realm.getDefaultInstance());

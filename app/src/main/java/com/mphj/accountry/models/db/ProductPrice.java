@@ -17,6 +17,7 @@ public class ProductPrice extends RealmObject {
     private int id;
     private int productId;
     private double price;
+    private double customerPrice;
     private double off;
     private long createdAt;
 
@@ -60,12 +61,21 @@ public class ProductPrice extends RealmObject {
         this.createdAt = createdAt;
     }
 
+    public double getCustomerPrice() {
+        return customerPrice;
+    }
+
+    public void setCustomerPrice(double customerPrice) {
+        this.customerPrice = customerPrice;
+    }
+
     public static String toJson(ProductPrice productPrice) {
         try {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("productId", productPrice.productId);
             jsonObject.put("price", productPrice.price);
             jsonObject.put("off", productPrice.off);
+            jsonObject.put("customerPrice", productPrice.customerPrice);
             jsonObject.put("createdAt", productPrice.createdAt);
             return jsonObject.toString();
         }catch (Exception e){

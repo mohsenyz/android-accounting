@@ -10,6 +10,7 @@ public interface NewProductView {
     void invalidName();
     void invalidSerial();
     void invalidPrice();
+    void invalidCustomerPrice();
     void invalidOff();
     void setSerial(Bitmap bitmap);
     void setSerial(String serial);

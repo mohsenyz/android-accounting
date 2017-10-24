@@ -36,7 +36,7 @@ public class NewProductPresenterImpl implements NewProductPresenter, BarcodeGene
     }
 
     @Override
-    public void createProduct(String name, String token, String price, String off) {
+    public void createProduct(String name, String token, String price, String customerPrice, String off) {
         if (!DoubleValidator.isValid(off)){
             view.invalidOff();
             return;
@@ -44,6 +44,11 @@ public class NewProductPresenterImpl implements NewProductPresenter, BarcodeGene
 
         if (!DoubleValidator.isValid(price)){
             view.invalidPrice();
+            return;
+        }
+
+        if (!DoubleValidator.isValid(customerPrice)){
+            view.invalidCustomerPrice();
             return;
         }
 
@@ -72,8 +77,9 @@ public class NewProductPresenterImpl implements NewProductPresenter, BarcodeGene
         ProductPrice productPrice = new ProductPrice();
         productPrice.setCreatedAt(currentTime);
         productPrice.setProductId(id);
-        productPrice.setOff(Integer.parseInt(off));
-        productPrice.setPrice(Integer.parseInt(price));
+        productPrice.setOff(Double.parseDouble(off));
+        productPrice.setPrice(Double.parseDouble(price));
+        productPrice.setCustomerPrice(Double.parseDouble(customerPrice));
 
         ProductPriceDao productPriceDao = new ProductPriceDao(Realm.getDefaultInstance());
         productPriceDao.create(productPrice);

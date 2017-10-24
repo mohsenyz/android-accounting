@@ -6,6 +6,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mphj.accountry.R;
@@ -17,6 +19,7 @@ import com.mphj.accountry.models.db.Product;
 import com.mphj.accountry.models.db.Storage;
 import com.mphj.accountry.presenters.ExportProductPresenter;
 import com.mphj.accountry.presenters.ExportProductPresenterImpl;
+import com.mphj.accountry.utils.LocaleUtils;
 
 import org.parceler.Parcels;
 
@@ -40,6 +43,18 @@ public class ExportProductActivity extends BaseActivity implements ExportProduct
 
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
+
+    @BindView(R.id.priceStatusContainer)
+    LinearLayout priceStatusContainer;
+
+    @BindView(R.id.totalPrice)
+    TextView totalPrice;
+
+    @BindView(R.id.totalCustomerPrice)
+    TextView totalCustomerPrice;
+
+    @BindView(R.id.totalCustomerPriceWithOff)
+    TextView totalPriceWithOff;
 
     ProductListAdapter productListAdapter;
 
@@ -183,5 +198,40 @@ public class ExportProductActivity extends BaseActivity implements ExportProduct
     public void specialProductNotDount(Product product) {
         Toast.makeText(this, "مقدار محصول " + product.getName() + " بیشتر از موجودی آن است", Toast.LENGTH_SHORT).show();
     }
+
+    @Override
+    public void setPriceStatus(double totalPrice, double totalCustomerPrice, double totalCustomerPriceWithOff) {
+        String toman = "تومان";
+        this.totalPrice.setText(" فروشنده " + "\n" + LocaleUtils.englishNumberToArabic("" + Math.round(totalPrice)) + " " + toman);
+        this.totalCustomerPrice.setText(" مصرف کننده" + "\n" + LocaleUtils.englishNumberToArabic("" + Math.round(totalCustomerPrice)) + " " + toman);
+        this.totalPriceWithOff.setText(" با تخفیف " + "\n" + LocaleUtils.englishNumberToArabic("" + Math.round(totalCustomerPriceWithOff)) + " " + toman);
+    }
+
+    @Override
+    public void showPriceStatus() {
+        recyclerView.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                recyclerView.setPadding(0, priceStatusContainer.getHeight(), 0, 0);
+            }
+        }, 500);
+        priceStatusContainer.animate()
+                .alpha(1)
+                .translationY(0)
+                .setDuration(500)
+                .start();
+    }
+
+    @Override
+    public void hidePriceStatus() {
+        recyclerView.setPadding(0, 0 , 0, 0);
+        priceStatusContainer.animate()
+                .alpha(0)
+                .translationY(priceStatusContainer.getHeight() * -1)
+                .setDuration(500)
+                .start();
+    }
+
+
 }
 

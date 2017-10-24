@@ -31,6 +31,9 @@ public class NewProductActivity extends BaseActivity implements NewProductView {
     @BindView(R.id.input_price)
     EditText price;
 
+    @BindView(R.id.input_customer_price)
+    EditText customerPrice;
+
     @BindView(R.id.input_off)
     EditText off;
 
@@ -83,6 +86,11 @@ public class NewProductActivity extends BaseActivity implements NewProductView {
     }
 
     @Override
+    public void invalidCustomerPrice() {
+        customerPrice.setError(errInputNotValid);
+    }
+
+    @Override
     public void invalidOff() {
         off.setError(errInputNotValid);
     }
@@ -108,6 +116,7 @@ public class NewProductActivity extends BaseActivity implements NewProductView {
                 name.getText().toString(),
                 serial.getText().toString(),
                 price.getText().toString(),
+                customerPrice.getText().toString(),
                 off.getText().toString());
     }
 
