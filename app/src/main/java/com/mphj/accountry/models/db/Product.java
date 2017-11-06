@@ -1,30 +1,32 @@
 package com.mphj.accountry.models.db;
 
+import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Id;
 import org.json.JSONObject;
 import org.parceler.Parcel;
 import org.parceler.Transient;
 
-import io.realm.RealmObject;
-import io.realm.annotations.Ignore;
-import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by mphj on 10/20/2017.
  */
-@Parcel(value = Parcel.Serialization.BEAN, analyze = {Product.class})
-public class Product extends RealmObject {
+@Parcel
+@Entity
+public class Product {
 
-    @PrimaryKey
-    private int id;
+    @Id
+    private Long id;
     private String name;
     private long createdAt;
     private String token;
     private int serverId;
 
-    @Ignore @Transient
+    @Transient
+    @org.greenrobot.greendao.annotation.Transient
     private ProductPrice currentProductPrice;
 
-    @Ignore
+    @org.greenrobot.greendao.annotation.Transient
+    @Transient
     private int count;
 
     public ProductPrice getCurrentProductPrice() {
@@ -43,11 +45,11 @@ public class Product extends RealmObject {
         this.serverId = serverId;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

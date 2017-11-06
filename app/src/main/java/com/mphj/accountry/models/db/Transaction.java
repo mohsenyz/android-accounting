@@ -1,24 +1,25 @@
 package com.mphj.accountry.models.db;
 
+import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Id;
+import org.greenrobot.greendao.annotation.Transient;
 import org.json.JSONObject;
 import org.parceler.Parcel;
-
-import io.realm.RealmObject;
-import io.realm.annotations.Ignore;
-import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by mphj on 10/20/2017.
  */
 
-@Parcel(value = Parcel.Serialization.BEAN, analyze = {Transaction.class})
-public class Transaction extends RealmObject{
+@Parcel
+@Entity
+public class Transaction {
 
-    @Ignore
+    @Transient
+    @org.parceler.Transient
     public static final int TYPE_INCOMING = 1, TYPE_OUTGOING = 2;
 
-    @PrimaryKey
-    private int id;
+    @Id
+    private Long id;
     private int customerId;
     private boolean canceled;
     private int storageId;
@@ -48,11 +49,11 @@ public class Transaction extends RealmObject{
         return null;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
