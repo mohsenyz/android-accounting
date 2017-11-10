@@ -11,7 +11,7 @@ import com.mphj.accountry.utils.ArrayUtils;
 public class DashboardPresenterImpl implements DashboardPresenter {
 
     DashboardView view;
-    private static final int[] UNFABBED_PAGES = {SectionsPagerAdapter.HOME, SectionsPagerAdapter.CHECKS, SectionsPagerAdapter.REPORTS};
+    private static final int[] UNFABBED_PAGES = {SectionsPagerAdapter.HOME, SectionsPagerAdapter.CHECKS};
     int currentPosition;
 
     public DashboardPresenterImpl(DashboardView view){
