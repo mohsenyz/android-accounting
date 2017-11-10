@@ -1,6 +1,7 @@
 package com.mphj.accountry.models.db;
 
 import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.json.JSONObject;
 import org.parceler.Parcel;
@@ -13,12 +14,26 @@ import org.parceler.Parcel;
 @Entity
 public class Customer {
 
-    @Id
-    private Long id;
-    private String name;
-    private String phone;
-    private long createdAt;
-    private int serverId;
+    @Id(autoincrement = true)
+    public Long id;
+    public String name;
+    public String phone;
+    public long createdAt;
+    public int serverId;
+
+    @Generated(hash = 1814894556)
+    public Customer(Long id, String name, String phone, long createdAt,
+            int serverId) {
+        this.id = id;
+        this.name = name;
+        this.phone = phone;
+        this.createdAt = createdAt;
+        this.serverId = serverId;
+    }
+
+    @Generated(hash = 60841032)
+    public Customer() {
+    }
 
     public Long getId() {
         return id;

@@ -1,6 +1,7 @@
 package com.mphj.accountry.models.db;
 
 import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.json.JSONObject;
 import org.parceler.Parcel;
@@ -13,13 +14,26 @@ import org.parceler.Parcel;
 @Entity
 public class ProductPrice {
 
-    @Id
-    private Long id;
-    private int productId;
-    private double price;
-    private double customerPrice;
-    private double off;
-    private long createdAt;
+    @Id(autoincrement = true)
+    public Long id;
+    public int productId;
+    public double price;
+    public double customerPrice;
+    public long createdAt;
+
+    @Generated(hash = 815706842)
+    public ProductPrice(Long id, int productId, double price, double customerPrice,
+            long createdAt) {
+        this.id = id;
+        this.productId = productId;
+        this.price = price;
+        this.customerPrice = customerPrice;
+        this.createdAt = createdAt;
+    }
+
+    @Generated(hash = 52586929)
+    public ProductPrice() {
+    }
 
     public Long getId() {
         return id;
@@ -45,14 +59,6 @@ public class ProductPrice {
         this.price = price;
     }
 
-    public double getOff() {
-        return off;
-    }
-
-    public void setOff(double off) {
-        this.off = off;
-    }
-
     public long getCreatedAt() {
         return createdAt;
     }
@@ -74,7 +80,6 @@ public class ProductPrice {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("productId", productPrice.productId);
             jsonObject.put("price", productPrice.price);
-            jsonObject.put("off", productPrice.off);
             jsonObject.put("customerPrice", productPrice.customerPrice);
             jsonObject.put("createdAt", productPrice.createdAt);
             return jsonObject.toString();

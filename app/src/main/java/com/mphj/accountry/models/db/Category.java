@@ -2,6 +2,7 @@ package com.mphj.accountry.models.db;
 
 
 import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.json.JSONObject;
 import org.parceler.Parcel;
@@ -11,12 +12,23 @@ import org.parceler.Parcel;
  */
 @Entity
 @Parcel
-public class Storage{
+public class Category {
 
-    @Id
-    private Long id;
-    private String name;
-    private int serverId;
+    @Id(autoincrement = true)
+    public Long id;
+    public String name;
+    public int serverId;
+
+    @Generated(hash = 445730730)
+    public Category(Long id, String name, int serverId) {
+        this.id = id;
+        this.name = name;
+        this.serverId = serverId;
+    }
+
+    @Generated(hash = 1150634039)
+    public Category() {
+    }
 
     public Long getId() {
         return id;
@@ -43,11 +55,11 @@ public class Storage{
     }
 
 
-    public static String toJson(Storage storage) {
+    public static String toJson(Category category) {
         try {
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("name", storage.name);
-            jsonObject.put("serverId", storage.serverId);
+            jsonObject.put("name", category.name);
+            jsonObject.put("serverId", category.serverId);
             return jsonObject.toString();
         }catch (Exception e){
             e.printStackTrace();

@@ -2,6 +2,7 @@ package com.mphj.accountry.models.db;
 
 
 import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.parceler.Parcel;
 
@@ -14,11 +15,23 @@ import org.parceler.Parcel;
 @Entity
 public class Log {
 
-    @Id
-    private Long id;
-    private String command;
-    private String body;
-    private boolean done;
+    @Id(autoincrement = true)
+    public Long id;
+    public String command;
+    public String body;
+    public boolean done;
+
+    @Generated(hash = 740668731)
+    public Log(Long id, String command, String body, boolean done) {
+        this.id = id;
+        this.command = command;
+        this.body = body;
+        this.done = done;
+    }
+
+    @Generated(hash = 1364647056)
+    public Log() {
+    }
 
     public Long getId() {
         return id;
@@ -52,49 +65,8 @@ public class Log {
         this.body = body;
     }
 
-
-    public static class Builder{
-        String className;
-        int id;
-        String body;
-        String methodName;
-        public static Builder update(Class cl){
-            Builder builder = new Builder();
-            builder.className = cl.getSimpleName();
-            builder.methodName = "update";
-            return builder;
-        }
-
-        public static Builder create(Class cl){
-            Builder builder = new Builder();
-            builder.className = cl.getSimpleName();
-            builder.methodName = "create";
-            return builder;
-        }
-
-        public Builder id(int id){
-            this.id = id;
-            return this;
-        }
-
-        public Builder object(String json){
-            body = json;
-            return this;
-        }
-
-        public Log build(){
-            Log log = new Log();
-            log.setDone(false);
-            log.setBody(body);
-            log.setCommand(
-                    new StringBuilder(methodName)
-                            .append("$")
-                            .append(className.toLowerCase())
-                            .append("$")
-                            .append(id).
-                            toString()
-            );
-            return log;
-        }
+    public boolean getDone() {
+        return this.done;
     }
+
 }
