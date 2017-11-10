@@ -10,7 +10,7 @@ public interface DashboardView {
     void showFab();
     void hideFab();
     void showNewProductActivity();
-    void showNewStorageActivity();
+    void showNewCategoryActivity();
     void showNewCustomerActivity();
     void showExportProductActivity();
 }

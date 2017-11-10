@@ -11,7 +11,7 @@ import com.mphj.accountry.utils.ArrayUtils;
 public class DashboardPresenterImpl implements DashboardPresenter {
 
     DashboardView view;
-    private static final int[] UNFABBED_PAGES = {SectionsPagerAdapter.REPORTS};
+    private static final int[] UNFABBED_PAGES = {SectionsPagerAdapter.HOME, SectionsPagerAdapter.CHECKS, SectionsPagerAdapter.REPORTS};
     int currentPosition;
 
     public DashboardPresenterImpl(DashboardView view){
@@ -41,16 +41,13 @@ public class DashboardPresenterImpl implements DashboardPresenter {
     @Override
     public void onFabClick() {
         switch (currentPosition){
-            case SectionsPagerAdapter.STORAGE:
-                view.showNewStorageActivity();
-                break;
             case SectionsPagerAdapter.CUSTOMERS:
                 view.showNewCustomerActivity();
                 break;
             case SectionsPagerAdapter.PRODUCTS:
-                view.showNewProductActivity();
+                view.showNewCategoryActivity();
                 break;
-            case SectionsPagerAdapter.SELL_PRODUCT:
+            case SectionsPagerAdapter.REPORTS:
                 view.showExportProductActivity();
                 break;
             default:
