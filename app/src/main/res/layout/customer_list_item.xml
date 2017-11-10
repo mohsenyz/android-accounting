@@ -20,6 +20,7 @@
                     android:paddingTop="7dp"
                     android:paddingRight="7dp"
                     android:textStyle="bold"
+                    android:textColor="#000"
                     android:id="@+id/text"/>
                 <TextView
                     android:layout_width="wrap_content"
