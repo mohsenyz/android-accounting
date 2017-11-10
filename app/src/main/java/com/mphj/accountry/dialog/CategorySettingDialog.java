@@ -1,0 +1,89 @@
+package com.mphj.accountry.dialog;
+
+import android.app.Dialog;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.design.widget.BottomSheetDialogFragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
+
+import com.mphj.accountry.R;
+import com.mphj.accountry.activity.NewProductActivity;
+import com.mphj.accountry.adapter.SimpleListAdapter;
+import com.mphj.accountry.interfaces.D_CategorySettingView;
+import com.mphj.accountry.models.SimpleListModel;
+import com.mphj.accountry.models.db.Category;
+import com.mphj.accountry.presenters.D_CategorySettingPresenter;
+import com.mphj.accountry.presenters.D_CategorySettingPresenterImpl;
+
+import org.parceler.Parcels;
+
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
+/**
+ * Created by mphj on 10/23/2017.
+ */
+
+public class CategorySettingDialog extends BottomSheetDialogFragment implements D_CategorySettingView {
+
+
+    D_CategorySettingPresenter presenter;
+    @BindView(R.id.recyclerView)
+    RecyclerView recyclerView;
+
+    SimpleListAdapter simpleListAdapter;
+
+    Category category;
+
+    public static CategorySettingDialog create(Category category){
+        CategorySettingDialog dialog = new CategorySettingDialog();
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("category", Parcels.wrap(Category.class, category));
+        dialog.setArguments(bundle);
+        return dialog;
+    }
+
+    @Override
+    public void setupDialog(Dialog dialog, int style) {
+        super.setupDialog(dialog, style);
+        View contentView = View.inflate(getContext(), R.layout.bs_dialog_simple_setting, null);
+        dialog.setContentView(contentView);
+        ButterKnife.bind(this, contentView);
+        setupRecyclerView();
+        if (getArguments() != null) {
+            category = Parcels.unwrap(getArguments().getParcelable("category"));
+        }
+        presenter = new D_CategorySettingPresenterImpl(this);
+        presenter.loadList(category);
+    }
+
+    public void setupRecyclerView(){
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(recyclerView.getContext());
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(layoutManager);
+    }
+
+    @Override
+    public void setAdapter(List<SimpleListModel> list) {
+        simpleListAdapter = new SimpleListAdapter(list);
+        recyclerView.setAdapter(simpleListAdapter);
+    }
+
+    @Override
+    public void showProductList() {
+        BottomSheetDialogFragment bottomSheetDialogFragment = CategoryProductListDialog.create(category);
+        bottomSheetDialogFragment.show(getActivity().getSupportFragmentManager(), "");
+    }
+
+
+    @Override
+    public void showAddProductActivity() {
+        Intent i = new Intent(getActivity(), NewProductActivity.class);
+        i.putExtra("category", Parcels.wrap(Category.class, category));
+        startActivity(i);
+    }
+}

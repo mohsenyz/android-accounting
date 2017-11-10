@@ -5,9 +5,7 @@ import android.os.Bundle;
 import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
 import android.view.View;
-import android.widget.TextView;
 
 import com.mphj.accountry.R;
 import com.mphj.accountry.adapter.SimpleListAdapter;
@@ -36,9 +34,6 @@ public class CustomerSettingDialog extends BottomSheetDialogFragment implements 
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
 
-    @BindView(R.id.title)
-    TextView title;
-
     SimpleListAdapter simpleListAdapter;
 
     Customer customer;
@@ -54,13 +49,12 @@ public class CustomerSettingDialog extends BottomSheetDialogFragment implements 
     @Override
     public void setupDialog(Dialog dialog, int style) {
         super.setupDialog(dialog, style);
-        View contentView = View.inflate(getContext(), R.layout.bs_dialog_storage_setting, null);
+        View contentView = View.inflate(getContext(), R.layout.bs_dialog_simple_setting, null);
         dialog.setContentView(contentView);
         ButterKnife.bind(this, contentView);
         setupRecyclerView();
-        if (getArguments() != null){
+        if (getArguments() != null) {
             customer = Parcels.unwrap(getArguments().getParcelable("customer"));
-            title.setText(Html.fromHtml(getResources().getString(R.string.html_customer_title).replace("xxx", customer.getName())));
         }
         presenter = new D_CustomerSettingPresenterImpl(this);
         presenter.loadList(customer);

@@ -54,7 +54,6 @@
 -verbose
 
 # ADDED
--dontshrink
 -dontobfuscate
 
 -keepattributes *Annotation*
@@ -489,3 +488,34 @@ public static java.lang.String TABLENAME;
 
 # Marshmallow removed Notification.setLatestEventInfo()
 -dontwarn android.app.Notification
+
+
+
+-keep class sun.mis.Unsafe {*;}
+-keep class org.xmlpull.** {*;}
+-dontwarn sun.mis.Unsafe
+-keep class libcore.io.Memory.** {*;}
+
+
+
+# ------------------- TEST DEPENDENCIES -------------------
+-dontwarn org.hamcrest.**
+-dontwarn android.test.**
+-dontwarn android.support.test.**
+-dontwarn android.content.**
+-dontwarn android.graphics.**
+
+-keep class org.hamcrest.** {
+   *;
+}
+
+-keep class org.junit.** { *; }
+-dontwarn org.junit.**
+
+-keep class junit.** { *; }
+-dontwarn junit.**
+
+-keep class sun.misc.** { *; }
+-dontwarn sun.misc.**
+
+-dontwarn android.support.test.**

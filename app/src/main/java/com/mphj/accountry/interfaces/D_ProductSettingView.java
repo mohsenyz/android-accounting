@@ -10,4 +10,6 @@ import java.util.List;
 
 public interface D_ProductSettingView {
     void setAdapter(List<SimpleListModel> list);
+    void increase();
+    void increasedSuccessfully();
 }

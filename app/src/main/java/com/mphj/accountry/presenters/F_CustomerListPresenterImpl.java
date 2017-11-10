@@ -1,9 +1,8 @@
 package com.mphj.accountry.presenters;
 
-import com.mphj.accountry.dao.CustomerDao;
 import com.mphj.accountry.interfaces.F_CustomerListView;
-
-import io.realm.Realm;
+import com.mphj.accountry.models.db.CustomerDao;
+import com.mphj.accountry.utils.DaoManager;
 
 /**
  * Created by mphj on 10/20/2017.
@@ -29,7 +28,7 @@ public class F_CustomerListPresenterImpl implements F_CustomerListPresenter {
 
     @Override
     public void loadList() {
-        CustomerDao dao = new CustomerDao(Realm.getDefaultInstance());
-        view.setAdapter(dao.listAll());
+        CustomerDao dao = DaoManager.session().getCustomerDao();
+        view.setAdapter(dao.loadAll());
     }
 }

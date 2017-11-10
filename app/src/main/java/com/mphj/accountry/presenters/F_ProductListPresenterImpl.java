@@ -1,15 +1,14 @@
 package com.mphj.accountry.presenters;
 
-import com.mphj.accountry.dao.ProductDao;
-import com.mphj.accountry.dao.ProductPriceDao;
 import com.mphj.accountry.interfaces.F_ProductListView;
 import com.mphj.accountry.models.db.Product;
+import com.mphj.accountry.models.db.ProductDao;
+import com.mphj.accountry.models.db.ProductPrice;
+import com.mphj.accountry.models.db.ProductPriceDao;
+import com.mphj.accountry.utils.DaoManager;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import io.realm.Realm;
-import io.realm.RealmResults;
 
 /**
  * Created by mphj on 10/22/2017.
@@ -36,11 +35,15 @@ public class F_ProductListPresenterImpl implements F_ProductListPresenter {
     @Override
     public void loadList() {
         List<Product> list = new ArrayList<>();
-        ProductDao productDao = new ProductDao(Realm.getDefaultInstance());
-        ProductPriceDao productPriceDao = new ProductPriceDao(Realm.getDefaultInstance());
-        RealmResults<Product> realmResults = productDao.listAll();
+        ProductDao productDao = DaoManager.session().getProductDao();
+        ProductPriceDao productPriceDao = DaoManager.session().getProductPriceDao();
+        List<Product> realmResults = productDao.loadAll();
         for (Product product : realmResults){
-            product.setCurrentProductPrice(productPriceDao.findLatestByProductId(product.getId()));
+            ProductPrice productPrice = productPriceDao.queryBuilder()
+                    .where(ProductPriceDao.Properties.ProductId.eq(product.getId()))
+                    .orderDesc(ProductPriceDao.Properties.CreatedAt)
+                    .unique();
+            product.setCurrentProductPrice(productPrice);
             list.add(product);
         }
         view.setAdapter(list);

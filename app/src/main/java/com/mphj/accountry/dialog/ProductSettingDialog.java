@@ -1,15 +1,17 @@
 package com.mphj.accountry.dialog;
 
+import android.app.Activity;
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mphj.accountry.R;
+import com.mphj.accountry.activity.GetCountActivity;
 import com.mphj.accountry.adapter.SimpleListAdapter;
 import com.mphj.accountry.interfaces.D_ProductSettingView;
 import com.mphj.accountry.models.SimpleListModel;
@@ -36,12 +38,11 @@ public class ProductSettingDialog extends BottomSheetDialogFragment implements D
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
 
-    @BindView(R.id.title)
-    TextView title;
-
     SimpleListAdapter simpleListAdapter;
 
     Product product;
+
+    public static final int INCREASE_PRODUCT = 1;
 
     public static ProductSettingDialog create(Product product){
         ProductSettingDialog dialog = new ProductSettingDialog();
@@ -54,13 +55,12 @@ public class ProductSettingDialog extends BottomSheetDialogFragment implements D
     @Override
     public void setupDialog(Dialog dialog, int style) {
         super.setupDialog(dialog, style);
-        View contentView = View.inflate(getContext(), R.layout.bs_dialog_storage_setting, null);
+        View contentView = View.inflate(getContext(), R.layout.bs_dialog_simple_setting, null);
         dialog.setContentView(contentView);
         ButterKnife.bind(this, contentView);
         setupRecyclerView();
-        if (getArguments() != null){
+        if (getArguments() != null) {
             product = Parcels.unwrap(getArguments().getParcelable("product"));
-            title.setText(Html.fromHtml(getResources().getString(R.string.html_product_title).replace("xxx", product.getName())));
         }
         presenter = new D_ProductSettingPresenterImpl(this);
         presenter.loadList();
@@ -76,5 +76,25 @@ public class ProductSettingDialog extends BottomSheetDialogFragment implements D
     public void setAdapter(List<SimpleListModel> list) {
         simpleListAdapter = new SimpleListAdapter(list);
         recyclerView.setAdapter(simpleListAdapter);
+    }
+
+    @Override
+    public void increase() {
+        startActivityForResult(new Intent(getActivity(), GetCountActivity.class), INCREASE_PRODUCT);
+    }
+
+    @Override
+    public void increasedSuccessfully() {
+        Toast.makeText(getActivity(), "تعداد محصول با موفقیت افزایش یافت", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == INCREASE_PRODUCT) {
+            if (resultCode == Activity.RESULT_OK) {
+                presenter.increaseProduct(product, data.getIntExtra("count", 0));
+            }
+        }
     }
 }

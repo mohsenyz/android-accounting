@@ -15,7 +15,4 @@ public interface ExportProductView {
     void notifyDataSetChanged();
     void finishActivity();
     void specialProductNotDount(Product product);
-    void setPriceStatus(double totalPrice, double totalCustomerPrice, double totalCustomerPriceWithOff);
-    void showPriceStatus();
-    void hidePriceStatus();
 }

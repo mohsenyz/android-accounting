@@ -39,4 +39,17 @@ public class ViewAnimator {
                 })
                 .start();
     }
+
+    public static void scale(View view, float scale, int duration) {
+        view.animate()
+                .setDuration(duration)
+                .scaleY(scale)
+                .scaleX(scale)
+                .start();
+    }
+
+
+    public static void defaultScale(View view, float scale){
+        scale(view, scale, 300);
+    }
 }

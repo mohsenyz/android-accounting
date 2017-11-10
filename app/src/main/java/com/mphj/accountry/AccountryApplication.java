@@ -3,8 +3,9 @@ package com.mphj.accountry;
 import android.app.Application;
 import android.content.Context;
 
-import io.realm.Realm;
-import io.realm.RealmConfiguration;
+import com.mphj.accountry.utils.DaoManager;
+import com.squareup.leakcanary.LeakCanary;
+
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
 /**
@@ -18,16 +19,15 @@ public class AccountryApplication extends Application{
     @Override
     public void onCreate() {
         super.onCreate();
+        if (LeakCanary.isInAnalyzerProcess(this)) {
+            return;
+        }
+        LeakCanary.install(this);
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
                 .setDefaultFontPath("fonts/iran.ttf")
                 .build()
         );
-        RealmConfiguration realmConfiguration = new RealmConfiguration.Builder(this)
-                .name(Realm.DEFAULT_REALM_NAME)
-                .schemaVersion(1)
-                .deleteRealmIfMigrationNeeded()
-                .build();
-        Realm.setDefaultConfiguration(realmConfiguration);
+        DaoManager.init(this);
         context = this;
     }
 

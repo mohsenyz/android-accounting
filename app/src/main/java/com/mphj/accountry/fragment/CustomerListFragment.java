@@ -17,9 +17,10 @@ import com.mphj.accountry.models.db.Customer;
 import com.mphj.accountry.presenters.F_CustomerListPresenter;
 import com.mphj.accountry.presenters.F_CustomerListPresenterImpl;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.realm.RealmResults;
 
 public class CustomerListFragment extends Fragment implements F_CustomerListView {
 
@@ -84,7 +85,7 @@ public class CustomerListFragment extends Fragment implements F_CustomerListView
     }
 
     @Override
-    public void setAdapter(RealmResults<Customer> realmResults) {
+    public void setAdapter(List<Customer> realmResults) {
         if (getArguments() != null && getArguments().getBoolean("select")){
             customerListAdapter = new CustomerListAdapter(realmResults, getActivity(), click);
         } else {

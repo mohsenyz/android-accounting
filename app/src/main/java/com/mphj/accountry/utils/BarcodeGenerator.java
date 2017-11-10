@@ -7,7 +7,6 @@ import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
-import com.journeyapps.barcodescanner.BarcodeEncoder;
 import com.vincentbrison.openlibraries.android.dualcache.DualCache;
 
 import io.reactivex.Observable;

@@ -1,8 +1,8 @@
 package com.mphj.accountry.presenters;
 
+import com.mphj.accountry.models.db.Category;
 import com.mphj.accountry.models.db.Customer;
 import com.mphj.accountry.models.db.Product;
-import com.mphj.accountry.models.db.Storage;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ import java.util.List;
 public interface ExportProductPresenter extends BasePresenter {
     void setStorageById(int id);
     void setCustomerById(int id);
-    void setStorage(Storage storage);
+    void setCategory(Category category);
     void setCustomer(Customer customer);
     void setPendingProduct(Product product);
     List<Product> getProductList();
