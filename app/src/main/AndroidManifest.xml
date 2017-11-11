@@ -54,6 +54,11 @@
         <activity
             android:name=".activity.ExportProductActivity"
             android:theme="@style/AppTheme.Dialog.NoTitle" />
+        <activity
+            android:name=".activity.ExportProductActivity_v1"
+            android:theme="@style/AppTheme.Dialog.NoTitle" />
+        <activity android:name=".activity.NewTransactionReaddedActivity"
+            android:theme="@style/AppTheme.Dialog.NoTitle"></activity>
     </application>
 
 </manifest>

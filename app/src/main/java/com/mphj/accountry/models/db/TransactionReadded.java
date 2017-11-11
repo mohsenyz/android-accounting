@@ -18,18 +18,21 @@ public class TransactionReadded
     public static final int INC = 1, DEC = 2;
 
     @Id(autoincrement = true)
-    private Long id;
-    private int type;
-    private long transactionId;
-    private double price;
+    public Long id;
+    public int type;
+    public long transactionId;
+    public double price;
+    public String description;
 
 
-    @Generated(hash = 616866546)
-    public TransactionReadded(Long id, int type, long transactionId, double price) {
+    @Generated(hash = 601728237)
+    public TransactionReadded(Long id, int type, long transactionId, double price,
+            String description) {
         this.id = id;
         this.type = type;
         this.transactionId = transactionId;
         this.price = price;
+        this.description = description;
     }
 
     @Generated(hash = 324107990)
@@ -67,5 +70,14 @@ public class TransactionReadded
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

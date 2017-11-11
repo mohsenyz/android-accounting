@@ -139,7 +139,7 @@ public class DashboardActivity extends BaseActivity implements DashboardView, Vi
     }
     @Override
     public void showExportProductActivity() {
-        startActivity(new Intent(this, ExportProductActivity.class));
+        startActivity(new Intent(this, ExportProductActivity_v1.class));
     }
 
     @Override

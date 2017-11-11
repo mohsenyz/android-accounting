@@ -53,7 +53,11 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
     @Override
     public void onBindViewHolder(ProductViewHolder viewHolder, int i) {
         final Product product = list.get(i);
-        viewHolder.centerText.setText(LocaleUtils.englishNumberToArabic( "" + product.getCount()));
+        if (product.getPendingCount() == 0) {
+            viewHolder.centerText.setText(LocaleUtils.englishNumberToArabic( "" + product.getCount()));
+        } else {
+            viewHolder.centerText.setText(LocaleUtils.englishNumberToArabic( "" + product.getPendingCount()));
+        }
         viewHolder.text.setText(product.getName());
         ProductPrice productPrice = product.getCurrentProductPrice();
         if (productPrice != null) {
