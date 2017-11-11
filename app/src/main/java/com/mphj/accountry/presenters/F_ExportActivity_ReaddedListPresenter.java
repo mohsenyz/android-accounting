@@ -11,5 +11,6 @@ import java.util.List;
 public interface F_ExportActivity_ReaddedListPresenter extends BasePresenter {
     void loadList();
     void addNew(TransactionReadded transactionReadded);
+    void delete(TransactionReadded transactionReadded);
     List<TransactionReadded> getList();
 }

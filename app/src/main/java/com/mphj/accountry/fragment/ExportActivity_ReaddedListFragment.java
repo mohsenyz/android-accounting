@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.mphj.accountry.R;
+import com.mphj.accountry.activity.AlertActivity;
 import com.mphj.accountry.activity.NewTransactionReaddedActivity;
 import com.mphj.accountry.adapter.TransactionReaddedListAdapter;
 import com.mphj.accountry.interfaces.F_ExportActivity_ReaddedListView;
@@ -44,7 +45,9 @@ public class ExportActivity_ReaddedListFragment extends Fragment implements
 
     F_ExportActivity_ReaddedListPresenter presenter;
 
-    public static final int SELECT_READDED = 2;
+    TransactionReadded pendingReadded;
+
+    public static final int SELECT_READDED = 2, REMOVE_READDED = 3;
 
     public static ExportActivity_ProductListFragment newInstance() {
         return new ExportActivity_ProductListFragment();
@@ -89,7 +92,7 @@ public class ExportActivity_ReaddedListFragment extends Fragment implements
 
     @Override
     public void loadList(List<TransactionReadded> list) {
-        TransactionReaddedListAdapter transactionReaddedListAdapter = new TransactionReaddedListAdapter(list, getActivity());
+        TransactionReaddedListAdapter transactionReaddedListAdapter = new TransactionReaddedListAdapter(list, getActivity(), this);
         recyclerView.setAdapter(transactionReaddedListAdapter);
     }
 
@@ -105,7 +108,8 @@ public class ExportActivity_ReaddedListFragment extends Fragment implements
 
     @Override
     public void onClick(View v, TransactionReadded object) {
-
+        pendingReadded = object;
+        startActivityForResult(new Intent(getActivity(), AlertActivity.class), REMOVE_READDED);
     }
 
 
@@ -123,6 +127,12 @@ public class ExportActivity_ReaddedListFragment extends Fragment implements
             if (resultCode == Activity.RESULT_OK) {
                 TransactionReadded transactionReadded = Parcels.unwrap(data.getParcelableExtra("readded"));
                 addNew(transactionReadded);
+            }
+        }
+
+        if (requestCode == REMOVE_READDED && pendingReadded != null) {
+            if (resultCode == AlertActivity.SUBMIT) {
+                presenter.delete(pendingReadded);
             }
         }
     }

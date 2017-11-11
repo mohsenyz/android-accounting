@@ -44,4 +44,10 @@ public class F_ExportActivity_ReaddedListPresenterImpl implements F_ExportActivi
     public List<TransactionReadded> getList() {
         return list;
     }
+
+
+    @Override
+    public void delete(TransactionReadded transactionReadded) {
+        list.remove(transactionReadded);
+    }
 }

@@ -40,11 +40,18 @@ public class F_ExportActivity_ProductListPresenterImpl implements F_ExportActivi
         if (!productExists(product)) {
             list.add(product);
         } else {
-            updateProduct(product);
+            if (product.getPendingCount() == 0) {
+                deleteProduct(product);
+            } else {
+                updateProduct(product);
+            }
         }
         loadList();
     }
 
+    void deleteProduct(Product product) {
+        list.remove(product);
+    }
 
     boolean productExists(Product product) {
         for (Product product1 : list) {

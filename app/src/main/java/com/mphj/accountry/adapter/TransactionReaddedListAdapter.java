@@ -53,7 +53,7 @@ public class TransactionReaddedListAdapter extends RecyclerView.Adapter<Transact
         viewHolder.icon.setImageResource(
                 (transactionReadded.getType() == TransactionReadded.INC)? R.drawable.ic_plus : R.drawable.ic_remove
         );
-        viewHolder.leftText.setText(LocaleUtils.englishNumberToArabic("" + transactionReadded.getPrice()) + " تومان");
+        viewHolder.leftText.setText(LocaleUtils.englishNumberToArabic("" + (int)transactionReadded.getPrice()) + " تومان");
         viewHolder.container.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
