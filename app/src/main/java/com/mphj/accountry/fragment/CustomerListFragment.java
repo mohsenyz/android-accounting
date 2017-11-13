@@ -11,25 +11,25 @@ import android.view.ViewGroup;
 
 import com.mphj.accountry.R;
 import com.mphj.accountry.adapter.CustomerListAdapter;
-import com.mphj.accountry.interfaces.F_CustomerListView;
 import com.mphj.accountry.interfaces.OnObjectItemClick;
+import com.mphj.accountry.interfaces.fragment.CustomerListView;
 import com.mphj.accountry.models.db.Customer;
-import com.mphj.accountry.presenters.F_CustomerListPresenter;
-import com.mphj.accountry.presenters.F_CustomerListPresenterImpl;
+import com.mphj.accountry.presenters.fragment.CustomerListPresenter;
+import com.mphj.accountry.presenters.fragment.CustomerListPresenterImpl;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class CustomerListFragment extends Fragment implements F_CustomerListView {
+public class CustomerListFragment extends Fragment implements CustomerListView {
 
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
 
     CustomerListAdapter customerListAdapter;
 
-    F_CustomerListPresenter presenter;
+    CustomerListPresenter presenter;
 
     OnObjectItemClick<Customer> click;
 
@@ -52,7 +52,7 @@ public class CustomerListFragment extends Fragment implements F_CustomerListView
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        presenter = new F_CustomerListPresenterImpl(this);
+        presenter = new CustomerListPresenterImpl(this);
     }
 
     @Override

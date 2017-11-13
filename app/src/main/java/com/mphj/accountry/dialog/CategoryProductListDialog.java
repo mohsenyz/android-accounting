@@ -9,11 +9,11 @@ import android.view.View;
 
 import com.mphj.accountry.R;
 import com.mphj.accountry.adapter.ProductListAdapter;
-import com.mphj.accountry.interfaces.D_CategoryProductListView;
+import com.mphj.accountry.interfaces.dialog.CategoryProductListView;
 import com.mphj.accountry.models.db.Category;
 import com.mphj.accountry.models.db.Product;
-import com.mphj.accountry.presenters.D_CategoryProductListPresenter;
-import com.mphj.accountry.presenters.D_CategoryProductListPresenterImpl;
+import com.mphj.accountry.presenters.dialog.CategoryProductListPresenter;
+import com.mphj.accountry.presenters.dialog.CategoryProductListPresenterImpl;
 
 import org.parceler.Parcels;
 
@@ -26,8 +26,8 @@ import butterknife.ButterKnife;
  * Created by mphj on 10/24/2017.
  */
 
-public class CategoryProductListDialog extends BottomSheetDialogFragment implements D_CategoryProductListView {
-    D_CategoryProductListPresenter presenter;
+public class CategoryProductListDialog extends BottomSheetDialogFragment implements CategoryProductListView {
+    CategoryProductListPresenter presenter;
 
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
@@ -54,7 +54,7 @@ public class CategoryProductListDialog extends BottomSheetDialogFragment impleme
         if (getArguments() != null) {
             category = Parcels.unwrap(getArguments().getParcelable("category"));
         }
-        presenter = new D_CategoryProductListPresenterImpl(this);
+        presenter = new CategoryProductListPresenterImpl(this);
         presenter.loadList(category);
     }
 

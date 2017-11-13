@@ -11,25 +11,25 @@ import android.view.ViewGroup;
 
 import com.mphj.accountry.R;
 import com.mphj.accountry.adapter.CategoryListAdapter;
-import com.mphj.accountry.interfaces.F_CategoryListView;
 import com.mphj.accountry.interfaces.OnObjectItemClick;
+import com.mphj.accountry.interfaces.fragment.CategoryListView;
 import com.mphj.accountry.models.db.Category;
-import com.mphj.accountry.presenters.F_CategoryListPresenter;
-import com.mphj.accountry.presenters.F_CategoryListPresenterImpl;
+import com.mphj.accountry.presenters.fragment.CategoryListPresenter;
+import com.mphj.accountry.presenters.fragment.CategoryListPresenterImpl;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class CategoryListFragment extends Fragment implements F_CategoryListView {
+public class CategoryListFragment extends Fragment implements CategoryListView {
 
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
 
     CategoryListAdapter categoryListAdapter;
 
-    F_CategoryListPresenter presenter;
+    CategoryListPresenter presenter;
 
     OnObjectItemClick<Category> click;
 
@@ -52,7 +52,7 @@ public class CategoryListFragment extends Fragment implements F_CategoryListView
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        presenter = new F_CategoryListPresenterImpl(this);
+        presenter = new CategoryListPresenterImpl(this);
     }
 
     @Override

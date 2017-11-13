@@ -13,11 +13,11 @@ import android.widget.Toast;
 import com.mphj.accountry.R;
 import com.mphj.accountry.activity.GetCountActivity;
 import com.mphj.accountry.adapter.SimpleListAdapter;
-import com.mphj.accountry.interfaces.D_ProductSettingView;
+import com.mphj.accountry.interfaces.dialog.ProductSettingView;
 import com.mphj.accountry.models.SimpleListModel;
 import com.mphj.accountry.models.db.Product;
-import com.mphj.accountry.presenters.D_ProductSettingPresenter;
-import com.mphj.accountry.presenters.D_ProductSettingPresenterImpl;
+import com.mphj.accountry.presenters.dialog.ProductSettingPresenter;
+import com.mphj.accountry.presenters.dialog.ProductSettingPresenterImpl;
 
 import org.parceler.Parcels;
 
@@ -30,10 +30,10 @@ import butterknife.ButterKnife;
  * Created by mphj on 10/23/2017.
  */
 
-public class ProductSettingDialog extends BottomSheetDialogFragment implements D_ProductSettingView {
+public class ProductSettingDialog extends BottomSheetDialogFragment implements ProductSettingView {
 
 
-    D_ProductSettingPresenter presenter;
+    ProductSettingPresenter presenter;
 
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
@@ -62,7 +62,7 @@ public class ProductSettingDialog extends BottomSheetDialogFragment implements D
         if (getArguments() != null) {
             product = Parcels.unwrap(getArguments().getParcelable("product"));
         }
-        presenter = new D_ProductSettingPresenterImpl(this);
+        presenter = new ProductSettingPresenterImpl(this);
         presenter.loadList();
     }
 

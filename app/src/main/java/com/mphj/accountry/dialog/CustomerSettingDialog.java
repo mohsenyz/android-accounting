@@ -9,11 +9,11 @@ import android.view.View;
 
 import com.mphj.accountry.R;
 import com.mphj.accountry.adapter.SimpleListAdapter;
-import com.mphj.accountry.interfaces.D_CustomerSettingView;
+import com.mphj.accountry.interfaces.dialog.CustomerSettingView;
 import com.mphj.accountry.models.SimpleListModel;
 import com.mphj.accountry.models.db.Customer;
-import com.mphj.accountry.presenters.D_CustomerSettingPresenter;
-import com.mphj.accountry.presenters.D_CustomerSettingPresenterImpl;
+import com.mphj.accountry.presenters.dialog.CustomerSettingPresenter;
+import com.mphj.accountry.presenters.dialog.CustomerSettingPresenterImpl;
 
 import org.parceler.Parcels;
 
@@ -26,10 +26,10 @@ import butterknife.ButterKnife;
  * Created by mphj on 10/23/2017.
  */
 
-public class CustomerSettingDialog extends BottomSheetDialogFragment implements D_CustomerSettingView {
+public class CustomerSettingDialog extends BottomSheetDialogFragment implements CustomerSettingView {
 
 
-    D_CustomerSettingPresenter presenter;
+    CustomerSettingPresenter presenter;
 
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
@@ -56,7 +56,7 @@ public class CustomerSettingDialog extends BottomSheetDialogFragment implements 
         if (getArguments() != null) {
             customer = Parcels.unwrap(getArguments().getParcelable("customer"));
         }
-        presenter = new D_CustomerSettingPresenterImpl(this);
+        presenter = new CustomerSettingPresenterImpl(this);
         presenter.loadList(customer);
     }
 

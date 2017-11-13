@@ -3,10 +3,9 @@ package com.mphj.accountry.adapter;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-
-import com.mphj.accountry.fragment.ExportActivity_ProductListFragment;
-import com.mphj.accountry.fragment.ExportActivity_ReaddedListFragment;
 import com.mphj.accountry.fragment.PlaceHolderFragment;
+import com.mphj.accountry.fragment.export_activity.ProductListFragment;
+import com.mphj.accountry.fragment.export_activity.ReaddedListFragment;
 
 /**
  * Created by mphj on 11/10/2017.
@@ -14,12 +13,12 @@ import com.mphj.accountry.fragment.PlaceHolderFragment;
 
 public class ExportActivityPagerAdapter extends FragmentPagerAdapter {
 
-    ExportActivity_ProductListFragment exportActivity_productListFragment;
-    ExportActivity_ReaddedListFragment exportActivity_readdedListFragment;
+    ProductListFragment exportActivity_productListFragment;
+    ReaddedListFragment exportActivity_readdedListFragment;
 
     public ExportActivityPagerAdapter(FragmentManager fragmentManager,
-                                      ExportActivity_ProductListFragment fragment1,
-                                      ExportActivity_ReaddedListFragment fragment2) {
+                                      ProductListFragment fragment1,
+                                      ReaddedListFragment fragment2) {
         super(fragmentManager);
         exportActivity_productListFragment = fragment1;
         exportActivity_readdedListFragment = fragment2;

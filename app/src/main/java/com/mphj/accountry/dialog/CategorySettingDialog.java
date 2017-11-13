@@ -11,11 +11,11 @@ import android.view.View;
 import com.mphj.accountry.R;
 import com.mphj.accountry.activity.NewProductActivity;
 import com.mphj.accountry.adapter.SimpleListAdapter;
-import com.mphj.accountry.interfaces.D_CategorySettingView;
+import com.mphj.accountry.interfaces.dialog.CategorySettingView;
 import com.mphj.accountry.models.SimpleListModel;
 import com.mphj.accountry.models.db.Category;
-import com.mphj.accountry.presenters.D_CategorySettingPresenter;
-import com.mphj.accountry.presenters.D_CategorySettingPresenterImpl;
+import com.mphj.accountry.presenters.dialog.CategorySettingPresenter;
+import com.mphj.accountry.presenters.dialog.CategorySettingPresenterImpl;
 
 import org.parceler.Parcels;
 
@@ -28,10 +28,10 @@ import butterknife.ButterKnife;
  * Created by mphj on 10/23/2017.
  */
 
-public class CategorySettingDialog extends BottomSheetDialogFragment implements D_CategorySettingView {
+public class CategorySettingDialog extends BottomSheetDialogFragment implements CategorySettingView {
 
 
-    D_CategorySettingPresenter presenter;
+    CategorySettingPresenter presenter;
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
 
@@ -57,7 +57,7 @@ public class CategorySettingDialog extends BottomSheetDialogFragment implements 
         if (getArguments() != null) {
             category = Parcels.unwrap(getArguments().getParcelable("category"));
         }
-        presenter = new D_CategorySettingPresenterImpl(this);
+        presenter = new CategorySettingPresenterImpl(this);
         presenter.loadList(category);
     }
 
