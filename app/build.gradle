@@ -50,8 +50,8 @@ dependencies {
     compile 'com.github.angads25:filepicker:1.1.1'
     implementation project(':customview-helper')
     compile 'org.greenrobot:greendao:3.2.2'
-    compile 'frankiesardo:icepick:3.2.0'
-    annotationProcessor 'frankiesardo:icepick-processor:3.2.0'
+    //compile 'frankiesardo:icepick:3.2.0'
+    //annotationProcessor 'frankiesardo:icepick-processor:3.2.0'
 
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.4'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
