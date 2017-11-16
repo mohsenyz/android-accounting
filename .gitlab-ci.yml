@@ -25,7 +25,6 @@ before_script:
 
 stages:
   - build
-  - test
 
 build:
   stage: build
@@ -34,11 +33,6 @@ build:
   artifacts:
     paths:
     - app/build/outputs/
-
-unitTests:
-  stage: test
-  script:
-    - ./gradlew buildNeeded
 
 #functionalTests:
 #  stage: test
