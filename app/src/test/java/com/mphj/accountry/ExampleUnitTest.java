@@ -16,21 +16,4 @@ public class ExampleUnitTest {
     public void addition_isCorrect() throws Exception {
         assertEquals(4, 2 + 2);
     }
-
-    @Test
-    public void helloToMohsen() throws Exception {
-        assertTrue("mohsen" == "mohsen");
-    }
-
-
-    @Test
-    public void helloToMohsen1() throws Exception {
-        assertFalse("mohsen" == new String("mohsen"));
-    }
-
-
-    @Test
-    public void helloToMohsen2() throws Exception {
-        assertFalse("mohsen" == new StringBuilder().append("mohsen").toString());
-    }
 }
