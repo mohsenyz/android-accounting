@@ -5,17 +5,15 @@ import android.os.Bundle;
 import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
 import android.view.View;
-import android.widget.TextView;
 
 import com.mphj.accountry.R;
 import com.mphj.accountry.adapter.SimpleListAdapter;
-import com.mphj.accountry.interfaces.D_CustomerSettingView;
+import com.mphj.accountry.interfaces.dialog.CustomerSettingView;
 import com.mphj.accountry.models.SimpleListModel;
 import com.mphj.accountry.models.db.Customer;
-import com.mphj.accountry.presenters.D_CustomerSettingPresenter;
-import com.mphj.accountry.presenters.D_CustomerSettingPresenterImpl;
+import com.mphj.accountry.presenters.dialog.CustomerSettingPresenter;
+import com.mphj.accountry.presenters.dialog.CustomerSettingPresenterImpl;
 
 import org.parceler.Parcels;
 
@@ -28,16 +26,13 @@ import butterknife.ButterKnife;
  * Created by mphj on 10/23/2017.
  */
 
-public class CustomerSettingDialog extends BottomSheetDialogFragment implements D_CustomerSettingView {
+public class CustomerSettingDialog extends BottomSheetDialogFragment implements CustomerSettingView {
 
 
-    D_CustomerSettingPresenter presenter;
+    CustomerSettingPresenter presenter;
 
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
-
-    @BindView(R.id.title)
-    TextView title;
 
     SimpleListAdapter simpleListAdapter;
 
@@ -54,15 +49,14 @@ public class CustomerSettingDialog extends BottomSheetDialogFragment implements 
     @Override
     public void setupDialog(Dialog dialog, int style) {
         super.setupDialog(dialog, style);
-        View contentView = View.inflate(getContext(), R.layout.bs_dialog_storage_setting, null);
+        View contentView = View.inflate(getContext(), R.layout.bs_dialog_simple_setting, null);
         dialog.setContentView(contentView);
         ButterKnife.bind(this, contentView);
         setupRecyclerView();
-        if (getArguments() != null){
+        if (getArguments() != null) {
             customer = Parcels.unwrap(getArguments().getParcelable("customer"));
-            title.setText(Html.fromHtml(getResources().getString(R.string.html_customer_title).replace("xxx", customer.getName())));
         }
-        presenter = new D_CustomerSettingPresenterImpl(this);
+        presenter = new CustomerSettingPresenterImpl(this);
         presenter.loadList(customer);
     }
 

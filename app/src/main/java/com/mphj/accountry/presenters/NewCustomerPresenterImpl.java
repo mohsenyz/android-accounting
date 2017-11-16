@@ -2,11 +2,11 @@ package com.mphj.accountry.presenters;
 
 import android.text.TextUtils;
 
-import com.mphj.accountry.dao.CustomerDao;
 import com.mphj.accountry.interfaces.NewCustomerView;
 import com.mphj.accountry.models.db.Customer;
+import com.mphj.accountry.models.db.CustomerDao;
+import com.mphj.accountry.utils.DaoManager;
 
-import io.realm.Realm;
 
 /**
  * Created by mphj on 10/20/2017.
@@ -42,14 +42,13 @@ public class NewCustomerPresenterImpl implements NewCustomerPresenter {
             return;
         }
 
-        CustomerDao customerDao = new CustomerDao(Realm.getDefaultInstance());
+        CustomerDao customerDao = DaoManager.session().getCustomerDao();
 
         Customer customer = new Customer();
         customer.setName(name);
         customer.setPhone(phone);
         customer.setCreatedAt(System.currentTimeMillis() / 1000L);
-        customerDao.create(customer);
-        customerDao.close();
+        customerDao.save(customer);
 
         view.finishActivity();
     }

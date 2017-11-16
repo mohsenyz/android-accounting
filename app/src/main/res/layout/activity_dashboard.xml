@@ -35,20 +35,11 @@
                     android:textDirection="rtl"
                     android:textSize="16dp"
                     android:text="@string/title_activity_dashboard"/>
-                <com.facebook.shimmer.ShimmerFrameLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="3dp"
-                    android:id="@+id/toolbar_img_shimmer"
-                    app:auto_start="true"
-                    app:base_alpha="0.6"
-                    app:repeat_count="0"
-                    android:layout_marginRight="8dp">
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:src="@drawable/account"/>
-                </com.facebook.shimmer.ShimmerFrameLayout>
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginRight="7dp"
+                    android:src="@drawable/account"/>
             </LinearLayout>
         </android.support.v7.widget.Toolbar>
         <android.support.design.widget.TabLayout

@@ -5,11 +5,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.mphj.accountry.R;
 import com.mphj.accountry.models.SimpleListModel;
-import com.mphj.accountry.views.BorderedCard;
 
 import java.util.List;
 
@@ -63,7 +63,7 @@ public class SimpleListAdapter extends RecyclerView.Adapter<SimpleListAdapter.Si
         public ImageView icon;
 
         @BindView(R.id.container)
-        public BorderedCard container;
+        public LinearLayout container;
 
         public SimpleViewHolder(View itemView) {
             super(itemView);

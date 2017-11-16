@@ -17,9 +17,10 @@ import com.mphj.accountry.interfaces.OnObjectItemClick;
 import com.mphj.accountry.models.db.Customer;
 import com.mphj.accountry.utils.LocaleUtils;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.realm.RealmResults;
 
 /**
  * Created by mphj on 10/20/2017.
@@ -27,18 +28,18 @@ import io.realm.RealmResults;
 
 public class CustomerListAdapter extends RecyclerView.Adapter<CustomerListAdapter.CustomerViewHolder> {
 
-    RealmResults<Customer> list;
+    List<Customer> list;
 
     FragmentActivity fragmentActivity;
 
     OnObjectItemClick<Customer> onObjectItemClick;
 
-    public CustomerListAdapter(RealmResults<Customer> list, FragmentActivity fragmentActivity){
+    public CustomerListAdapter(List<Customer> list, FragmentActivity fragmentActivity){
         this.list = list;
         this.fragmentActivity = fragmentActivity;
     }
 
-    public CustomerListAdapter(RealmResults<Customer> list, FragmentActivity fragmentActivity, OnObjectItemClick<Customer> click){
+    public CustomerListAdapter(List<Customer> list, FragmentActivity fragmentActivity, OnObjectItemClick<Customer> click){
         this.list = list;
         this.fragmentActivity = fragmentActivity;
         this.onObjectItemClick = click;

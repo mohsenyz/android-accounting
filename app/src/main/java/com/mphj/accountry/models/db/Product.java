@@ -1,31 +1,52 @@
 package com.mphj.accountry.models.db;
 
+import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Generated;
+import org.greenrobot.greendao.annotation.Id;
 import org.json.JSONObject;
 import org.parceler.Parcel;
 import org.parceler.Transient;
 
-import io.realm.RealmObject;
-import io.realm.annotations.Ignore;
-import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by mphj on 10/20/2017.
  */
-@Parcel(value = Parcel.Serialization.BEAN, analyze = {Product.class})
-public class Product extends RealmObject {
+@Parcel
+@Entity
+public class Product {
 
-    @PrimaryKey
-    private int id;
-    private String name;
-    private long createdAt;
-    private String token;
-    private int serverId;
+    @Id(autoincrement = true)
+    public Long id;
+    public String name;
+    public long createdAt;
+    public String token;
+    public int serverId;
+    public int categoryId;
+    public int count;
 
-    @Ignore @Transient
+    @org.greenrobot.greendao.annotation.Transient
+    public int pendingCount;
+
+    @Transient
+    @org.greenrobot.greendao.annotation.Transient
     private ProductPrice currentProductPrice;
 
-    @Ignore
-    private int count;
+    @Generated(hash = 1890330969)
+    public Product(Long id, String name, long createdAt, String token, int serverId,
+            int categoryId, int count, int pendingCount) {
+        this.id = id;
+        this.name = name;
+        this.createdAt = createdAt;
+        this.token = token;
+        this.serverId = serverId;
+        this.categoryId = categoryId;
+        this.count = count;
+        this.pendingCount = pendingCount;
+    }
+
+    @Generated(hash = 1890278724)
+    public Product() {
+    }
 
     public ProductPrice getCurrentProductPrice() {
         return currentProductPrice;
@@ -43,11 +64,11 @@ public class Product extends RealmObject {
         this.serverId = serverId;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -83,6 +104,8 @@ public class Product extends RealmObject {
         this.count = count;
     }
 
+
+
     public static String toJson(Product product) {
         try {
             JSONObject jsonObject = new JSONObject();
@@ -90,10 +113,28 @@ public class Product extends RealmObject {
             jsonObject.put("token", product.token);
             jsonObject.put("createdAt", product.name);
             jsonObject.put("serverId", product.serverId);
+            jsonObject.put("categoryId", product.categoryId);
+            jsonObject.put("count", product.count);
             return jsonObject.toString();
         }catch (Exception e){
             e.printStackTrace();
         }
         return null;
+    }
+
+    public int getCategoryId() {
+        return this.categoryId;
+    }
+
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
+    }
+
+    public int getPendingCount() {
+        return pendingCount;
+    }
+
+    public void setPendingCount(int pendingCount) {
+        this.pendingCount = pendingCount;
     }
 }

@@ -8,7 +8,6 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mphj.accountry.R;
@@ -16,8 +15,6 @@ import com.mphj.accountry.dialog.ProductSettingDialog;
 import com.mphj.accountry.interfaces.OnObjectItemClick;
 import com.mphj.accountry.models.db.Product;
 import com.mphj.accountry.models.db.ProductPrice;
-import com.mphj.accountry.utils.BarcodeGenerator;
-import com.mphj.accountry.utils.DeviceUtils;
 import com.mphj.accountry.utils.LocaleUtils;
 
 import java.util.List;
@@ -56,30 +53,21 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
     @Override
     public void onBindViewHolder(ProductViewHolder viewHolder, int i) {
         final Product product = list.get(i);
-        if (product.getServerId() != 0)
-            viewHolder.loading.setVisibility(View.GONE);
-        if (product.getCount() != 0) {
-            viewHolder.centerText.setVisibility(View.VISIBLE);
-            viewHolder.centerText.setText(
-                    Html.fromHtml(viewHolder.rightText.getResources().getString(
-                            R.string.html_count_eq).replace("xxx", LocaleUtils.englishNumberToArabic( "" + product.getCount()))
-                    )
-            );
-            viewHolder.barcode.setVisibility(View.GONE);
+        if (product.getPendingCount() == 0) {
+            viewHolder.centerText.setText(LocaleUtils.englishNumberToArabic( "" + product.getCount()));
+        } else {
+            viewHolder.centerText.setText(LocaleUtils.englishNumberToArabic( "" + product.getPendingCount()));
         }
         viewHolder.text.setText(product.getName());
-        BarcodeGenerator.bind(viewHolder.barcode, product.getToken(), DeviceUtils.getScreenWidth(), 60);
         ProductPrice productPrice = product.getCurrentProductPrice();
-        viewHolder.rightText.setText(
-                Html.fromHtml(viewHolder.rightText.getResources().getString(
-                        R.string.html_price_eq).replace("xxx", LocaleUtils.englishNumberToArabic( "" + productPrice.getPrice()))
-                )
-        );
-        viewHolder.leftText.setText(
-                Html.fromHtml(viewHolder.leftText.getResources().getString(
-                        R.string.html_off_eq).replace("xxx", LocaleUtils.englishNumberToArabic("" + productPrice.getOff()))
-                )
-        );
+        if (productPrice != null) {
+            viewHolder.rightText.setText(
+                    Html.fromHtml(viewHolder.rightText.getResources().getString(
+                            R.string.html_price_eq)
+                            .replace("xxx", LocaleUtils.englishNumberToArabic( "" + (int)productPrice.getPrice()))
+                    )
+            );
+        }
         viewHolder.container.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -103,20 +91,11 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         @BindView(R.id.text)
         public TextView text;
 
-        @BindView(R.id.leftText)
-        public TextView leftText;
-
         @BindView(R.id.centerText)
         public TextView centerText;
 
         @BindView(R.id.rightText)
         public TextView rightText;
-
-        @BindView(R.id.loading)
-        public ImageView loading;
-
-        @BindView(R.id.barcode)
-        public ImageView barcode;
 
         @BindView(R.id.container)
         public CardView container;

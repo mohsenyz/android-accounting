@@ -36,6 +36,10 @@ public class SimpleListModel {
         this.icon = icon;
     }
 
+    public SimpleListModel(String title) {
+        this.title = title;
+    }
+
     public String getTitle() {
         return title;
     }

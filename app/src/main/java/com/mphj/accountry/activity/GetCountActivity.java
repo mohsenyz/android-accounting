@@ -1,5 +1,6 @@
 package com.mphj.accountry.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.EditText;
@@ -33,7 +34,7 @@ public class GetCountActivity extends BaseActivity {
     void onSubmit(){
         Intent i = new Intent();
         i.putExtra("count", Integer.parseInt(inputCount.getText().toString()));
-        setResult(200, i);
+        setResult(Activity.RESULT_OK, i);
         finish();
     }
 }

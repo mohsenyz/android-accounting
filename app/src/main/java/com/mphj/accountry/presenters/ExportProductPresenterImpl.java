@@ -1,25 +1,22 @@
 package com.mphj.accountry.presenters;
 
-import com.mphj.accountry.dao.CustomerDao;
-import com.mphj.accountry.dao.ProductDao;
-import com.mphj.accountry.dao.ProductPriceDao;
-import com.mphj.accountry.dao.StorageDao;
-import com.mphj.accountry.dao.StorageProductDao;
-import com.mphj.accountry.dao.TransactionDao;
-import com.mphj.accountry.dao.TransactionProductDao;
 import com.mphj.accountry.interfaces.ExportProductView;
+import com.mphj.accountry.models.db.Category;
+import com.mphj.accountry.models.db.CategoryDao;
 import com.mphj.accountry.models.db.Customer;
+import com.mphj.accountry.models.db.CustomerDao;
 import com.mphj.accountry.models.db.Product;
+import com.mphj.accountry.models.db.ProductDao;
 import com.mphj.accountry.models.db.ProductPrice;
-import com.mphj.accountry.models.db.Storage;
-import com.mphj.accountry.models.db.StorageProduct;
+import com.mphj.accountry.models.db.ProductPriceDao;
 import com.mphj.accountry.models.db.Transaction;
+import com.mphj.accountry.models.db.TransactionDao;
 import com.mphj.accountry.models.db.TransactionProduct;
+import com.mphj.accountry.models.db.TransactionProductDao;
+import com.mphj.accountry.utils.DaoManager;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import io.realm.Realm;
 
 /**
  * Created by mphj on 10/24/2017.
@@ -32,7 +29,7 @@ public class ExportProductPresenterImpl implements ExportProductPresenter{
 
     Product pendingProduct;
 
-    Storage storage;
+    Category category;
 
     Customer customer;
 
@@ -54,20 +51,20 @@ public class ExportProductPresenterImpl implements ExportProductPresenter{
 
     @Override
     public void setStorageById(int id) {
-        StorageDao storageDao = new StorageDao(Realm.getDefaultInstance());
-        setStorage(storageDao.findById(id));
+        CategoryDao storageDao = DaoManager.session().getCategoryDao();
+        setCategory(storageDao.load((long) id));
     }
 
     @Override
     public void setCustomerById(int id) {
-        CustomerDao customerDao = new CustomerDao(Realm.getDefaultInstance());
-        setCustomer(customerDao.findById(id));
+        CustomerDao customerDao = DaoManager.session().getCustomerDao();
+        setCustomer(customerDao.load((long) id));
     }
 
     @Override
-    public void setStorage(Storage storage) {
-        this.storage = storage;
-        view.setStorageName(storage.getName());
+    public void setCategory(Category category) {
+        this.category = category;
+        view.setStorageName(category.getName());
     }
 
     @Override
@@ -96,29 +93,21 @@ public class ExportProductPresenterImpl implements ExportProductPresenter{
         view.showGetCountActivity();
     }
 
-    private void invalidatePrice(){
-        double totalPrice = 0;
-        double totalCustomerPrice = 0;
-        double totalCustomerPriceWithOff = 0;
-        for (Product product : list){
-            totalPrice += product.getCurrentProductPrice().getPrice() * product.getCount();
-            totalCustomerPrice += product.getCurrentProductPrice().getCustomerPrice() * product.getCount();
-            totalCustomerPriceWithOff += product.getCurrentProductPrice().getCustomerPrice()
-                    * (100 - product.getCurrentProductPrice().getOff()) / 100 * product.getCount();
-        }
-        view.setPriceStatus(totalPrice, totalCustomerPrice, totalCustomerPriceWithOff);
-    }
-
     @Override
     public void addProduct(String serial) {
-        ProductDao productDao = new ProductDao(Realm.getDefaultInstance());
-        Product product = productDao.findBySerial(serial);
+        ProductDao productDao = DaoManager.session().getProductDao();
+        Product product = productDao.queryBuilder()
+                .where(ProductDao.Properties.Token.eq(serial))
+                .unique();
         if (product == null){
             view.productNotFound();
             return;
         }
-        ProductPriceDao productPriceDao = new ProductPriceDao(Realm.getDefaultInstance());
-        ProductPrice productPrice = productPriceDao.findLatestByProductId(product.getId());
+        ProductPriceDao productPriceDao = DaoManager.session().getProductPriceDao();
+        ProductPrice productPrice = productPriceDao.queryBuilder()
+                .where(ProductPriceDao.Properties.ProductId.eq(product.getId()))
+                .orderDesc(ProductPriceDao.Properties.CreatedAt)
+                .unique();
         product.setCurrentProductPrice(productPrice);
         addProduct(product);
     }
@@ -129,70 +118,46 @@ public class ExportProductPresenterImpl implements ExportProductPresenter{
             deleteProduct(pendingProduct.getId());
             pendingProduct = null;
         } else {
-            pendingProduct.setCount(count);
+            pendingProduct.setPendingCount(count);
             if (!isProductExists(pendingProduct.getId())){
                 list.add(pendingProduct);
             }
             view.notifyDataSetChanged();
         }
-        if (list.size() == 0){
-            if (isPriceStatusShown) {
-                view.hidePriceStatus();
-                isPriceStatusShown = false;
-            }
-        } else {
-            if (!isPriceStatusShown) {
-                view.showPriceStatus();
-                isPriceStatusShown = true;
-            }
-            invalidatePrice();
-        }
     }
 
     @Override
     public void saveTransaction() {
-        StorageProductDao storageProductDao = new StorageProductDao(Realm.getDefaultInstance());
+        ProductDao productDao = DaoManager.session().getProductDao();
         for (Product product : list){
-            StorageProduct storageProduct = storageProductDao.findByProductAndStorage(product.getId(), storage.getId());
-            if (storageProduct == null || storageProduct.getCount() < product.getCount()){
+            if (product.getPendingCount() < product.getCount()){
                 view.specialProductNotDount(product);
                 return;
             }
         }
-        // Let's modify the storage product
         for (Product product : list){
-            StorageProduct storageProduct = storageProductDao.findByProductAndStorage(product.getId(), storage.getId());
-            storageProductDao.beginTransaction();
-            storageProduct.setCount(storageProduct.getCount() - product.getCount());
-            storageProductDao.commitTransaction();
-            if (storageProduct.getCount() == 0){
-                storageProductDao.beginTransaction();
-                storageProduct.removeFromRealm();
-                storageProductDao.commitTransaction();
-            }
+            product.setCount(product.getCount() - product.getPendingCount());
         }
-        storageProductDao.close();
-        TransactionDao transactionDao = new TransactionDao(Realm.getDefaultInstance());
+        productDao.saveInTx(list);
+        TransactionDao transactionDao = DaoManager.session().getTransactionDao();
         Transaction transaction = new Transaction();
-        transaction.setStorageId(storage.getId());
-        transaction.setCustomerId(customer.getId());
+        transaction.setCustomerId(customer.getId().intValue());
         transaction.setType(Transaction.TYPE_OUTGOING);
         transaction.setCreatedAt(Math.round(System.currentTimeMillis() / 1000L));
-        int transactionId = transactionDao.create(transaction);
-        transactionDao.close();
-        TransactionProductDao transactionProductDao = new TransactionProductDao(Realm.getDefaultInstance());
+        transactionDao.save(transaction);
+        int transactionId = transaction.getId().intValue();
+        TransactionProductDao transactionProductDao = DaoManager.session().getTransactionProductDao();
         for (Product product : list){
             TransactionProduct transactionProduct = new TransactionProduct();
             transactionProduct.setTransactionId(transactionId);
             transactionProduct.setCount(product.getCount());
-            transactionProduct.setProductId(product.getId());
-            transactionProductDao.create(transactionProduct);
+            transactionProduct.setProductId(product.getId().intValue());
+            transactionProductDao.save(transactionProduct);
         }
-        transactionProductDao.close();
         view.finishActivity();
     }
 
-    private boolean isProductExists(int id){
+    private boolean isProductExists(Long id){
         for (Product product : list)
             if (product.getId() == id)
                 return true;
@@ -200,7 +165,7 @@ public class ExportProductPresenterImpl implements ExportProductPresenter{
         return false;
     }
 
-    private void deleteProduct(int id){
+    private void deleteProduct(Long id){
         for (Product product : list) {
             if (product.getId() == id) {
                 list.remove(product);

@@ -1,30 +1,45 @@
 package com.mphj.accountry.models.db;
 
+import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Generated;
+import org.greenrobot.greendao.annotation.Id;
 import org.json.JSONObject;
 import org.parceler.Parcel;
-
-import io.realm.RealmObject;
-import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by mphj on 10/20/2017.
  */
 
-@Parcel(value = Parcel.Serialization.BEAN, analyze = {Customer.class})
-public class Customer extends RealmObject {
+@Parcel
+@Entity
+public class Customer {
 
-    @PrimaryKey
-    private int id;
-    private String name;
-    private String phone;
-    private long createdAt;
-    private int serverId;
+    @Id(autoincrement = true)
+    public Long id;
+    public String name;
+    public String phone;
+    public long createdAt;
+    public int serverId;
 
-    public int getId() {
+    @Generated(hash = 1814894556)
+    public Customer(Long id, String name, String phone, long createdAt,
+            int serverId) {
+        this.id = id;
+        this.name = name;
+        this.phone = phone;
+        this.createdAt = createdAt;
+        this.serverId = serverId;
+    }
+
+    @Generated(hash = 60841032)
+    public Customer() {
+    }
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

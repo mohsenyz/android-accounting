@@ -1,40 +1,58 @@
 package com.mphj.accountry.models.db;
 
+import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Generated;
+import org.greenrobot.greendao.annotation.Id;
+import org.greenrobot.greendao.annotation.Transient;
 import org.json.JSONObject;
 import org.parceler.Parcel;
-
-import io.realm.RealmObject;
-import io.realm.annotations.Ignore;
-import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by mphj on 10/20/2017.
  */
 
-@Parcel(value = Parcel.Serialization.BEAN, analyze = {Transaction.class})
-public class Transaction extends RealmObject{
+@Parcel
+@Entity
+public class Transaction {
 
-    @Ignore
+    @Transient
+    @org.parceler.Transient
     public static final int TYPE_INCOMING = 1, TYPE_OUTGOING = 2;
 
-    @PrimaryKey
-    private int id;
-    private int customerId;
-    private boolean canceled;
-    private int storageId;
-    private long createdAt;
-    private int type;
-    private String description;
-    private double tax;
-    private double off;
-    private int serverId;
+    @Id(autoincrement = true)
+    public Long id;
+    public int customerId;
+    public boolean canceled;
+    public long createdAt;
+    public int type;
+    public String description;
+    public double tax;
+    public double off;
+    public int serverId;
+
+    @Generated(hash = 316430056)
+    public Transaction(Long id, int customerId, boolean canceled, long createdAt,
+            int type, String description, double tax, double off, int serverId) {
+        this.id = id;
+        this.customerId = customerId;
+        this.canceled = canceled;
+        this.createdAt = createdAt;
+        this.type = type;
+        this.description = description;
+        this.tax = tax;
+        this.off = off;
+        this.serverId = serverId;
+    }
+
+    @Generated(hash = 750986268)
+    public Transaction() {
+    }
 
     public static String toJson(Transaction transaction) {
         try {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("customerId", transaction.getCustomerId());
             jsonObject.put("canceled", transaction.isCanceled());
-            jsonObject.put("storageId", transaction.getStorageId());
             jsonObject.put("createdAt", transaction.getCreatedAt());
             jsonObject.put("type", transaction.getType());
             jsonObject.put("description", transaction.getDescription());
@@ -48,11 +66,11 @@ public class Transaction extends RealmObject{
         return null;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -70,14 +88,6 @@ public class Transaction extends RealmObject{
 
     public void setCanceled(boolean canceled) {
         this.canceled = canceled;
-    }
-
-    public int getStorageId() {
-        return storageId;
-    }
-
-    public void setStorageId(int storageId) {
-        this.storageId = storageId;
     }
 
     public long getCreatedAt() {
@@ -126,5 +136,9 @@ public class Transaction extends RealmObject{
 
     public void setServerId(int serverId) {
         this.serverId = serverId;
+    }
+
+    public boolean getCanceled() {
+        return this.canceled;
     }
 }

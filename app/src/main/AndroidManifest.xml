@@ -28,7 +28,7 @@
             android:label="@string/title_activity_dashboard"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activity.NewStorageActivity"
+            android:name=".activity.NewCategoryActivity"
             android:theme="@style/AppTheme.Dialog.NoTitle" />
         <activity
             android:name=".activity.NewCustomerActivity"
@@ -40,7 +40,7 @@
             android:name=".activity.BarcodeReaderActivity"
             android:theme="@style/AppTheme.Dialog.NoTitle" />
         <activity
-            android:name=".activity.SelectStorageActivity"
+            android:name=".activity.SelectCategoryActivity"
             android:theme="@style/AppTheme.Dialog.NoTitle" />
         <activity
             android:name=".activity.SelectCustomerActivity"
@@ -49,12 +49,18 @@
             android:name=".activity.SelectProductActivity"
             android:theme="@style/AppTheme.Dialog.NoTitle" />
         <activity
-            android:name=".activity.ImportProductActivity"
-            android:theme="@style/AppTheme.Dialog.NoTitle" />
-        <activity
             android:name=".activity.GetCountActivity"
             android:theme="@style/AppTheme.Dialog.NoTitle" />
-        <activity android:name=".activity.ExportProductActivity"
+        <activity
+            android:name=".activity.ExportProductActivity"
+            android:theme="@style/AppTheme.Dialog.NoTitle" />
+        <activity
+            android:name=".activity.ExportProductActivity_v1"
+            android:theme="@style/AppTheme.Dialog.NoTitle" />
+        <activity
+            android:name=".activity.NewTransactionReaddedActivity"
+            android:theme="@style/AppTheme.Dialog.NoTitle" />
+        <activity android:name=".activity.AlertActivity"
             android:theme="@style/AppTheme.Dialog.NoTitle"></activity>
     </application>
 

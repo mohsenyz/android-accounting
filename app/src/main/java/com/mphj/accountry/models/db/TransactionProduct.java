@@ -1,23 +1,37 @@
 package com.mphj.accountry.models.db;
 
+import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Generated;
+import org.greenrobot.greendao.annotation.Id;
 import org.json.JSONObject;
 import org.parceler.Parcel;
-
-import io.realm.RealmObject;
-import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by mphj on 10/20/2017.
  */
 
-@Parcel(value = Parcel.Serialization.BEAN, analyze = {TransactionProduct.class})
-public class TransactionProduct extends RealmObject {
+@Parcel
+@Entity
+public class TransactionProduct {
 
-    @PrimaryKey
-    private int id;
-    private int transactionId;
-    private int productId;
-    private int count;
+    @Id(autoincrement = true)
+    public Long id;
+    public int transactionId;
+    public int productId;
+    public int count;
+
+    @Generated(hash = 1454147320)
+    public TransactionProduct(Long id, int transactionId, int productId,
+            int count) {
+        this.id = id;
+        this.transactionId = transactionId;
+        this.productId = productId;
+        this.count = count;
+    }
+
+    @Generated(hash = 126050318)
+    public TransactionProduct() {
+    }
 
     public static String toJson(TransactionProduct transactionProduct) {
         try {
@@ -32,11 +46,11 @@ public class TransactionProduct extends RealmObject {
         return null;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

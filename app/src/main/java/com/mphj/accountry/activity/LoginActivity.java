@@ -55,6 +55,7 @@ public class LoginActivity extends BaseActivity implements LoginView {
         // Why to use presenter when it makes works harder??!!
         showLoginContainer();
         initView();
+        startActivity(new Intent(this, DashboardActivity.class));
     }
 
     public void initView(){

@@ -3,15 +3,19 @@ package com.mphj.accountry.presenters;
 import android.graphics.Bitmap;
 import android.text.TextUtils;
 
-import com.mphj.accountry.dao.ProductDao;
-import com.mphj.accountry.dao.ProductPriceDao;
 import com.mphj.accountry.interfaces.NewProductView;
+import com.mphj.accountry.models.db.Category;
 import com.mphj.accountry.models.db.Product;
+import com.mphj.accountry.models.db.ProductDao;
 import com.mphj.accountry.models.db.ProductPrice;
+import com.mphj.accountry.models.db.ProductPriceDao;
+import com.mphj.accountry.models.db.Transaction;
+import com.mphj.accountry.models.db.TransactionDao;
+import com.mphj.accountry.models.db.TransactionProduct;
+import com.mphj.accountry.models.db.TransactionProductDao;
 import com.mphj.accountry.utils.BarcodeGenerator;
+import com.mphj.accountry.utils.DaoManager;
 import com.mphj.accountry.utils.DoubleValidator;
-
-import io.realm.Realm;
 
 /**
  * Created by mphj on 10/20/2017.
@@ -36,9 +40,9 @@ public class NewProductPresenterImpl implements NewProductPresenter, BarcodeGene
     }
 
     @Override
-    public void createProduct(String name, String token, String price, String customerPrice, String off) {
-        if (!DoubleValidator.isValid(off)){
-            view.invalidOff();
+    public void createProduct(String name, String token, String price, String customerPrice, Category category, String count) {
+        if (category == null) {
+            view.invalidCategory();
             return;
         }
 
@@ -62,28 +66,49 @@ public class NewProductPresenterImpl implements NewProductPresenter, BarcodeGene
             return;
         }
 
+        if (!DoubleValidator.isValid(count)) {
+            view.invalidCount();
+            return;
+        }
+
         long currentTime = Math.round(System.currentTimeMillis() / 1000f);
         Product product = new Product();
         product.setCreatedAt(currentTime);
         product.setName(name);
         product.setToken(token);
+        product.setCategoryId(category.getId().intValue());
+        product.setCount(Integer.parseInt(count));
 
-        ProductDao productDao = new ProductDao(Realm.getDefaultInstance());
-        int id = productDao.create(product);
-        productDao.close();
+        ProductDao productDao = DaoManager.session().getProductDao();
+        productDao.save(product);
+        int id = product.getId().intValue();
 
         // We should define price and off too
 
         ProductPrice productPrice = new ProductPrice();
         productPrice.setCreatedAt(currentTime);
         productPrice.setProductId(id);
-        productPrice.setOff(Double.parseDouble(off));
         productPrice.setPrice(Double.parseDouble(price));
         productPrice.setCustomerPrice(Double.parseDouble(customerPrice));
 
-        ProductPriceDao productPriceDao = new ProductPriceDao(Realm.getDefaultInstance());
-        productPriceDao.create(productPrice);
-        productPriceDao.close();
+        ProductPriceDao productPriceDao = DaoManager.session().getProductPriceDao();
+        productPriceDao.save(productPrice);
+
+
+        TransactionDao transactionDao = DaoManager.session().getTransactionDao();
+        Transaction transaction = new Transaction();
+        transaction.setCreatedAt(System.currentTimeMillis() / 1000L);
+        transaction.setType(Transaction.TYPE_INCOMING);
+        transactionDao.save(transaction);
+
+        TransactionProductDao transactionProductDao = DaoManager.session().getTransactionProductDao();
+
+        TransactionProduct transactionProduct = new TransactionProduct();
+        transactionProduct.setCount(product.getCount());
+        transactionProduct.setProductId(product.getId().intValue());
+        transactionProduct.setTransactionId(transaction.getId().intValue());
+        transactionProductDao.save(transactionProduct);
+
         view.finishActivity();
     }
 

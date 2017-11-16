@@ -1,5 +1,6 @@
 package com.mphj.accountry.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -32,7 +33,7 @@ public class SelectProductActivity extends BaseActivity implements OnObjectItemC
     public void onClick(View v, Product object) {
         Intent i = new Intent();
         i.putExtra("product", Parcels.wrap(Product.class, object));
-        setResult(200, i);
+        setResult(Activity.RESULT_OK, i);
         finish();
     }
 }
