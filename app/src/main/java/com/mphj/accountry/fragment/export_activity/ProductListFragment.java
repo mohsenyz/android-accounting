@@ -125,6 +125,10 @@ public class ProductListFragment extends Fragment implements
         if (requestCode == GET_COUNT_REQUEST) {
             if (resultCode == Activity.RESULT_OK) {
                 this.pendingProduct.setPendingCount(data.getIntExtra("count", 0));
+                if (this.pendingProduct.getPendingCount() <= 0) {
+                    this.pendingProduct = null;
+                    return;
+                }
                 addProduct(pendingProduct);
             }
         }

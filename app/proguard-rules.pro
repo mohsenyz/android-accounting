@@ -498,6 +498,19 @@ public static java.lang.String TABLENAME;
 
 
 
+
+
+
+
+
+-keep class com.itextpdf.** { *; }
+-dontwarn com.itextpdf.**
+-dontwarn org.slf4j.**
+
+
+
+
+
 # ------------------- TEST DEPENDENCIES -------------------
 -dontwarn org.hamcrest.**
 -dontwarn android.test.**
