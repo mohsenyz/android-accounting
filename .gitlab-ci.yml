@@ -38,7 +38,7 @@ build:
 unitTests:
   stage: test
   script:
-    - ./gradlew test
+    - ./gradlew testDebug
 
 #functionalTests:
 #  stage: test
