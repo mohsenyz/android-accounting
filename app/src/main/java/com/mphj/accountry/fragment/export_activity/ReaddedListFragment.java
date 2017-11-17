@@ -49,8 +49,8 @@ public class ReaddedListFragment extends Fragment implements
 
     public static final int SELECT_READDED = 2, REMOVE_READDED = 3;
 
-    public static ProductListFragment newInstance() {
-        return new ProductListFragment();
+    public static ReaddedListFragment newInstance() {
+        return new ReaddedListFragment();
     }
 
     public static ProductListFragment newInstance(boolean isForSelect) {

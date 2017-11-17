@@ -6,6 +6,7 @@ import android.support.v4.view.ViewPager;
 
 import com.mphj.accountry.R;
 import com.mphj.accountry.adapter.ExportActivityPagerAdapter;
+import com.mphj.accountry.fragment.export_activity.InfoFragment;
 import com.mphj.accountry.fragment.export_activity.ProductListFragment;
 import com.mphj.accountry.fragment.export_activity.ReaddedListFragment;
 import com.mphj.accountry.utils.TabLayoutUtils;
@@ -23,6 +24,7 @@ public class ExportProductActivity_v1 extends BaseActivity {
 
     ProductListFragment fragment1;
     ReaddedListFragment fragment2;
+    InfoFragment fragment3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,9 +32,16 @@ public class ExportProductActivity_v1 extends BaseActivity {
         setContentView(R.layout.activity_export_product_v1);
         ButterKnife.bind(this);
         fragment1 = ProductListFragment.newInstance();
-        fragment2 = new ReaddedListFragment();
+        fragment2 = ReaddedListFragment.newInstance();
+        fragment3 = InfoFragment.newInstance();
+        fragment3.setProductListView(fragment1);
+        fragment3.setReaddedListView(fragment2);
         ExportActivityPagerAdapter exportActivityPagerAdapter =
-                new ExportActivityPagerAdapter(getSupportFragmentManager(), fragment1, fragment2);
+                new ExportActivityPagerAdapter(
+                        getSupportFragmentManager(),
+                        fragment1,
+                        fragment2,
+                        fragment3);
         viewPager.setAdapter(exportActivityPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
         TabLayoutUtils.changeTabsFont(tabLayout);

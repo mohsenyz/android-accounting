@@ -4,6 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import com.mphj.accountry.fragment.PlaceHolderFragment;
+import com.mphj.accountry.fragment.export_activity.InfoFragment;
 import com.mphj.accountry.fragment.export_activity.ProductListFragment;
 import com.mphj.accountry.fragment.export_activity.ReaddedListFragment;
 
@@ -15,13 +16,16 @@ public class ExportActivityPagerAdapter extends FragmentPagerAdapter {
 
     ProductListFragment exportActivity_productListFragment;
     ReaddedListFragment exportActivity_readdedListFragment;
+    InfoFragment exportActivity_infoFragment;
 
     public ExportActivityPagerAdapter(FragmentManager fragmentManager,
                                       ProductListFragment fragment1,
-                                      ReaddedListFragment fragment2) {
+                                      ReaddedListFragment fragment2,
+                                      InfoFragment fragment3) {
         super(fragmentManager);
         exportActivity_productListFragment = fragment1;
         exportActivity_readdedListFragment = fragment2;
+        exportActivity_infoFragment = fragment3;
     }
 
     @Override
@@ -31,6 +35,8 @@ public class ExportActivityPagerAdapter extends FragmentPagerAdapter {
                 return exportActivity_productListFragment;
             case 1:
                 return exportActivity_readdedListFragment;
+            case 2:
+                return exportActivity_infoFragment;
         }
         return PlaceHolderFragment.newInstance(position + 1);
     }

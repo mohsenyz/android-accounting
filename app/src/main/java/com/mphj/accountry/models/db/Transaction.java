@@ -29,6 +29,9 @@ public class Transaction {
     public double tax;
     public double off;
     public int serverId;
+    private int customerPrice;
+    private int price;
+    private int readdedPrice;
 
     @Generated(hash = 316430056)
     public Transaction(Long id, int customerId, boolean canceled, long createdAt,
@@ -140,5 +143,30 @@ public class Transaction {
 
     public boolean getCanceled() {
         return this.canceled;
+    }
+
+
+    public int getCustomerPrice() {
+        return customerPrice;
+    }
+
+    public void setCustomerPrice(int customerPrice) {
+        this.customerPrice = customerPrice;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public int getReaddedPrice() {
+        return readdedPrice;
+    }
+
+    public void setReaddedPrice(int readdedPrice) {
+        this.readdedPrice = readdedPrice;
     }
 }
