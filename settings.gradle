@@ -1,1 +1,1 @@
-include ':app', ':customview-helper'
+include ':app', ':customview-helper', ':sundatepicker'

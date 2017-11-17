@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/ShafaghAccountry.iml" filepath="$PROJECT_DIR$/ShafaghAccountry.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/customview-helper/customview-helper.iml" filepath="$PROJECT_DIR$/customview-helper/customview-helper.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sundatepicker/sundatepicker.iml" filepath="$PROJECT_DIR$/sundatepicker/sundatepicker.iml" />
     </modules>
   </component>
 </project>

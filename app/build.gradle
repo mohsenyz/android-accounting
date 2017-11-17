@@ -46,24 +46,15 @@ dependencies {
     annotationProcessor 'org.parceler:parceler:1.1.9'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     compile 'org.apache.poi:poi:3.9'
-    compile 'com.github.angads25:filepicker:1.1.1'
+    //compile 'com.github.angads25:filepicker:1.1.1'
     implementation project(':customview-helper')
     compile 'org.greenrobot:greendao:3.2.2'
     compile 'frankiesardo:icepick:3.2.0'
     annotationProcessor 'frankiesardo:icepick-processor:3.2.0'
-
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.4'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
-
-
     compile 'com.itextpdf:io:7.0.2'
     compile 'com.itextpdf:kernel:7.0.2'
     compile 'com.itextpdf:layout:7.0.2'
-
-    // Test
-
-    testCompile 'junit:junit:4.12'
-    androidTestCompile 'com.android.support:support-annotations:23.1.1'
-    androidTestCompile 'com.android.support.test:runner:0.4.1'
-    androidTestCompile 'com.android.support.test:rules:0.4.1'
+    implementation project(':sundatepicker')
 }
