@@ -3,12 +3,14 @@ package com.mphj.calculator_dialog;
 import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewTreeObserver;
@@ -169,6 +171,19 @@ public class MainActivity extends AppCompatActivity {
                 calculator.delete();
             }
         });
+        findViewById(R.id.submit).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent();
+                try{
+                    i.putExtra("result", Integer.parseInt(displaySecondary.getText().toString()));
+                }catch (Exception e){
+                    Log.i("TAG", "Bad Number!");
+                }
+                setResult(Activity.RESULT_OK, i);
+                finish();
+            }
+        });
         findViewById(R.id.button_delete).setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
@@ -276,7 +291,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void displaySecondary(String val) {
-        Toast.makeText(this, val, Toast.LENGTH_SHORT).show();
         displaySecondary.setText(formatToDisplayMode(val));
     }
 
