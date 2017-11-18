@@ -232,12 +232,6 @@ public class MainActivity extends AppCompatActivity {
         calculator = new Calculator(this);
         if (savedInstanceState != null)
             setText(savedInstanceState.getString("text"));
-        if (sp.getInt("launch_count", 5) == 0) {
-            RateDialog.show(this);
-            SharedPreferences.Editor editor = sp.edit();
-            editor.putInt("launch_count", -1);
-            editor.apply();
-        }
     }
 
     @Override
