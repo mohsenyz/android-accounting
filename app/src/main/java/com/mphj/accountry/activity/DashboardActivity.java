@@ -19,6 +19,7 @@ import com.mphj.accountry.interfaces.DashboardView;
 import com.mphj.accountry.presenters.DashboardPresenter;
 import com.mphj.accountry.presenters.DashboardPresenterImpl;
 import com.mphj.accountry.utils.ViewAnimator;
+import com.mphj.calculator_dialog.CalculatorDialog;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -65,6 +66,7 @@ public class DashboardActivity extends BaseActivity implements DashboardView, Vi
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(), this);
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.addOnPageChangeListener(this);
+        CalculatorDialog.show(this);
         presenter = new DashboardPresenterImpl(this);
         initTabs();
     }

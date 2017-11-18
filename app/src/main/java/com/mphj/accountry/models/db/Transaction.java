@@ -33,9 +33,10 @@ public class Transaction {
     private int price;
     private int readdedPrice;
 
-    @Generated(hash = 316430056)
+    @Generated(hash = 2069981104)
     public Transaction(Long id, int customerId, boolean canceled, long createdAt,
-            int type, String description, double tax, double off, int serverId) {
+            int type, String description, double tax, double off, int serverId,
+            int customerPrice, int price, int readdedPrice) {
         this.id = id;
         this.customerId = customerId;
         this.canceled = canceled;
@@ -45,6 +46,9 @@ public class Transaction {
         this.tax = tax;
         this.off = off;
         this.serverId = serverId;
+        this.customerPrice = customerPrice;
+        this.price = price;
+        this.readdedPrice = readdedPrice;
     }
 
     @Generated(hash = 750986268)

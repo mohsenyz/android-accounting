@@ -57,4 +57,5 @@ dependencies {
     compile 'com.itextpdf:kernel:7.0.2'
     compile 'com.itextpdf:layout:7.0.2'
     implementation project(':sundatepicker')
+    compile project(':calculator-dialog')
 }

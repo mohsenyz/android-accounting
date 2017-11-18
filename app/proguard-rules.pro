@@ -530,3 +530,6 @@ public static java.lang.String TABLENAME;
 
 -keep class sun.misc.** { *; }
 -dontwarn sun.misc.**
+
+
+-keep class com.mphj.** { *; }
