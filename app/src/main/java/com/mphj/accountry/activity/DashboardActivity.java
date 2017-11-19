@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.alirezaafkar.sundatepicker.DatePicker;
 import com.alirezaafkar.sundatepicker.interfaces.DateSetListener;
+import com.google.firebase.crash.FirebaseCrash;
 import com.mphj.accountry.R;
 import com.mphj.accountry.adapter.SectionsPagerAdapter;
 import com.mphj.accountry.interfaces.DashboardView;
@@ -166,7 +167,6 @@ public class DashboardActivity extends BaseActivity implements DashboardView, Vi
     @Override
     public void onClick(View v) {
         int position = (int)v.getTag();
-        Toast.makeText(this, "" + position, Toast.LENGTH_SHORT).show();
         changeCurrentTo(position, true);
     }
 }
