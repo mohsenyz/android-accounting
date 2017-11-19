@@ -16,10 +16,12 @@ android {
     buildTypes {
         release {
             minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
             minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -42,11 +44,11 @@ dependencies {
     compile 'io.reactivex.rxjava2:rxjava:2.0.2'
     compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
     compile 'com.vincentbrison.openlibraries.android:dualcache:3.1.1'
-    //compile 'com.github.PhilJay:MPAndroidChart:v3.0.2'
+    compile 'com.github.PhilJay:MPAndroidChart:v3.0.2'
     annotationProcessor 'org.parceler:parceler:1.1.9'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     compile 'org.apache.poi:poi:3.9'
-    //compile 'com.github.angads25:filepicker:1.1.1'
+    compile 'com.github.angads25:filepicker:1.1.1'
     implementation project(':customview-helper')
     compile 'org.greenrobot:greendao:3.2.2'
     compile 'frankiesardo:icepick:3.2.0'
@@ -56,6 +58,6 @@ dependencies {
     compile 'com.itextpdf:io:7.0.2'
     compile 'com.itextpdf:kernel:7.0.2'
     compile 'com.itextpdf:layout:7.0.2'
-    implementation project(':sundatepicker')
+    compile project(':sundatepicker')
     compile project(':calculator-dialog')
 }

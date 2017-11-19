@@ -11,8 +11,9 @@ import android.text.TextUtils;
  */
 
 public class CalculatorDialog {
-    public static void show(Activity activity) {
-        activity.startActivity(new Intent(activity, MainActivity.class));
+    public static void show(Activity activity, int requestCode) {
+        activity.startActivityForResult(
+                new Intent(activity, MainActivity.class), requestCode);
     }
 
 
