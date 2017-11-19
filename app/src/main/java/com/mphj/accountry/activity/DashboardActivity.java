@@ -2,28 +2,20 @@ package com.mphj.accountry.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.alirezaafkar.sundatepicker.DatePicker;
-import com.alirezaafkar.sundatepicker.interfaces.DateSetListener;
-import com.google.firebase.crash.FirebaseCrash;
 import com.mphj.accountry.R;
 import com.mphj.accountry.adapter.SectionsPagerAdapter;
 import com.mphj.accountry.interfaces.DashboardView;
 import com.mphj.accountry.presenters.DashboardPresenter;
 import com.mphj.accountry.presenters.DashboardPresenterImpl;
 import com.mphj.accountry.utils.ViewAnimator;
-import com.mphj.calculator_dialog.CalculatorDialog;
 
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -62,7 +54,7 @@ public class DashboardActivity extends BaseActivity implements DashboardView, Vi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dashboard_v1);
+        setContentView(R.layout.activity_dashboard);
         ButterKnife.bind(this);
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(), this);
         mViewPager.setAdapter(mSectionsPagerAdapter);
@@ -146,7 +138,7 @@ public class DashboardActivity extends BaseActivity implements DashboardView, Vi
     }
     @Override
     public void showExportProductActivity() {
-        startActivity(new Intent(this, ExportProductActivity_v1.class));
+        startActivity(new Intent(this, ExportProductActivity.class));
     }
 
     @Override

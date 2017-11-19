@@ -25,6 +25,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import es.dmoral.toasty.Toasty;
 
 /**
  * Created by mphj on 10/23/2017.
@@ -85,7 +86,7 @@ public class ProductSettingDialog extends BottomSheetDialogFragment implements P
 
     @Override
     public void increasedSuccessfully() {
-        Toast.makeText(getActivity(), "تعداد محصول با موفقیت افزایش یافت", Toast.LENGTH_SHORT).show();
+        Toasty.success(getActivity(), "تعداد محصول با موفقیت افزایش یافت").show();
     }
 
     @Override

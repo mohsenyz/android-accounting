@@ -4,8 +4,10 @@ import android.app.Application;
 import android.content.Context;
 
 import com.mphj.accountry.utils.DaoManager;
+import com.mphj.accountry.utils.TypefaceUtils;
 import com.squareup.leakcanary.LeakCanary;
 
+import es.dmoral.toasty.Toasty;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
 /**
@@ -19,6 +21,7 @@ public class AccountryApplication extends Application{
     @Override
     public void onCreate() {
         super.onCreate();
+        context = this;
         if (LeakCanary.isInAnalyzerProcess(this)) {
             return;
         }
@@ -28,7 +31,10 @@ public class AccountryApplication extends Application{
                 .build()
         );
         DaoManager.init(this);
-        context = this;
+        Toasty.Config.getInstance()
+                .setToastTypeface(TypefaceUtils.def())
+                .setTextSize(14)
+                .apply();
     }
 
 

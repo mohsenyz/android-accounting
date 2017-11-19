@@ -11,5 +11,7 @@ import java.util.List;
 public interface ProductListView {
     void loadList(List<Product> list);
     void addProduct(Product product);
+    void errorInsufficientAmount(Product product);
+    void errorSerialNotFound();
     List<Product> getList();
 }

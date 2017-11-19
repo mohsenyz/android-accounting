@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.mphj.accountry.R;
 import com.mphj.accountry.activity.GetCountActivity;
@@ -29,6 +30,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import es.dmoral.toasty.Toasty;
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+import uk.co.chrisjenx.calligraphy.CalligraphyUtils;
 
 /**
  * Created by mphj on 11/10/2017.
@@ -102,6 +106,14 @@ public class ProductListFragment extends Fragment implements
     }
 
     @Override
+    public void errorInsufficientAmount(Product product) {
+        Toasty.error(getActivity(),"متاسفانه موجودی این محصول کمتر از مقدار وارد شده است", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void errorSerialNotFound() {}
+
+    @Override
     public List<Product> getList() {
         return presenter.getList();
     }
@@ -124,11 +136,17 @@ public class ProductListFragment extends Fragment implements
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == GET_COUNT_REQUEST) {
             if (resultCode == Activity.RESULT_OK) {
-                this.pendingProduct.setPendingCount(data.getIntExtra("count", 0));
-                if (this.pendingProduct.getPendingCount() <= 0) {
+                int count = data.getIntExtra("count", 0);
+                if (this.pendingProduct.getCount() < count) {
+                    errorInsufficientAmount(this.pendingProduct);
                     this.pendingProduct = null;
                     return;
                 }
+                if (count <= 0) {
+                    this.pendingProduct = null;
+                    return;
+                }
+                this.pendingProduct.setPendingCount(count);
                 addProduct(pendingProduct);
             }
         }

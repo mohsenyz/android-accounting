@@ -1,151 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layoutDirection="rtl"
+    android:orientation="vertical"
+    android:background="#efefef"
     tools:context="com.mphj.accountry.activity.ExportProductActivity">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-        <LinearLayout
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="#fff">
+        <android.support.design.widget.TabLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/input_layout_storage"
-                android:layout_width="0dp"
-                android:layout_weight="0.5"
-                android:layout_marginTop="2dp"
-                android:layout_marginLeft="2dp"
-                android:layout_marginRight="10dp"
-                android:layout_height="wrap_content">
-
-                <EditText
-                    android:id="@+id/input_storage"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textAlignment="center"
-                    android:hint="@string/hint_storage" />
-
-            </android.support.design.widget.TextInputLayout>
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/input_layout_customer"
-                android:layout_width="0dp"
-                android:layout_weight="0.5"
-                android:layout_marginTop="2dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="2dp"
-                android:layout_height="wrap_content">
-
-                <EditText
-                    android:id="@+id/input_customer"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textAlignment="center"
-                    android:hint="@string/hint_customer" />
-
-            </android.support.design.widget.TextInputLayout>
-        </LinearLayout>
-        <View
+            app:tabIndicatorColor="#297cde"
+            app:tabIndicatorHeight="3dp"
+            app:tabBackground="@android:color/white"
+            android:id="@+id/tabLayout"></android.support.design.widget.TabLayout>
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:background="@drawable/dropshadow_1"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <android.support.v4.view.ViewPager
+            android:id="@+id/container"
             android:layout_width="match_parent"
-            android:layout_height="4dp"
-            android:background="@drawable/dropshadow_1"/>
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="250dp">
-            <android.support.v7.widget.RecyclerView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginRight="3dp"
-                android:layout_marginLeft="3dp"
-                android:id="@+id/recyclerView">
-
-            </android.support.v7.widget.RecyclerView>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_alignParentTop="true"
-                android:id="@+id/priceStatusContainer"
-                android:translationY="-100dp"
-                android:alpha="0"
-                android:background="#607D8B">
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="0.333"
-                    android:layout_height="wrap_content"
-                    android:text="100 تومان"
-                    android:textColor="#fff"
-                    android:gravity="center"
-                    android:id="@+id/totalPrice"
-                    android:textSize="9dp"/>
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="0.334"
-                    android:layout_height="wrap_content"
-                    android:text="100 تومان"
-                    android:textColor="#fff"
-                    android:gravity="center"
-                    android:id="@+id/totalCustomerPrice"
-                    android:textSize="9dp"/>
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="0.333"
-                    android:layout_height="wrap_content"
-                    android:text="100 تومان"
-                    android:textColor="#fff"
-                    android:gravity="center"
-                    android:id="@+id/totalCustomerPriceWithOff"
-                    android:paddingBottom="3dp"
-                    android:paddingTop="3dp"
-                    android:textSize="9dp"/>
-            </LinearLayout>
-        </RelativeLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:orientation="horizontal">
-            <Button
-                android:layout_width="0dp"
-                android:layout_weight="0.333"
-                android:layout_height="wrap_content"
-                android:minHeight="35dp"
-                android:background="#F44336"
-                android:textColor="#fff"
-                android:id="@+id/fromList"
-                android:textSize="12dp"
-                android:text="@string/add_product"/>
-            <Button
-                android:layout_width="0dp"
-                android:layout_weight="0.334"
-                android:layout_height="wrap_content"
-                android:minHeight="35dp"
-                android:background="#9C27B0"
-                android:textColor="#fff"
-                android:id="@+id/fromCamera"
-                android:textSize="12dp"
-                android:text="@string/from_camera"/>
-            <Button
-                android:layout_width="0dp"
-                android:layout_weight="0.333"
-                android:layout_height="wrap_content"
-                android:minHeight="35dp"
-                android:background="#3F51B5"
-                android:textColor="#fff"
-                android:id="@+id/fromFile"
-                android:textSize="12dp"
-                android:text="@string/from_excel"/>
-        </LinearLayout>
+            android:layout_height="match_parent" />
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="50dp"
-            android:background="@color/colorGrayPrimary"
-            android:textColor="#297cde"
+            android:background="@drawable/round_button"
+            android:textColor="#fff"
+            android:text="تایید"
             android:id="@+id/submit"
-            android:text="@string/submit"/>
-    </LinearLayout>
-</ScrollView>
+            android:layout_margin="5dp"
+            android:layout_alignParentBottom="true"/>
+    </RelativeLayout>
+</LinearLayout>
