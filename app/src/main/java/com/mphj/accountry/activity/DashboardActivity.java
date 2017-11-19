@@ -66,7 +66,6 @@ public class DashboardActivity extends BaseActivity implements DashboardView, Vi
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(), this);
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.addOnPageChangeListener(this);
-        CalculatorDialog.show(this);
         presenter = new DashboardPresenterImpl(this);
         initTabs();
     }
