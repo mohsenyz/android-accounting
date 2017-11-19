@@ -14,14 +14,17 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.mphj.accountry.R;
+import com.mphj.accountry.activity.BarcodeReaderActivity;
 import com.mphj.accountry.activity.GetCountActivity;
 import com.mphj.accountry.activity.SelectProductActivity;
 import com.mphj.accountry.adapter.ProductListAdapter;
 import com.mphj.accountry.interfaces.OnObjectItemClick;
 import com.mphj.accountry.interfaces.fragment.export_activity.ProductListView;
 import com.mphj.accountry.models.db.Product;
+import com.mphj.accountry.models.db.ProductDao;
 import com.mphj.accountry.presenters.fragment.export_activity.ProductListPresenter;
 import com.mphj.accountry.presenters.fragment.export_activity.ProductListPresenterImpl;
+import com.mphj.accountry.utils.DaoManager;
 
 import org.parceler.Parcels;
 
@@ -47,11 +50,14 @@ public class ProductListFragment extends Fragment implements
     @BindView(R.id.fab)
     FloatingActionButton fab;
 
+    @BindView(R.id.barcode)
+    FloatingActionButton barcode;
+
     ProductListPresenter presenter;
 
     Product pendingProduct;
 
-    public static final int GET_COUNT_REQUEST = 1, SELECT_PRODUCT = 2;
+    public static final int GET_COUNT_REQUEST = 1, SELECT_PRODUCT = 2, SCAN_BARCODE = 3;
 
     public static ProductListFragment newInstance(){
         return new ProductListFragment();
@@ -74,7 +80,7 @@ public class ProductListFragment extends Fragment implements
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_pattern_layout_1, container, false);
+        View view = inflater.inflate(R.layout.fragment_pattern_layout_2, container, false);
         ButterKnife.bind(this, view);
         fab.setVisibility(View.VISIBLE);
         setupRecyclerView();
@@ -111,7 +117,9 @@ public class ProductListFragment extends Fragment implements
     }
 
     @Override
-    public void errorSerialNotFound() {}
+    public void errorSerialNotFound() {
+        Toasty.error(getActivity(), "هیچ محصولی با این شناسه یافت نشد", Toast.LENGTH_LONG).show();
+    }
 
     @Override
     public List<Product> getList() {
@@ -128,6 +136,11 @@ public class ProductListFragment extends Fragment implements
     @OnClick(R.id.fab)
     void onFabClick() {
         startActivityForResult(new Intent(getActivity(), SelectProductActivity.class), SELECT_PRODUCT);
+    }
+
+    @OnClick(R.id.barcode)
+    void onRequestBarcodeScanner() {
+        startActivityForResult(new Intent(getActivity(), BarcodeReaderActivity.class), SCAN_BARCODE);
     }
 
 
@@ -154,6 +167,23 @@ public class ProductListFragment extends Fragment implements
         if (requestCode == SELECT_PRODUCT) {
             if (resultCode == Activity.RESULT_OK) {
                 this.pendingProduct = Parcels.unwrap(data.getParcelableExtra("product"));
+                onClick(null, this.pendingProduct);
+            }
+        }
+
+        if (requestCode == SCAN_BARCODE) {
+            if (resultCode == Activity.RESULT_OK) {
+                String serial = data.getStringExtra("serial");
+                ProductDao productDao = DaoManager.session().getProductDao();
+                Product product = productDao.queryBuilder()
+                        .where(ProductDao.Properties.Token.eq(serial))
+                        .limit(1)
+                        .unique();
+                if (product == null) {
+                    errorSerialNotFound();
+                    return;
+                }
+                this.pendingProduct = product;
                 onClick(null, this.pendingProduct);
             }
         }

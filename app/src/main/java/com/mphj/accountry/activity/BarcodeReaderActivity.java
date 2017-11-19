@@ -3,6 +3,8 @@ package com.mphj.accountry.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.Button;
 
 import com.google.zxing.Result;
@@ -30,12 +32,19 @@ public class BarcodeReaderActivity extends BaseActivity implements ZXingScannerV
         ButterKnife.bind(this);
     }
 
-
     @Override
     public void onResume() {
         super.onResume();
         scannerView.setResultHandler(this);
         scannerView.startCamera();
+        scannerView.setAutoFocus(true);
+        scannerView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                scannerView.toggleFlash();
+                return true;
+            }
+        });
     }
 
     @Override
