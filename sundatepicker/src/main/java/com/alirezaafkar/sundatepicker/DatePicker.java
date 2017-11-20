@@ -167,7 +167,7 @@ public class DatePicker extends DialogFragment
     public View onCreateView(LayoutInflater layoutInflater,
         ViewGroup container, Bundle savedInstanceState) {
 
-        View view = layoutInflater.inflate(R.layout.dialog_main, container, false);
+        View view = layoutInflater.inflate(R.layout.dialog_main_1, container, false);
 
         mYear = (TextView) view.findViewById(R.id.year);
         mDate = (TextView) view.findViewById(R.id.date);

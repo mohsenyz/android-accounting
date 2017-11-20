@@ -1,5 +1,7 @@
 package com.mphj.accountry.interfaces.fragment.export_activity;
 
+import com.mphj.accountry.models.db.Customer;
+
 /**
  * Created by mphj on 11/17/17.
  */
@@ -11,4 +13,5 @@ public interface InfoView {
     void setTotalOffPrice(double totalOffPrice);
     int getTotalCustomerPrice();
     String getFactorDescription();
+    Customer getCustomer();
 }

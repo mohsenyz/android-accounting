@@ -7,12 +7,5 @@ import com.mphj.accountry.models.db.Product;
  */
 
 public interface ExportProductView {
-    void productAlreadyExists();
-    void productNotFound();
-    void showGetCountActivity();
-    void setStorageName(String name);
-    void setCustomerName(String name);
-    void notifyDataSetChanged();
-    void finishActivity();
-    void specialProductNotDount(Product product);
+    void transactionSaved(int transactionId);
 }

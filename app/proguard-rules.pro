@@ -534,6 +534,8 @@ public static java.lang.String TABLENAME;
 
 -keep class com.mphj.** { *; }
 
+#-keep class com.alirezaafkar.sundatepicker.** {*;}
+#-dontwarn com.alirezaafkar.sundatepicker.**
 
 -keepattributes Signature
 -keepattributes *Annotation*

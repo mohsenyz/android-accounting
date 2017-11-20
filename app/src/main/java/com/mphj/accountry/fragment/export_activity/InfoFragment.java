@@ -1,5 +1,7 @@
 package com.mphj.accountry.fragment.export_activity;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.LocaleList;
 import android.support.annotation.Nullable;
@@ -11,15 +13,20 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.mphj.accountry.R;
+import com.mphj.accountry.activity.SelectCustomerActivity;
 import com.mphj.accountry.interfaces.fragment.export_activity.InfoView;
 import com.mphj.accountry.interfaces.fragment.export_activity.ProductListView;
 import com.mphj.accountry.interfaces.fragment.export_activity.ReaddedListView;
+import com.mphj.accountry.models.db.Customer;
 import com.mphj.accountry.presenters.fragment.export_activity.InfoPresenter;
 import com.mphj.accountry.presenters.fragment.export_activity.InfoPresenterImpl;
 import com.mphj.accountry.utils.LocaleUtils;
 
+import org.parceler.Parcels;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnFocusChange;
 import butterknife.OnTextChanged;
 
 /**
@@ -28,6 +35,8 @@ import butterknife.OnTextChanged;
 
 public class InfoFragment extends Fragment implements
         InfoView{
+
+    public static final int REQUEST_CUSTOMER = 1;
 
     @BindView(R.id.totalOff)
     TextView totalOff;
@@ -44,10 +53,14 @@ public class InfoFragment extends Fragment implements
     @BindView(R.id.input_description)
     EditText description;
 
+    @BindView(R.id.input_customer)
+    EditText customerEditText;
+
     InfoPresenter presenter;
 
     ProductListView productListView;
     ReaddedListView readdedListView;
+    Customer customer;
 
     int totalCustomerPrice = 0;
 
@@ -113,11 +126,22 @@ public class InfoFragment extends Fragment implements
         return description.getText().toString();
     }
 
+    @Override
+    public Customer getCustomer() {
+        return customer;
+    }
+
     @OnTextChanged({R.id.input_off, R.id.input_tax})
     public void onTextChanged() {
         presenter.load();
     }
 
+
+    @OnFocusChange(R.id.input_customer)
+    void onRequestCustomer(View view, boolean hasFocus) {
+        if (hasFocus)
+            startActivityForResult(new Intent(getActivity(), SelectCustomerActivity.class), REQUEST_CUSTOMER);
+    }
 
     @Override
     public int getTotalCustomerPrice() {
@@ -129,5 +153,17 @@ public class InfoFragment extends Fragment implements
     public void onResume() {
         super.onResume();
         onTextChanged();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CUSTOMER) {
+            if (resultCode == Activity.RESULT_OK) {
+                customer = Parcels.unwrap(data.getParcelableExtra("customer"));
+                customerEditText.setText(customer.getName() + " (" + LocaleUtils.englishNumberToArabic(customer.getPhone()) + ")");
+                customerEditText.clearFocus();
+            }
+        }
     }
 }

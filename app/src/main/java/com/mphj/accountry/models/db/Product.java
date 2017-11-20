@@ -25,15 +25,15 @@ public class Product {
     public int count;
 
     @org.greenrobot.greendao.annotation.Transient
-    public int pendingCount;
+    public transient int pendingCount;
 
     @Transient
     @org.greenrobot.greendao.annotation.Transient
     private ProductPrice currentProductPrice;
 
-    @Generated(hash = 1890330969)
+    @Generated(hash = 991032820)
     public Product(Long id, String name, long createdAt, String token, int serverId,
-            int categoryId, int count, int pendingCount) {
+            int categoryId, int count) {
         this.id = id;
         this.name = name;
         this.createdAt = createdAt;
@@ -41,7 +41,6 @@ public class Product {
         this.serverId = serverId;
         this.categoryId = categoryId;
         this.count = count;
-        this.pendingCount = pendingCount;
     }
 
     @Generated(hash = 1890278724)

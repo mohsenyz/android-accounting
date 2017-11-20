@@ -19,6 +19,10 @@ public class Transaction {
     @org.parceler.Transient
     public static final int TYPE_INCOMING = 1, TYPE_OUTGOING = 2;
 
+    @Transient
+    @org.parceler.Transient
+    public static final int PAYMENT_CHECK = 1, PAYMENT_CREDIT = 2;
+
     @Id(autoincrement = true)
     public Long id;
     public int customerId;
@@ -29,14 +33,16 @@ public class Transaction {
     public double tax;
     public double off;
     public int serverId;
-    private int customerPrice;
-    private int price;
-    private int readdedPrice;
+    public int customerPrice;
+    public int price;
+    public int readdedPrice;
+    public int paymentType;
 
-    @Generated(hash = 2069981104)
+
+    @Generated(hash = 571398932)
     public Transaction(Long id, int customerId, boolean canceled, long createdAt,
             int type, String description, double tax, double off, int serverId,
-            int customerPrice, int price, int readdedPrice) {
+            int customerPrice, int price, int readdedPrice, int paymentType) {
         this.id = id;
         this.customerId = customerId;
         this.canceled = canceled;
@@ -49,11 +55,13 @@ public class Transaction {
         this.customerPrice = customerPrice;
         this.price = price;
         this.readdedPrice = readdedPrice;
+        this.paymentType = paymentType;
     }
 
     @Generated(hash = 750986268)
     public Transaction() {
     }
+
 
     public static String toJson(Transaction transaction) {
         try {
@@ -172,5 +180,14 @@ public class Transaction {
 
     public void setReaddedPrice(int readdedPrice) {
         this.readdedPrice = readdedPrice;
+    }
+
+
+    public int getPaymentType() {
+        return paymentType;
+    }
+
+    public void setPaymentType(int paymentType) {
+        this.paymentType = paymentType;
     }
 }

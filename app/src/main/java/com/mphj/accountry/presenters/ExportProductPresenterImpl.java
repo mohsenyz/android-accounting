@@ -1,10 +1,18 @@
 package com.mphj.accountry.presenters;
 
+import android.support.annotation.Nullable;
+
 import com.mphj.accountry.interfaces.ExportProductView;
+import com.mphj.accountry.interfaces.fragment.export_activity.InfoView;
+import com.mphj.accountry.interfaces.fragment.export_activity.ProductListView;
+import com.mphj.accountry.interfaces.fragment.export_activity.ReaddedListView;
 import com.mphj.accountry.models.db.Category;
 import com.mphj.accountry.models.db.CategoryDao;
+import com.mphj.accountry.models.db.Check;
+import com.mphj.accountry.models.db.CheckDao;
 import com.mphj.accountry.models.db.Customer;
 import com.mphj.accountry.models.db.CustomerDao;
+import com.mphj.accountry.models.db.Log;
 import com.mphj.accountry.models.db.Product;
 import com.mphj.accountry.models.db.ProductDao;
 import com.mphj.accountry.models.db.ProductPrice;
@@ -13,6 +21,7 @@ import com.mphj.accountry.models.db.Transaction;
 import com.mphj.accountry.models.db.TransactionDao;
 import com.mphj.accountry.models.db.TransactionProduct;
 import com.mphj.accountry.models.db.TransactionProductDao;
+import com.mphj.accountry.models.db.TransactionReadded;
 import com.mphj.accountry.utils.DaoManager;
 
 import java.util.ArrayList;
@@ -23,19 +32,10 @@ import java.util.List;
  */
 
 public class ExportProductPresenterImpl implements ExportProductPresenter{
+
     ExportProductView view;
 
-    List<Product> list = new ArrayList<>();
-
-    Product pendingProduct;
-
-    Category category;
-
-    Customer customer;
-
-    boolean isPriceStatusShown = false;
-
-    public ExportProductPresenterImpl(ExportProductView view){
+    public ExportProductPresenterImpl(ExportProductView view) {
         this.view = view;
     }
 
@@ -50,127 +50,68 @@ public class ExportProductPresenterImpl implements ExportProductPresenter{
     }
 
     @Override
-    public void setStorageById(int id) {
-        CategoryDao storageDao = DaoManager.session().getCategoryDao();
-        setCategory(storageDao.load((long) id));
-    }
+    public void submit(InfoView infoView, ProductListView productListView, ReaddedListView readdedListView, int paymentType, @Nullable Check check) {
+        List<Product> products = productListView.getList();
+        List<TransactionReadded> transactionReaddeds = readdedListView.getList();
+        String description = infoView.getFactorDescription();
+        int customerPrice = infoView.getTotalCustomerPrice();
+        int tax = infoView.getTax();
+        int off = infoView.getOff();
+        int customerId = infoView.getCustomer().getId().intValue();
 
-    @Override
-    public void setCustomerById(int id) {
-        CustomerDao customerDao = DaoManager.session().getCustomerDao();
-        setCustomer(customerDao.load((long) id));
-    }
-
-    @Override
-    public void setCategory(Category category) {
-        this.category = category;
-        view.setStorageName(category.getName());
-    }
-
-    @Override
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
-        view.setCustomerName(customer.getName());
-    }
-
-    @Override
-    public void setPendingProduct(Product product) {
-        pendingProduct = product;
-    }
-
-    @Override
-    public List<Product> getProductList() {
-        return list;
-    }
-
-    @Override
-    public void addProduct(Product product) {
-        if (isProductExists(product.getId())){
-            view.productAlreadyExists();
-            return;
-        }
-        setPendingProduct(product);
-        view.showGetCountActivity();
-    }
-
-    @Override
-    public void addProduct(String serial) {
-        ProductDao productDao = DaoManager.session().getProductDao();
-        Product product = productDao.queryBuilder()
-                .where(ProductDao.Properties.Token.eq(serial))
-                .unique();
-        if (product == null){
-            view.productNotFound();
-            return;
-        }
-        ProductPriceDao productPriceDao = DaoManager.session().getProductPriceDao();
-        ProductPrice productPrice = productPriceDao.queryBuilder()
-                .where(ProductPriceDao.Properties.ProductId.eq(product.getId()))
-                .orderDesc(ProductPriceDao.Properties.CreatedAt)
-                .unique();
-        product.setCurrentProductPrice(productPrice);
-        addProduct(product);
-    }
-
-    @Override
-    public void setProductCount(int count) {
-        if (count <= 0){
-            deleteProduct(pendingProduct.getId());
-            pendingProduct = null;
-        } else {
-            pendingProduct.setPendingCount(count);
-            if (!isProductExists(pendingProduct.getId())){
-                list.add(pendingProduct);
-            }
-            view.notifyDataSetChanged();
-        }
-    }
-
-    @Override
-    public void saveTransaction() {
-        ProductDao productDao = DaoManager.session().getProductDao();
-        for (Product product : list){
-            if (product.getPendingCount() < product.getCount()){
-                view.specialProductNotDount(product);
-                return;
-            }
-        }
-        for (Product product : list){
-            product.setCount(product.getCount() - product.getPendingCount());
-        }
-        productDao.saveInTx(list);
         TransactionDao transactionDao = DaoManager.session().getTransactionDao();
         Transaction transaction = new Transaction();
-        transaction.setCustomerId(customer.getId().intValue());
+        transaction.setCreatedAt(System.currentTimeMillis() / 1000l);
+        transaction.setCustomerId(customerId);
+        transaction.setCustomerPrice(customerPrice);
+        transaction.setPrice(calculateProductPrice(products));
+        transaction.setDescription(description);
+        transaction.setOff(off);
+        transaction.setTax(tax);
+        transaction.setPaymentType(paymentType);
+        transaction.setReaddedPrice(calculateReaddedPrice(transactionReaddeds));
         transaction.setType(Transaction.TYPE_OUTGOING);
-        transaction.setCreatedAt(Math.round(System.currentTimeMillis() / 1000L));
         transactionDao.save(transaction);
-        int transactionId = transaction.getId().intValue();
+
+        ProductDao productDao = DaoManager.session().getProductDao();
         TransactionProductDao transactionProductDao = DaoManager.session().getTransactionProductDao();
-        for (Product product : list){
+        List<TransactionProduct> transactionProducts = new ArrayList<>();
+        for (Product product : products) {
+            android.util.Log.i("PRODUCT", "" + product.getCount() + "," + product.getPendingCount());
+            product.setCount(product.getCount() - product.getPendingCount());
             TransactionProduct transactionProduct = new TransactionProduct();
-            transactionProduct.setTransactionId(transactionId);
-            transactionProduct.setCount(product.getCount());
+            transactionProduct.setTransactionId(transaction.getId().intValue());
             transactionProduct.setProductId(product.getId().intValue());
-            transactionProductDao.save(transactionProduct);
+            transactionProduct.setCount(product.getPendingCount());
+            transactionProducts.add(transactionProduct);
         }
-        view.finishActivity();
+
+        transactionProductDao.saveInTx(transactionProducts);
+        productDao.saveInTx(products);
+
+        if (check != null) {
+            CheckDao checkDao = DaoManager.session().getCheckDao();
+            check.setTransactionId(transaction.getId().intValue());
+            checkDao.save(check);
+        }
+        view.transactionSaved(transaction.getId().intValue());
     }
 
-    private boolean isProductExists(Long id){
-        for (Product product : list)
-            if (product.getId() == id)
-                return true;
 
-        return false;
+    private int calculateProductPrice(List<Product> products) {
+        int price = 0;
+        for (Product product : products) {
+            price += product.getPendingCount() * product.getCurrentProductPrice().getPrice();
+        }
+        return price;
     }
 
-    private void deleteProduct(Long id){
-        for (Product product : list) {
-            if (product.getId() == id) {
-                list.remove(product);
-            }
+    private int calculateReaddedPrice(List<TransactionReadded> transactionReaddeds) {
+        int price = 0;
+        for (TransactionReadded transactionReadded : transactionReaddeds) {
+            price += transactionReadded.getPrice()
+                    * (transactionReadded.getType() == TransactionReadded.INC ? 1 : -1);
         }
-        view.notifyDataSetChanged();
+        return price;
     }
 }
