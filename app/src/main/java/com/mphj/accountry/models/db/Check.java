@@ -26,9 +26,10 @@ public class Check {
     public Integer transactionId;
     public boolean paied;
 
-    @Generated(hash = 1306069644)
+    @Generated(hash = 1791127014)
     public Check(Long id, String serial, long dueDate, String description,
-            int price, String bank, Long notificationDate, Integer transactionId) {
+            int price, String bank, Long notificationDate, Integer transactionId,
+            boolean paied) {
         this.id = id;
         this.serial = serial;
         this.dueDate = dueDate;
@@ -37,6 +38,7 @@ public class Check {
         this.bank = bank;
         this.notificationDate = notificationDate;
         this.transactionId = transactionId;
+        this.paied = paied;
     }
 
     @Generated(hash = 1080183208)
@@ -113,5 +115,9 @@ public class Check {
 
     public void setPaied(boolean paied) {
         this.paied = paied;
+    }
+
+    public boolean getPaied() {
+        return this.paied;
     }
 }

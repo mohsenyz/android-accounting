@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import com.mphj.accountry.activity.DashboardActivity;
 import com.mphj.accountry.fragment.CategoryListFragment;
+import com.mphj.accountry.fragment.CheckListFragment;
 import com.mphj.accountry.fragment.CustomerListFragment;
 import com.mphj.accountry.fragment.MainFragment;
 import com.mphj.accountry.fragment.PlaceHolderFragment;
@@ -30,6 +31,8 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
                 return CategoryListFragment.newInstance();
             case CUSTOMERS:
                 return CustomerListFragment.newInstance();
+            case CHECKS:
+                return CheckListFragment.newInstance();
         }
         return PlaceHolderFragment.newInstance(position + 1);
     }
