@@ -62,6 +62,7 @@ dependencies {
     compile project(':calculator-dialog')
     compile 'com.google.firebase:firebase-crash:11.6.0'
     compile 'com.github.GrenderG:Toasty:1.2.5'
+    compile(name:'tapsell-android-3.0.34', ext:'aar')
 }
 
 apply plugin: 'com.google.gms.google-services'

@@ -24,6 +24,9 @@ allprojects {
         maven { url "https://jitpack.io" }
         google()
         maven {url "http://clojars.org/repo/"}
+        flatDir {
+            dirs 'libs'
+        }
     }
 }
 
