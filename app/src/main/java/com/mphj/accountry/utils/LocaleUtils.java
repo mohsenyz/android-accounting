@@ -21,4 +21,8 @@ public class LocaleUtils {
         }
         return builder.toString();
     }
+
+    public static String e2f(String value) {
+        return englishNumberToArabic(value);
+    }
 }

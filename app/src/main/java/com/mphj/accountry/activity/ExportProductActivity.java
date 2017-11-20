@@ -97,6 +97,9 @@ public class ExportProductActivity extends BaseActivity implements ExportProduct
     @Override
     public void transactionSaved(int transactionId) {
         Toasty.success(this, "فاکتور با موفقیت ثبت شد").show();
+        Intent i = new Intent(this, ExportTypeActivity.class);
+        i.putExtra("id", transactionId);
+        startActivity(i);
         finish();
     }
 }
