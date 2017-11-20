@@ -10,6 +10,7 @@ import com.mphj.accountry.fragment.CheckListFragment;
 import com.mphj.accountry.fragment.CustomerListFragment;
 import com.mphj.accountry.fragment.MainFragment;
 import com.mphj.accountry.fragment.PlaceHolderFragment;
+import com.mphj.accountry.fragment.ReportListFragment;
 
 /**
  * Created by mphj on 10/20/2017.
@@ -33,6 +34,8 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
                 return CustomerListFragment.newInstance();
             case CHECKS:
                 return CheckListFragment.newInstance();
+            case REPORTS:
+                return ReportListFragment.newInstance();
         }
         return PlaceHolderFragment.newInstance(position + 1);
     }

@@ -23,6 +23,7 @@
     <string name="hint_price">قیمت</string>
     <string name="hint_off">تخفیف</string>
     <string name="html_phone_eq"><![CDATA[<font color="#297cde">تلفن : </font><font color="#FBC02D">xxx</font>]]></string>
+    <string name="html_date_eq"><![CDATA[<font color="#297cde">تاریخ : </font><font color="#FBC02D">xxx</font>]]></string>
     <string name="html_price_eq"><![CDATA[<font color="#4CAF50">قیمت : </font> xxx]]></string>
     <string name="html_off_eq"><![CDATA[<font color="#F44336">تخفیف : </font> xxx درصد]]></string>
     <string name="html_storage_title"><![CDATA[انبار <font color="#297cde">xxx</font>]]></string>
