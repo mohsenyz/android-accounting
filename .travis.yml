@@ -9,3 +9,4 @@ script:
   - ./gradlew build
 before_install:
   - chmod +x gradlew
+  - mv app/google-services.tmp app/google-services.json
