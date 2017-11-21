@@ -21,10 +21,12 @@ import com.mphj.accountry.models.db.TransactionProduct;
 import com.mphj.accountry.models.db.TransactionProductDao;
 import com.mphj.accountry.models.db.TransactionReadded;
 import com.mphj.accountry.models.db.TransactionReaddedDao;
+import com.mphj.accountry.presenters.fragment.ReportListPresenterImpl;
 
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.HSSFColor;
+import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -45,6 +47,7 @@ public class XlsReportExporter {
     protected Transaction transaction;
     protected List<TransactionProduct> transactionProducts;
     protected List<TransactionReadded> transactionReaddeds;
+    protected List<ReportListPresenterImpl.ReportV1Model> reportV1Models;
 
     public XlsReportExporter(Transaction transaction,
                              List<TransactionProduct> transactionProductList,
@@ -52,6 +55,10 @@ public class XlsReportExporter {
         this.transaction = transaction;
         this.transactionProducts = transactionProductList;
         this.transactionReaddeds = transactionReaddedList;
+    }
+
+    public XlsReportExporter(List<ReportListPresenterImpl.ReportV1Model> list) {
+        this.reportV1Models = list;
     }
 
     public static XlsReportExporter byId(int id) {
@@ -67,6 +74,11 @@ public class XlsReportExporter {
                 .where(TransactionReaddedDao.Properties.TransactionId.eq(id))
                 .list();
         return new XlsReportExporter(transaction, transactionProducts, transactionReaddeds);
+    }
+
+
+    public static XlsReportExporter byReportV1(List<ReportListPresenterImpl.ReportV1Model> list) {
+        return new XlsReportExporter(list);
     }
 
 
@@ -114,7 +126,6 @@ public class XlsReportExporter {
 
 
         Sheet readdedSheet = wb.createSheet("اضافات و کسورات");
-
         float[] t2ColumnsSize = new float[]{1, 6, 3, 2};
         String[] t2Headers = new String[] {"شماره", "توضیحات", "قیمت", "نوع"};
         String[][] t2Body = new String[transactionReaddeds.size()][4];
@@ -146,6 +157,42 @@ public class XlsReportExporter {
         };
 
         XlsUtils.getDefaultTable(finallySheet, t3ColumnsSize, new String[]{"", ""}, t3Body, cHeader);
+        FileOutputStream os = new FileOutputStream(outputFile);
+        wb.write(os);
+        os.close();
+    }
+
+
+    public void exportReportV1(String fileName) throws Exception{
+        if (!destinationFolder.exists()) {
+            destinationFolder.mkdirs();
+        }
+        File outputFile = new File(destinationFolder + File.separator + fileName);
+        if (!outputFile.exists()) {
+            outputFile.createNewFile();
+        }
+
+        Workbook wb = new HSSFWorkbook();
+        CellStyle cHeader = wb.createCellStyle();
+        cHeader.setFillForegroundColor(HSSFColor.LIGHT_ORANGE.index);
+        cHeader.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+
+        Sheet productSheet = wb.createSheet("محصولات");
+        float[] t1ColumnsSize = new float[]{1, 6, 6, 3, 4, 4};
+        String[] t1Headers = new String[] {"شماره", "نام", "شناسه", "تعداد فروش", "قیمت کل فروش", "قیمت کل خرید"};
+        String[][] t1Body = new String[reportV1Models.size()][6];
+        for (int i = 0; i < reportV1Models.size(); i++) {
+            t1Body[i] = new String[] {
+                    LocaleUtils.e2f(String.valueOf(i + 1)),
+                    reportV1Models.get(i).product.getName(),
+                    reportV1Models.get(i).product.getToken(),
+                    LocaleUtils.e2f(String.valueOf((int)reportV1Models.get(i).count)),
+                    LocaleUtils.e2f(String.valueOf((int)reportV1Models.get(i).customerPrice)),
+                    LocaleUtils.e2f(String.valueOf((int)reportV1Models.get(i).price))
+            };
+        }
+
+        XlsUtils.getDefaultTable(productSheet, t1ColumnsSize, t1Headers, t1Body, cHeader);
         FileOutputStream os = new FileOutputStream(outputFile);
         wb.write(os);
         os.close();

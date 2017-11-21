@@ -24,6 +24,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.OnFocusChange;
 
 /**
@@ -141,5 +142,11 @@ public class ReportListFragment extends Fragment implements ReportListView, Date
             toDate = calendar.getTime().getTime() / 1000l;
         }
         presenter.loadList(fromDate, toDate);
+    }
+
+
+    @OnClick(R.id.v1)
+    void exportReportV1() {
+        presenter.exportV1(fromDate, toDate);
     }
 }

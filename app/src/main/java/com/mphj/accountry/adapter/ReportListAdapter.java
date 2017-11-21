@@ -1,5 +1,6 @@
 package com.mphj.accountry.adapter;
 
+import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import com.alirezaafkar.sundatepicker.components.JDF;
 import com.mphj.accountry.R;
 import com.mphj.accountry.dialog.CustomerSettingDialog;
+import com.mphj.accountry.dialog.ReportSettingDialog;
 import com.mphj.accountry.interfaces.OnObjectItemClick;
 import com.mphj.accountry.models.db.Transaction;
 import com.mphj.accountry.utils.LocaleUtils;
@@ -69,6 +71,17 @@ public class ReportListAdapter extends RecyclerView.Adapter<ReportListAdapter.Re
         viewHolder.subText.setText(Html.fromHtml(
                 viewHolder.text.getResources().getString(R.string.html_date_eq).replace("xxx", LocaleUtils.e2f(dateToString(transaction.getCreatedAt() * 1000l)))));
         viewHolder.text.setText("فاکتور شماره ی " + transaction.getId() + " (" + LocaleUtils.e2f("" + transaction.getCustomerPrice()) + " تومان" +")");
+        viewHolder.container.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onObjectItemClick != null){
+                    onObjectItemClick.onClick(v, transaction);
+                    return;
+                }
+                BottomSheetDialogFragment bottomSheetDialogFragment = ReportSettingDialog.create(transaction);
+                bottomSheetDialogFragment.show(fragmentActivity.getSupportFragmentManager(), "");
+            }
+        });
     }
 
     @Override

@@ -9,4 +9,5 @@ import com.mphj.accountry.presenters.BasePresenter;
 public interface ReportListPresenter extends BasePresenter {
     void loadList();
     void loadList(long fromDate, long toDate);
+    void exportV1(long fromDate, long toDate);
 }
