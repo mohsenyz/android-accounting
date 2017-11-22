@@ -1,7 +1,8 @@
-package com.mphj.accountry.mvp;
+package com.mphj.accountry.mvp.activity;
 
 import com.mphj.accountry.interfaces.CommonView;
 import com.mphj.accountry.models.viewmodel.BottomBarModel;
+import com.mphj.accountry.mvp.Mvp;
 
 import java.util.List;
 

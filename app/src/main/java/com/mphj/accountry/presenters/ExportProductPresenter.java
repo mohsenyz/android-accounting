@@ -11,6 +11,10 @@ import com.mphj.accountry.models.db.Check;
  * Created by mphj on 10/24/2017.
  */
 
+/**
+ * @TODO deleting export product presenter
+ */
+@Deprecated
 public interface ExportProductPresenter extends BasePresenter {
     void submit(InfoView infoView, ProductListView productListView, ReaddedListView readdedListView, int paymentType, @Nullable Check check);
 }
