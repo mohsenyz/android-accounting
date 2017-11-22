@@ -1,48 +1,39 @@
 {
   "project_info": {
-    "project_number": "",
-    "project_id": ""
+    "project_number": "11111111111",
+    "firebase_url": "https://test.firebaseio.com",
+    "project_id": "test",
+    "storage_bucket": "test.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:123456789012:android:1234567890123456",
+        "mobilesdk_app_id": "1:11111111111:android:aaaaaaaaaaaaaaaa",
         "android_client_info": {
-          "package_name": "com.your.package"
+          "package_name": "com.mphj.accountry"
         }
       },
       "oauth_client": [
         {
-          "client_id": "",
+          "client_id": "11111111111-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.apps.googleusercontent.com",
           "client_type": 3
-        },
-        {
-          "client_id": "",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.your.package",
-            "certificate_hash": ""
-          }
         }
       ],
       "api_key": [
         {
-          "current_key": ""
+          "current_key": "aaaaaaaaaaaaaaaaaaaaaaaaaa-aaaaaaaaaaaa"
         }
       ],
       "services": {
         "analytics_service": {
-          "status": 2,
-          "analytics_property": {
-            "tracking_id": ""
-          }
+          "status": 1
         },
         "appinvite_service": {
           "status": 1,
           "other_platform_oauth_client": []
         },
         "ads_service": {
-          "status": 1
+          "status": 2
         }
       }
     }
