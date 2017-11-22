@@ -3,7 +3,6 @@ package com.mphj.accountry.models.db;
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
-import org.json.JSONObject;
 import org.parceler.Parcel;
 
 /**

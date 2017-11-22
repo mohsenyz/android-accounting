@@ -1,6 +1,5 @@
 package com.mphj.accountry.presenters.dialog;
 
-import com.mphj.accountry.models.db.Customer;
 import com.mphj.accountry.models.db.Transaction;
 import com.mphj.accountry.presenters.BasePresenter;
 

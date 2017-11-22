@@ -3,7 +3,6 @@ package com.mphj.accountry.presenters.fragment.export_activity;
 import com.mphj.accountry.interfaces.fragment.export_activity.InfoView;
 import com.mphj.accountry.interfaces.fragment.export_activity.ProductListView;
 import com.mphj.accountry.interfaces.fragment.export_activity.ReaddedListView;
-import com.mphj.accountry.models.db.DaoMaster;
 import com.mphj.accountry.models.db.Product;
 import com.mphj.accountry.models.db.ProductPrice;
 import com.mphj.accountry.models.db.ProductPriceDao;

@@ -1,5 +1,6 @@
 package com.mphj.accountry.utils;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Environment;
 import android.os.StatFs;
@@ -14,6 +15,7 @@ import com.mphj.accountry.AccountryApplication;
 
 public class DeviceUtils {
 
+    @SuppressLint("HardwareIds")
     public static String getUnique(Context context){
         return Settings.Secure.getString(context.getContentResolver(),
                 Settings.Secure.ANDROID_ID);

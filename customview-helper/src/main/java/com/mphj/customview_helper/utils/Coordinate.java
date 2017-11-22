@@ -8,6 +8,7 @@ import java.util.Comparator;
  * Created by mphj on 11/5/2017.
  */
 
+@SuppressWarnings("ALL")
 public class Coordinate implements Comparable, Cloneable, Serializable {
     private static final long serialVersionUID = 6683108902428366910L;
 

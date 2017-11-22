@@ -31,7 +31,8 @@
                     android:paddingRight="10dp"
                     android:textDirection="rtl"
                     android:textSize="16dp"
-                    android:text="@string/select_customer"/>
+                    android:text="@string/select_customer"
+                    tools:targetApi="jelly_bean_mr1" />
             </LinearLayout>
         </android.support.v7.widget.Toolbar>
         <View

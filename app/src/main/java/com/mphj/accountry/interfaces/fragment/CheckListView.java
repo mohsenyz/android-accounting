@@ -1,7 +1,6 @@
 package com.mphj.accountry.interfaces.fragment;
 
 import com.mphj.accountry.models.db.Check;
-import com.mphj.accountry.models.db.Customer;
 
 import java.util.List;
 

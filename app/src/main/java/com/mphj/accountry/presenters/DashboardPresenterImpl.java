@@ -52,7 +52,7 @@ public class DashboardPresenterImpl implements DashboardPresenter {
                 break;
             default:
                 throw new RuntimeException(
-                        new StringBuilder().append("Nothing implemnted for position ").append(currentPosition).toString()
+                        "Nothing implemnted for position " + currentPosition
                 );
         }
     }

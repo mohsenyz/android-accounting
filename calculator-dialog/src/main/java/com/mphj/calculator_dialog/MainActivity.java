@@ -17,7 +17,6 @@ import android.view.ViewTreeObserver;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.HorizontalScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 

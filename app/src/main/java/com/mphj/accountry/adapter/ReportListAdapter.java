@@ -13,7 +13,6 @@ import android.widget.TextView;
 
 import com.alirezaafkar.sundatepicker.components.JDF;
 import com.mphj.accountry.R;
-import com.mphj.accountry.dialog.CustomerSettingDialog;
 import com.mphj.accountry.dialog.ReportSettingDialog;
 import com.mphj.accountry.interfaces.OnObjectItemClick;
 import com.mphj.accountry.models.db.Transaction;

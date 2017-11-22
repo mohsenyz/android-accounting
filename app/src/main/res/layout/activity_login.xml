@@ -7,7 +7,8 @@
     android:layoutDirection="rtl"
     android:orientation="vertical"
     android:id="@+id/container"
-    tools:context="com.mphj.accountry.activity.LoginActivity">
+    tools:context="com.mphj.accountry.activity.LoginActivity"
+    tools:targetApi="jelly_bean_mr1">
     <com.mphj.customview_helper.RoundedImage
         android:layout_width="match_parent"
         android:layout_height="300dp"

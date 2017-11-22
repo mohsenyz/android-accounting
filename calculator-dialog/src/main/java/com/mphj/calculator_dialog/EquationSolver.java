@@ -113,22 +113,24 @@ public class EquationSolver {
                     + Math.sqrt(Double.parseDouble(solveAdvancedOperators(s.substring(startIndex + 2, endIndex))))
                     + s.substring(endIndex);
         }
-        while (s.contains("!")) {
-            s = " " + s + " ";
+        StringBuilder sBuilder = new StringBuilder(s);
+        while (sBuilder.toString().contains("!")) {
+            sBuilder = new StringBuilder(" " + sBuilder + " ");
             String s1 = "";
-            String s2 = s.substring(s.lastIndexOf(" ", s.indexOf("!") - 2) + 1, s.indexOf("!") - 1);
+            String s2 = sBuilder.substring(sBuilder.lastIndexOf(" ", sBuilder.indexOf("!") - 2) + 1, sBuilder.indexOf("!") - 1);
             String s3 = "";
             try {
-                s1 = s.substring(1, s.lastIndexOf(" ", s.indexOf("!") - 2));
+                s1 = sBuilder.substring(1, sBuilder.lastIndexOf(" ", sBuilder.indexOf("!") - 2));
             } catch (Exception e) {
             }
             s2 = "" + Gamma.gamma(Double.parseDouble(s2) + 1);
             try {
-                s3 = s.substring(s.indexOf("!") + 2);
+                s3 = sBuilder.substring(sBuilder.indexOf("!") + 2);
             } catch (Exception e) {
             }
-            s = s1 + " " + s2 + " " + s3;
+            sBuilder = new StringBuilder(s1 + " " + s2 + " " + s3);
         }
+        s = sBuilder.toString();
         return s;
     }
 

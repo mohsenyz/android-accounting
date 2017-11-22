@@ -26,7 +26,8 @@
         android:layout_marginBottom="5dp"
         android:id="@+id/radio_group"
         android:checkedButton="@id/radio_button_inc"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        tools:targetApi="jelly_bean_mr1">
         <RadioButton
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -136,6 +137,5 @@
         android:textColor="#fff"
         android:text="تایید"
         android:id="@+id/submit"
-        android:layout_margin="5dp"
-        android:layout_alignParentBottom="true"/>
+        android:layout_margin="5dp" />
 </LinearLayout>

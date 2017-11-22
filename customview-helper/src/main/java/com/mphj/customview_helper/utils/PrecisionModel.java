@@ -8,6 +8,7 @@ import java.util.Map;
  * Created by mphj on 11/5/2017.
  */
 
+@SuppressWarnings("ALL")
 public class PrecisionModel implements Serializable, Comparable
 {
     /**
@@ -387,7 +388,7 @@ public class PrecisionModel implements Serializable, Comparable
 
         int sigDigits = getMaximumSignificantDigits();
         int otherSigDigits = other.getMaximumSignificantDigits();
-        return (new Integer(sigDigits)).compareTo(new Integer(otherSigDigits));
+        return (Integer.valueOf(sigDigits)).compareTo(Integer.valueOf(otherSigDigits));
 //    if (sigDigits > otherSigDigits)
 //      return 1;
 //    else if

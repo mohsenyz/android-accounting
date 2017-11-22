@@ -2,6 +2,7 @@ package com.mphj.accountry.dialog;
 
 import android.app.Dialog;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,7 +13,6 @@ import com.mphj.accountry.adapter.SimpleListAdapter;
 import com.mphj.accountry.interfaces.dialog.ReportSettingView;
 import com.mphj.accountry.models.SimpleListModel;
 import com.mphj.accountry.models.db.Transaction;
-import com.mphj.accountry.presenters.dialog.CustomerSettingPresenterImpl;
 import com.mphj.accountry.presenters.dialog.ReportSettingPresenter;
 import com.mphj.accountry.presenters.dialog.ReportSettingPresenterImpl;
 
@@ -48,10 +48,10 @@ public class ReportSettingDialog extends BottomSheetDialogFragment implements Re
     }
 
     @Override
-    public void setupDialog(Dialog dialog, int style) {
-        super.setupDialog(dialog, style);
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         View contentView = View.inflate(getContext(), R.layout.bs_dialog_simple_setting, null);
-        dialog.setContentView(contentView);
+        getDialog().setContentView(contentView);
         ButterKnife.bind(this, contentView);
         setupRecyclerView();
         if (getArguments() != null) {

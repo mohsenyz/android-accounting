@@ -1,10 +1,8 @@
 package com.mphj.accountry.adapter;
 
-import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +12,6 @@ import android.widget.TextView;
 
 import com.alirezaafkar.sundatepicker.components.JDF;
 import com.mphj.accountry.R;
-import com.mphj.accountry.dialog.CustomerSettingDialog;
 import com.mphj.accountry.interfaces.OnObjectItemClick;
 import com.mphj.accountry.models.db.Check;
 import com.mphj.accountry.models.db.CheckDao;
@@ -22,7 +19,6 @@ import com.mphj.accountry.utils.DaoManager;
 import com.mphj.accountry.utils.LocaleUtils;
 
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import butterknife.BindView;

@@ -4,11 +4,11 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.Toast;
 
 import com.mphj.accountry.R;
 import com.mphj.accountry.activity.GetCountActivity;
@@ -54,10 +54,10 @@ public class ProductSettingDialog extends BottomSheetDialogFragment implements P
     }
 
     @Override
-    public void setupDialog(Dialog dialog, int style) {
-        super.setupDialog(dialog, style);
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         View contentView = View.inflate(getContext(), R.layout.bs_dialog_simple_setting, null);
-        dialog.setContentView(contentView);
+        getDialog().setContentView(contentView);
         ButterKnife.bind(this, contentView);
         setupRecyclerView();
         if (getArguments() != null) {

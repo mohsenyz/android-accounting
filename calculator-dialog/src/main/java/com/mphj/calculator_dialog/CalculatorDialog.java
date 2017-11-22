@@ -3,8 +3,6 @@ package com.mphj.calculator_dialog;
 import android.app.Activity;
 import android.content.Intent;
 import android.support.annotation.Nullable;
-import android.support.v4.text.TextUtilsCompat;
-import android.text.TextUtils;
 
 /**
  * Created by mphj on 11/17/17.

@@ -347,11 +347,7 @@ public class Circle {
         if (Double.compare(circle.radius, this.radius) != 0) {
             return false;
         }
-        if (this.center != null ? !this.center.equals2D(circle.center)
-                : circle.center != null) {
-            return false;
-        }
-        return true;
+        return this.center != null ? this.center.equals2D(circle.center) : circle.center == null;
     }
 
     public String toString() {

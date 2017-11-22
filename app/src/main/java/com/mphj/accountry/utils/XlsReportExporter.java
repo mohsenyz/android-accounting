@@ -2,13 +2,6 @@ package com.mphj.accountry.utils;
 
 import android.os.Environment;
 
-import com.itextpdf.text.Document;
-import com.itextpdf.text.Element;
-import com.itextpdf.text.PageSize;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.Phrase;
-import com.itextpdf.text.pdf.PdfPTable;
-import com.itextpdf.text.pdf.PdfWriter;
 import com.mphj.accountry.models.db.Customer;
 import com.mphj.accountry.models.db.CustomerDao;
 import com.mphj.accountry.models.db.Product;
@@ -26,7 +19,6 @@ import com.mphj.accountry.presenters.fragment.ReportListPresenterImpl;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.HSSFColor;
-import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -153,7 +145,7 @@ public class XlsReportExporter {
                 {"توضیحات", transaction.getDescription()},
                 {"مشتری", customerTitle},
                 {"نوع پرداخت", paymentType},
-                {"مبلغ قابل پرداخت", LocaleUtils.e2f(String.valueOf((int)transaction.getCustomerPrice()))}
+                {"مبلغ قابل پرداخت", LocaleUtils.e2f(String.valueOf(transaction.getCustomerPrice()))}
         };
 
         XlsUtils.getDefaultTable(finallySheet, t3ColumnsSize, new String[]{"", ""}, t3Body, cHeader);

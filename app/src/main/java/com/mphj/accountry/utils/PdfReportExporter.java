@@ -169,7 +169,7 @@ public class PdfReportExporter {
                 {"مالیات", LocaleUtils.e2f(String.valueOf((int)transaction.getTax())) + " درصد"},
                 {"توضیحات", transaction.getDescription()},
                 {"نوع پرداخت", paymentType},
-                {"مبلغ قابل پرداخت", LocaleUtils.e2f(String.valueOf((int)transaction.getCustomerPrice()))}
+                {"مبلغ قابل پرداخت", LocaleUtils.e2f(String.valueOf(transaction.getCustomerPrice()))}
         };
         PdfPTable t3 = PdfUtils.getDefaultTable(t3ColumnsSize, new String[]{}, t3Body);
         pBody.add(t3);

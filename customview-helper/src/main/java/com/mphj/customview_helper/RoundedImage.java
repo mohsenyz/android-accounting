@@ -22,7 +22,7 @@ import com.mphj.customview_helper.utils.Coordinate;
  * Created by mphj on 10/29/2017.
  */
 
-public class RoundedImage extends ImageView {
+public class RoundedImage extends android.support.v7.widget.AppCompatImageView {
 
     private boolean shadow = false;
     private int shadowRadius = 5;
