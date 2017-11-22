@@ -9,6 +9,11 @@ android {
         versionCode 208
         versionName "2.0.8"
     }
+    lintOptions {
+
+        abortOnError false
+
+    }
     buildTypes {
         release {
             minifyEnabled true

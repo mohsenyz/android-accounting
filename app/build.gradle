@@ -4,6 +4,11 @@ apply plugin: 'org.greenrobot.greendao'
 android {
     compileSdkVersion 25
     buildToolsVersion "26.0.2"
+    lintOptions {
+
+        abortOnError false
+
+    }
     defaultConfig {
         applicationId "com.mphj.accountry"
         minSdkVersion 16
