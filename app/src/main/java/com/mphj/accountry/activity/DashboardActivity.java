@@ -3,6 +3,7 @@ package com.mphj.accountry.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
@@ -49,7 +50,7 @@ public class DashboardActivity extends BaseActivity implements DashboardView, Vi
 
     DashboardPresenter presenter;
 
-    SectionsPagerAdapter mSectionsPagerAdapter;
+    PagerAdapter mSectionsPagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

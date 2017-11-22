@@ -22,6 +22,7 @@ import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnTextChanged;
 
 public class NewProductActivity extends BaseActivity implements NewProductView {
 
@@ -62,20 +63,13 @@ public class NewProductActivity extends BaseActivity implements NewProductView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_product);
         ButterKnife.bind(this);
-        serial.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                handler.removeCallbacksAndMessages(null);
-                handler.postDelayed(typingStatusRunnable, 1000);
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {}
-        });
         presenter = new NewProductPresenterImpl(this);
+    }
+
+    @OnTextChanged(R.id.input_serial)
+    void onSerialTextChange() {
+        handler.removeCallbacksAndMessages(null);
+        handler.postDelayed(typingStatusRunnable, 1000);
     }
 
     @Override
