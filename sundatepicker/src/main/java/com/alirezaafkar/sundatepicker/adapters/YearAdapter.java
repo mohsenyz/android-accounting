@@ -6,10 +6,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.alirezaafkar.sundatepicker.interfaces.DateInterface;
-import com.alirezaafkar.sundatepicker.components.JDF;
 import com.alirezaafkar.sundatepicker.R;
+import com.alirezaafkar.sundatepicker.components.JDF;
 import com.alirezaafkar.sundatepicker.components.SquareTextView;
+import com.alirezaafkar.sundatepicker.interfaces.DateInterface;
 
 /**
  * Created by Alireza Afkar on 2/11/16 AD.

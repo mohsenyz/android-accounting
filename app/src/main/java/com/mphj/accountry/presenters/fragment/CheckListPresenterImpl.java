@@ -2,7 +2,6 @@ package com.mphj.accountry.presenters.fragment;
 
 import com.mphj.accountry.interfaces.fragment.CheckListView;
 import com.mphj.accountry.models.db.CheckDao;
-import com.mphj.accountry.presenters.fragment.CheckListPresenter;
 import com.mphj.accountry.utils.DaoManager;
 
 /**

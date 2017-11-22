@@ -9,9 +9,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.alirezaafkar.sundatepicker.interfaces.DateInterface;
 import com.alirezaafkar.sundatepicker.R;
 import com.alirezaafkar.sundatepicker.adapters.YearAdapter;
+import com.alirezaafkar.sundatepicker.interfaces.DateInterface;
 
 /**
  * Created by Alireza Afkar on 2/5/16 AD.

@@ -16,8 +16,8 @@ import com.mphj.accountry.R;
 import com.mphj.accountry.adapter.ReportListAdapter;
 import com.mphj.accountry.interfaces.fragment.ReportListView;
 import com.mphj.accountry.models.db.Transaction;
-import com.mphj.accountry.presenters.fragment.ReportListPresenterImpl;
 import com.mphj.accountry.presenters.fragment.ReportListPresenter;
+import com.mphj.accountry.presenters.fragment.ReportListPresenterImpl;
 
 import java.util.Calendar;
 import java.util.List;
