@@ -18,6 +18,7 @@ import com.mphj.accountry.utils.ViewAnimator;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import icepick.Icepick;
 
 public class LoginActivity extends BaseActivity implements LoginView {
 
@@ -70,6 +71,7 @@ public class LoginActivity extends BaseActivity implements LoginView {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+        Icepick.saveInstanceState(this, outState);
         outState.putCharSequence("username", inputUsername.getText().toString());
         outState.putCharSequence("password", inputPassword.getText().toString());
         outState.putCharSequence("email", inputEmail.getText().toString());
@@ -78,6 +80,7 @@ public class LoginActivity extends BaseActivity implements LoginView {
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
+        Icepick.restoreInstanceState(this, savedInstanceState);
         inputUsername.setText(savedInstanceState.getCharSequence("username"));
         inputPassword.setText(savedInstanceState.getCharSequence("password"));
         inputEmail.setText(savedInstanceState.getCharSequence("email"));

@@ -8,7 +8,7 @@ import android.widget.RadioGroup;
 
 import com.mphj.accountry.R;
 import com.mphj.accountry.interfaces.NewTransactionReaddedView;
-import com.mphj.accountry.models.db.TransactionReadded;
+import com.mphj.accountry.models.db.TransactionReAdded;
 import com.mphj.accountry.presenters.NewTransactionReaddedPresenter;
 import com.mphj.accountry.presenters.NewTransactionReaddedPresenterImpl;
 
@@ -19,7 +19,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class NewTransactionReaddedActivity extends BaseActivity implements NewTransactionReaddedView{
+public class NewTransactionReAddedActivity extends BaseActivity implements NewTransactionReaddedView{
 
     @BindView(R.id.radio_group)
     RadioGroup radioGroup;
@@ -58,13 +58,13 @@ public class NewTransactionReaddedActivity extends BaseActivity implements NewTr
     void submit() {
         presenter.sendResult(description.getText().toString(),
                 price.getText().toString(),
-                (radioGroup.getCheckedRadioButtonId() == R.id.radio_button_dec) ? TransactionReadded.DEC : TransactionReadded.INC);
+                (radioGroup.getCheckedRadioButtonId() == R.id.radio_button_dec) ? TransactionReAdded.DEC : TransactionReAdded.INC);
     }
 
     @Override
-    public void finishActivity(TransactionReadded result) {
+    public void finishActivity(TransactionReAdded result) {
         Intent i = new Intent();
-        i.putExtra("readded", Parcels.wrap(TransactionReadded.class, result));
+        i.putExtra("readded", Parcels.wrap(TransactionReAdded.class, result));
         setResult(Activity.RESULT_OK, i);
         finish();
     }

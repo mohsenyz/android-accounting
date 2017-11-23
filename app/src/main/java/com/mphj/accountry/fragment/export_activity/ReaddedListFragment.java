@@ -14,11 +14,11 @@ import android.view.ViewGroup;
 
 import com.mphj.accountry.R;
 import com.mphj.accountry.activity.AlertActivity;
-import com.mphj.accountry.activity.NewTransactionReaddedActivity;
+import com.mphj.accountry.activity.NewTransactionReAddedActivity;
 import com.mphj.accountry.adapter.TransactionReaddedListAdapter;
 import com.mphj.accountry.interfaces.OnObjectItemClick;
 import com.mphj.accountry.interfaces.fragment.export_activity.ReaddedListView;
-import com.mphj.accountry.models.db.TransactionReadded;
+import com.mphj.accountry.models.db.TransactionReAdded;
 import com.mphj.accountry.presenters.fragment.export_activity.ReaddedListPresenter;
 import com.mphj.accountry.presenters.fragment.export_activity.ReaddedListPresenterImpl;
 
@@ -35,7 +35,7 @@ import butterknife.OnClick;
  */
 
 public class ReaddedListFragment extends Fragment implements
-        ReaddedListView, OnObjectItemClick<TransactionReadded> {
+        ReaddedListView, OnObjectItemClick<TransactionReAdded> {
 
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
@@ -45,7 +45,7 @@ public class ReaddedListFragment extends Fragment implements
 
     ReaddedListPresenter presenter;
 
-    TransactionReadded pendingReadded;
+    TransactionReAdded pendingReadded;
 
     public static final int SELECT_READDED = 2, REMOVE_READDED = 3;
 
@@ -91,23 +91,23 @@ public class ReaddedListFragment extends Fragment implements
     }
 
     @Override
-    public void loadList(List<TransactionReadded> list) {
+    public void loadList(List<TransactionReAdded> list) {
         TransactionReaddedListAdapter transactionReaddedListAdapter = new TransactionReaddedListAdapter(list, getActivity(), this);
         recyclerView.setAdapter(transactionReaddedListAdapter);
     }
 
     @Override
-    public void addNew(TransactionReadded transactionReadded) {
-        presenter.addNew(transactionReadded);
+    public void addNew(TransactionReAdded transactionReAdded) {
+        presenter.addNew(transactionReAdded);
     }
 
     @Override
-    public List<TransactionReadded> getList() {
+    public List<TransactionReAdded> getList() {
         return presenter.getList();
     }
 
     @Override
-    public void onClick(View v, TransactionReadded object) {
+    public void onClick(View v, TransactionReAdded object) {
         pendingReadded = object;
         startActivityForResult(new Intent(getActivity(), AlertActivity.class), REMOVE_READDED);
     }
@@ -115,7 +115,7 @@ public class ReaddedListFragment extends Fragment implements
 
     @OnClick(R.id.fab)
     void onFabClick() {
-        startActivityForResult(new Intent(getActivity(), NewTransactionReaddedActivity.class), SELECT_READDED);
+        startActivityForResult(new Intent(getActivity(), NewTransactionReAddedActivity.class), SELECT_READDED);
     }
 
 
@@ -125,8 +125,8 @@ public class ReaddedListFragment extends Fragment implements
 
         if (requestCode == SELECT_READDED) {
             if (resultCode == Activity.RESULT_OK) {
-                TransactionReadded transactionReadded = Parcels.unwrap(data.getParcelableExtra("readded"));
-                addNew(transactionReadded);
+                TransactionReAdded transactionReAdded = Parcels.unwrap(data.getParcelableExtra("readded"));
+                addNew(transactionReAdded);
             }
         }
 

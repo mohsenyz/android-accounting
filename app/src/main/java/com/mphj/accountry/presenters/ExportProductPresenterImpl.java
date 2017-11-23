@@ -14,7 +14,7 @@ import com.mphj.accountry.models.db.Transaction;
 import com.mphj.accountry.models.db.TransactionDao;
 import com.mphj.accountry.models.db.TransactionProduct;
 import com.mphj.accountry.models.db.TransactionProductDao;
-import com.mphj.accountry.models.db.TransactionReadded;
+import com.mphj.accountry.models.db.TransactionReAdded;
 import com.mphj.accountry.utils.DaoManager;
 
 import java.util.ArrayList;
@@ -45,7 +45,7 @@ public class ExportProductPresenterImpl implements ExportProductPresenter{
     @Override
     public void submit(InfoView infoView, ProductListView productListView, ReaddedListView readdedListView, int paymentType, @Nullable Check check) {
         List<Product> products = productListView.getList();
-        List<TransactionReadded> transactionReaddeds = readdedListView.getList();
+        List<TransactionReAdded> transactionReAddeds = readdedListView.getList();
         String description = infoView.getFactorDescription();
         int customerPrice = infoView.getTotalCustomerPrice();
         int tax = infoView.getTax();
@@ -62,7 +62,7 @@ public class ExportProductPresenterImpl implements ExportProductPresenter{
         transaction.setOff(off);
         transaction.setTax(tax);
         transaction.setPaymentType(paymentType);
-        transaction.setReaddedPrice(calculateReaddedPrice(transactionReaddeds));
+        transaction.setReaddedPrice(calculateReaddedPrice(transactionReAddeds));
         transaction.setType(Transaction.TYPE_OUTGOING);
         transactionDao.save(transaction);
 
@@ -99,11 +99,11 @@ public class ExportProductPresenterImpl implements ExportProductPresenter{
         return price;
     }
 
-    private int calculateReaddedPrice(List<TransactionReadded> transactionReaddeds) {
+    private int calculateReaddedPrice(List<TransactionReAdded> transactionReAddeds) {
         int price = 0;
-        for (TransactionReadded transactionReadded : transactionReaddeds) {
-            price += transactionReadded.getPrice()
-                    * (transactionReadded.getType() == TransactionReadded.INC ? 1 : -1);
+        for (TransactionReAdded transactionReAdded : transactionReAddeds) {
+            price += transactionReAdded.getPrice()
+                    * (transactionReAdded.getType() == TransactionReAdded.INC ? 1 : -1);
         }
         return price;
     }

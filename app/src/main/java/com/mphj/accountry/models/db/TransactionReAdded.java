@@ -12,7 +12,7 @@ import org.parceler.Parcel;
 
 @Parcel
 @Entity
-public class TransactionReadded
+public class TransactionReAdded
 {
     @Transient
     public static final int INC = 1, DEC = 2;
@@ -23,22 +23,6 @@ public class TransactionReadded
     public long transactionId;
     public double price;
     public String description;
-
-
-    @Generated(hash = 601728237)
-    public TransactionReadded(Long id, int type, long transactionId, double price,
-            String description) {
-        this.id = id;
-        this.type = type;
-        this.transactionId = transactionId;
-        this.price = price;
-        this.description = description;
-    }
-
-    @Generated(hash = 324107990)
-    public TransactionReadded() {
-    }
-
 
     public Long getId() {
         return id;

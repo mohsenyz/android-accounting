@@ -6,7 +6,7 @@ import com.mphj.accountry.interfaces.fragment.export_activity.ReaddedListView;
 import com.mphj.accountry.models.db.Product;
 import com.mphj.accountry.models.db.ProductPrice;
 import com.mphj.accountry.models.db.ProductPriceDao;
-import com.mphj.accountry.models.db.TransactionReadded;
+import com.mphj.accountry.models.db.TransactionReAdded;
 import com.mphj.accountry.utils.DaoManager;
 
 import java.util.List;
@@ -18,7 +18,7 @@ import java.util.List;
 public class InfoPresenterImpl implements InfoPresenter {
 
     InfoView view;
-    List<TransactionReadded> transactionReaddeds;
+    List<TransactionReAdded> transactionReAddeds;
     List<Product> products;
 
     public InfoPresenterImpl(InfoView view) {
@@ -37,8 +37,8 @@ public class InfoPresenterImpl implements InfoPresenter {
     }
 
     @Override
-    public void setTransactionReaddedList(List<TransactionReadded> list) {
-        this.transactionReaddeds = list;
+    public void setTransactionReaddedList(List<TransactionReAdded> list) {
+        this.transactionReAddeds = list;
     }
 
     @Override
@@ -89,9 +89,9 @@ public class InfoPresenterImpl implements InfoPresenter {
 
     private int computeReaddedPrice() {
         int price = 0;
-        for (TransactionReadded transactionReadded : transactionReaddeds) {
-            price += transactionReadded.getPrice()
-                    * (transactionReadded.getType() == TransactionReadded.INC ? 1 : -1);
+        for (TransactionReAdded transactionReAdded : transactionReAddeds) {
+            price += transactionReAdded.getPrice()
+                    * (transactionReAdded.getType() == TransactionReAdded.INC ? 1 : -1);
         }
         return price;
     }

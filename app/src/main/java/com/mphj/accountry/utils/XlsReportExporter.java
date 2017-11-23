@@ -12,7 +12,7 @@ import com.mphj.accountry.models.db.Transaction;
 import com.mphj.accountry.models.db.TransactionDao;
 import com.mphj.accountry.models.db.TransactionProduct;
 import com.mphj.accountry.models.db.TransactionProductDao;
-import com.mphj.accountry.models.db.TransactionReadded;
+import com.mphj.accountry.models.db.TransactionReAdded;
 import com.mphj.accountry.models.db.TransactionReaddedDao;
 import com.mphj.accountry.presenters.fragment.ReportListPresenterImpl;
 
@@ -38,15 +38,15 @@ public class XlsReportExporter {
 
     protected Transaction transaction;
     protected List<TransactionProduct> transactionProducts;
-    protected List<TransactionReadded> transactionReaddeds;
+    protected List<TransactionReAdded> transactionReAddeds;
     protected List<ReportListPresenterImpl.ReportV1Model> reportV1Models;
 
     public XlsReportExporter(Transaction transaction,
                              List<TransactionProduct> transactionProductList,
-                             List<TransactionReadded> transactionReaddedList) {
+                             List<TransactionReAdded> transactionReAddedList) {
         this.transaction = transaction;
         this.transactionProducts = transactionProductList;
-        this.transactionReaddeds = transactionReaddedList;
+        this.transactionReAddeds = transactionReAddedList;
     }
 
     public XlsReportExporter(List<ReportListPresenterImpl.ReportV1Model> list) {
@@ -62,10 +62,10 @@ public class XlsReportExporter {
         List<TransactionProduct> transactionProducts = transactionProductDao.queryBuilder()
                 .where(TransactionProductDao.Properties.TransactionId.eq(id))
                 .list();
-        List<TransactionReadded> transactionReaddeds = transactionReaddedDao.queryBuilder()
+        List<TransactionReAdded> transactionReAddeds = transactionReaddedDao.queryBuilder()
                 .where(TransactionReaddedDao.Properties.TransactionId.eq(id))
                 .list();
-        return new XlsReportExporter(transaction, transactionProducts, transactionReaddeds);
+        return new XlsReportExporter(transaction, transactionProducts, transactionReAddeds);
     }
 
 
@@ -120,14 +120,14 @@ public class XlsReportExporter {
         Sheet readdedSheet = wb.createSheet("اضافات و کسورات");
         float[] t2ColumnsSize = new float[]{1, 6, 3, 2};
         String[] t2Headers = new String[] {"شماره", "توضیحات", "قیمت", "نوع"};
-        String[][] t2Body = new String[transactionReaddeds.size()][4];
-        for (int i = 0; i < transactionReaddeds.size(); i++) {
-            TransactionReadded transactionReadded = transactionReaddeds.get(i);
-            String type = (transactionReadded.getType() == TransactionReadded.INC)
+        String[][] t2Body = new String[transactionReAddeds.size()][4];
+        for (int i = 0; i < transactionReAddeds.size(); i++) {
+            TransactionReAdded transactionReAdded = transactionReAddeds.get(i);
+            String type = (transactionReAdded.getType() == TransactionReAdded.INC)
                     ? "اضافات" : "کسورات";
             String[] row = {LocaleUtils.e2f(String.valueOf(i + 1)),
-                    transactionReadded.getDescription(),
-                    LocaleUtils.e2f(String.valueOf((int)transactionReadded.getPrice())),
+                    transactionReAdded.getDescription(),
+                    LocaleUtils.e2f(String.valueOf((int) transactionReAdded.getPrice())),
                     LocaleUtils.e2f(type)};
             t2Body[i] = row;
         }

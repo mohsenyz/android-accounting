@@ -1,6 +1,6 @@
 package com.mphj.accountry.interfaces.fragment.export_activity;
 
-import com.mphj.accountry.models.db.TransactionReadded;
+import com.mphj.accountry.models.db.TransactionReAdded;
 
 import java.util.List;
 
@@ -9,7 +9,7 @@ import java.util.List;
  */
 
 public interface ReaddedListView {
-    void loadList(List<TransactionReadded> list);
-    void addNew(TransactionReadded transactionReadded);
-    List<TransactionReadded> getList();
+    void loadList(List<TransactionReAdded> list);
+    void addNew(TransactionReAdded transactionReAdded);
+    List<TransactionReAdded> getList();
 }

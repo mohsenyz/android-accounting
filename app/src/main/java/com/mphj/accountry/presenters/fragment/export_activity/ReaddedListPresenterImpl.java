@@ -1,7 +1,7 @@
 package com.mphj.accountry.presenters.fragment.export_activity;
 
 import com.mphj.accountry.interfaces.fragment.export_activity.ReaddedListView;
-import com.mphj.accountry.models.db.TransactionReadded;
+import com.mphj.accountry.models.db.TransactionReAdded;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +13,7 @@ import java.util.List;
 public class ReaddedListPresenterImpl implements ReaddedListPresenter {
 
     ReaddedListView view;
-    List<TransactionReadded> list = new ArrayList<>();
+    List<TransactionReAdded> list = new ArrayList<>();
 
     public ReaddedListPresenterImpl(ReaddedListView view) {
         this.view = view;
@@ -35,19 +35,19 @@ public class ReaddedListPresenterImpl implements ReaddedListPresenter {
     }
 
     @Override
-    public void addNew(TransactionReadded transactionReadded) {
-        list.add(transactionReadded);
+    public void addNew(TransactionReAdded transactionReAdded) {
+        list.add(transactionReAdded);
         loadList();
     }
 
     @Override
-    public List<TransactionReadded> getList() {
+    public List<TransactionReAdded> getList() {
         return list;
     }
 
 
     @Override
-    public void delete(TransactionReadded transactionReadded) {
-        list.remove(transactionReadded);
+    public void delete(TransactionReAdded transactionReAdded) {
+        list.remove(transactionReAdded);
     }
 }

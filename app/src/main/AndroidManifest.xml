@@ -62,7 +62,7 @@
             android:name=".activity.ExportProductActivity"
             android:theme="@style/AppTheme.Dialog.NoTitle" />
         <activity
-            android:name=".activity.NewTransactionReaddedActivity"
+            android:name=".activity.NewTransactionReAddedActivity"
             android:theme="@style/AppTheme.Dialog.NoTitle" />
         <activity
             android:name=".activity.AlertActivity"

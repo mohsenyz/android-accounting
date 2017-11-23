@@ -32,4 +32,8 @@ public interface CommonView {
         void showFab();
     }
 
+    interface ResultReturner<T>{
+        void setResult(T obj);
+    }
+
 }

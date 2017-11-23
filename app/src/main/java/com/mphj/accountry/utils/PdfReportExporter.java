@@ -19,7 +19,7 @@ import com.mphj.accountry.models.db.Transaction;
 import com.mphj.accountry.models.db.TransactionDao;
 import com.mphj.accountry.models.db.TransactionProduct;
 import com.mphj.accountry.models.db.TransactionProductDao;
-import com.mphj.accountry.models.db.TransactionReadded;
+import com.mphj.accountry.models.db.TransactionReAdded;
 import com.mphj.accountry.models.db.TransactionReaddedDao;
 
 import java.io.File;
@@ -36,14 +36,14 @@ public class PdfReportExporter {
 
     protected Transaction transaction;
     protected List<TransactionProduct> transactionProducts;
-    protected List<TransactionReadded> transactionReaddeds;
+    protected List<TransactionReAdded> transactionReAddeds;
 
     public PdfReportExporter(Transaction transaction,
                           List<TransactionProduct> transactionProductList,
-                          List<TransactionReadded> transactionReaddedList) {
+                          List<TransactionReAdded> transactionReAddedList) {
         this.transaction = transaction;
         this.transactionProducts = transactionProductList;
-        this.transactionReaddeds = transactionReaddedList;
+        this.transactionReAddeds = transactionReAddedList;
     }
 
     public static PdfReportExporter byId(int id) {
@@ -55,10 +55,10 @@ public class PdfReportExporter {
         List<TransactionProduct> transactionProducts = transactionProductDao.queryBuilder()
                 .where(TransactionProductDao.Properties.TransactionId.eq(id))
                 .list();
-        List<TransactionReadded> transactionReaddeds = transactionReaddedDao.queryBuilder()
+        List<TransactionReAdded> transactionReAddeds = transactionReaddedDao.queryBuilder()
                 .where(TransactionReaddedDao.Properties.TransactionId.eq(id))
                 .list();
-        return new PdfReportExporter(transaction, transactionProducts, transactionReaddeds);
+        return new PdfReportExporter(transaction, transactionProducts, transactionReAddeds);
     }
 
 
@@ -124,7 +124,7 @@ public class PdfReportExporter {
 
         PdfUtils.addEmptyLine(pBody, 1);
 
-        if (transactionReaddeds.size() != 0) {
+        if (transactionReAddeds.size() != 0) {
             Paragraph pReadded = new Paragraph(new Phrase(
                     PdfUtils.asRtl("اضافات و کسورات"),
                     PdfUtils.getDefaultFont()
@@ -138,19 +138,19 @@ public class PdfReportExporter {
 
         float[] t2ColumnsSize = new float[]{1, 6, 3, 2};
         String[] t2Headers = new String[] {"شماره", "توضیحات", "قیمت", "نوع"};
-        String[][] t2Body = new String[transactionReaddeds.size()][4];
-        for (int i = 0; i < transactionReaddeds.size(); i++) {
-            TransactionReadded transactionReadded = transactionReaddeds.get(i);
-            String type = (transactionReadded.getType() == TransactionReadded.INC)
+        String[][] t2Body = new String[transactionReAddeds.size()][4];
+        for (int i = 0; i < transactionReAddeds.size(); i++) {
+            TransactionReAdded transactionReAdded = transactionReAddeds.get(i);
+            String type = (transactionReAdded.getType() == TransactionReAdded.INC)
                     ? "اضافات" : "کسورات";
             String[] row = {LocaleUtils.e2f(String.valueOf(i + 1)),
-                    transactionReadded.getDescription(),
-                    LocaleUtils.e2f(String.valueOf((int)transactionReadded.getPrice())),
+                    transactionReAdded.getDescription(),
+                    LocaleUtils.e2f(String.valueOf((int) transactionReAdded.getPrice())),
                     LocaleUtils.e2f(type)};
             t2Body[i] = row;
         }
         PdfPTable t2 = PdfUtils.getDefaultTable(t2ColumnsSize, t2Headers, t2Body);
-        if(transactionReaddeds.size() != 0)
+        if(transactionReAddeds.size() != 0)
             pBody.add(t2);
 
 

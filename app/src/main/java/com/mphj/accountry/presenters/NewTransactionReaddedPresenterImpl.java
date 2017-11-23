@@ -3,7 +3,7 @@ package com.mphj.accountry.presenters;
 import android.text.TextUtils;
 
 import com.mphj.accountry.interfaces.NewTransactionReaddedView;
-import com.mphj.accountry.models.db.TransactionReadded;
+import com.mphj.accountry.models.db.TransactionReAdded;
 import com.mphj.accountry.utils.DoubleValidator;
 
 /**
@@ -42,10 +42,10 @@ public class NewTransactionReaddedPresenterImpl implements NewTransactionReadded
             return;
         }
 
-        TransactionReadded transactionReadded = new TransactionReadded();
-        transactionReadded.setDescription(description);
-        transactionReadded.setPrice(Integer.parseInt(price));
-        transactionReadded.setType(type);
-        view.finishActivity(transactionReadded);
+        TransactionReAdded transactionReAdded = new TransactionReAdded();
+        transactionReAdded.setDescription(description);
+        transactionReAdded.setPrice(Integer.parseInt(price));
+        transactionReAdded.setType(type);
+        view.finishActivity(transactionReAdded);
     }
 }

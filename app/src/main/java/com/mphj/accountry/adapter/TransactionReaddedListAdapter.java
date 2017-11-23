@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.mphj.accountry.R;
 import com.mphj.accountry.interfaces.OnObjectItemClick;
-import com.mphj.accountry.models.db.TransactionReadded;
+import com.mphj.accountry.models.db.TransactionReAdded;
 import com.mphj.accountry.utils.LocaleUtils;
 
 import java.util.List;
@@ -24,16 +24,16 @@ import butterknife.ButterKnife;
  */
 
 public class TransactionReaddedListAdapter extends RecyclerView.Adapter<TransactionReaddedListAdapter.TransactionReaddedListViewHolder>{
-    List<TransactionReadded> list;
+    List<TransactionReAdded> list;
     FragmentActivity fragmentActivity;
-    OnObjectItemClick<TransactionReadded> onObjectItemClick;
+    OnObjectItemClick<TransactionReAdded> onObjectItemClick;
 
-    public TransactionReaddedListAdapter(List<TransactionReadded> list, FragmentActivity fragmentActivity){
+    public TransactionReaddedListAdapter(List<TransactionReAdded> list, FragmentActivity fragmentActivity){
         this.list = list;
         this.fragmentActivity = fragmentActivity;
     }
 
-    public TransactionReaddedListAdapter(List<TransactionReadded> list, FragmentActivity fragmentActivity, OnObjectItemClick<TransactionReadded> click){
+    public TransactionReaddedListAdapter(List<TransactionReAdded> list, FragmentActivity fragmentActivity, OnObjectItemClick<TransactionReAdded> click){
         this.list = list;
         this.fragmentActivity = fragmentActivity;
         this.onObjectItemClick = click;
@@ -48,17 +48,17 @@ public class TransactionReaddedListAdapter extends RecyclerView.Adapter<Transact
 
     @Override
     public void onBindViewHolder(TransactionReaddedListViewHolder viewHolder, int i) {
-        final TransactionReadded transactionReadded = list.get(i);
-        viewHolder.title.setText(transactionReadded.getDescription());
+        final TransactionReAdded transactionReAdded = list.get(i);
+        viewHolder.title.setText(transactionReAdded.getDescription());
         viewHolder.icon.setImageResource(
-                (transactionReadded.getType() == TransactionReadded.INC)? R.drawable.ic_plus : R.drawable.ic_remove
+                (transactionReAdded.getType() == TransactionReAdded.INC)? R.drawable.ic_plus : R.drawable.ic_remove
         );
-        viewHolder.leftText.setText(LocaleUtils.englishNumberToArabic("" + (int)transactionReadded.getPrice()) + " تومان");
+        viewHolder.leftText.setText(LocaleUtils.englishNumberToArabic("" + (int) transactionReAdded.getPrice()) + " تومان");
         viewHolder.container.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (onObjectItemClick != null){
-                    onObjectItemClick.onClick(v, transactionReadded);
+                    onObjectItemClick.onClick(v, transactionReAdded);
                     return;
                 }
             }
