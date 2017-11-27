@@ -13,7 +13,7 @@ import com.mphj.accountry.models.db.TransactionDao;
 import com.mphj.accountry.models.db.TransactionProduct;
 import com.mphj.accountry.models.db.TransactionProductDao;
 import com.mphj.accountry.models.db.TransactionReAdded;
-import com.mphj.accountry.models.db.TransactionReaddedDao;
+import com.mphj.accountry.models.db.TransactionReAddedDao;
 import com.mphj.accountry.presenters.fragment.ReportListPresenterImpl;
 
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
@@ -32,40 +32,20 @@ import java.util.List;
  */
 
 
-public class XlsReportExporter {
-
-    public static File destinationFolder = Environment.getExternalStoragePublicDirectory("ShafaghAccounting");
-
-    protected Transaction transaction;
-    protected List<TransactionProduct> transactionProducts;
-    protected List<TransactionReAdded> transactionReAddeds;
-    protected List<ReportListPresenterImpl.ReportV1Model> reportV1Models;
+public class XlsReportExporter extends ReportExporter{
 
     public XlsReportExporter(Transaction transaction,
                              List<TransactionProduct> transactionProductList,
                              List<TransactionReAdded> transactionReAddedList) {
-        this.transaction = transaction;
-        this.transactionProducts = transactionProductList;
-        this.transactionReAddeds = transactionReAddedList;
+        super(transaction, transactionProductList, transactionReAddedList);
     }
 
     public XlsReportExporter(List<ReportListPresenterImpl.ReportV1Model> list) {
-        this.reportV1Models = list;
+        super(list);
     }
 
     public static XlsReportExporter byId(int id) {
-        TransactionDao transactionDao = DaoManager.session().getTransactionDao();
-        TransactionProductDao transactionProductDao = DaoManager.session().getTransactionProductDao();
-        TransactionReaddedDao transactionReaddedDao = DaoManager.session().getTransactionReaddedDao();
-
-        Transaction transaction = transactionDao.load((long) id);
-        List<TransactionProduct> transactionProducts = transactionProductDao.queryBuilder()
-                .where(TransactionProductDao.Properties.TransactionId.eq(id))
-                .list();
-        List<TransactionReAdded> transactionReAddeds = transactionReaddedDao.queryBuilder()
-                .where(TransactionReaddedDao.Properties.TransactionId.eq(id))
-                .list();
-        return new XlsReportExporter(transaction, transactionProducts, transactionReAddeds);
+        return (XlsReportExporter) ReportExporter.byId(id, Type.XLS);
     }
 
 
@@ -75,14 +55,7 @@ public class XlsReportExporter {
 
 
     public void export(String fileName) throws Exception{
-        if (!destinationFolder.exists()) {
-            destinationFolder.mkdirs();
-        }
-        File outputFile = new File(destinationFolder + File.separator + fileName);
-        if (!outputFile.exists()) {
-            outputFile.createNewFile();
-        }
-
+        File outputFile = initDir(fileName);
         Workbook wb = new HSSFWorkbook();
         CellStyle cHeader = wb.createCellStyle();
         cHeader.setFillForegroundColor(HSSFColor.LIGHT_ORANGE.index);
@@ -92,63 +65,16 @@ public class XlsReportExporter {
 
         CustomerDao customerDao = DaoManager.session().getCustomerDao();
         Customer customer = customerDao.load((long)transaction.getCustomerId());
-        String customerTitle = customer.getName() + " (" + customer.getPhone() + ")";
+        //String customerTitle = customer.getName() + " (" + customer.getPhone() + ")";
 
-
-        float[] t1ColumnsSize = new float[]{1, 6, 3, 2, 3};
-        String[] t1Headers = new String[] {"شماره", "نام", "قیمت واحد", "تعداد", "قیمت کل"};
-        String[][] t1Body = new String[transactionProducts.size()][5];
-        for (int i = 0; i < transactionProducts.size(); i++) {
-            TransactionProduct transactionProduct = transactionProducts.get(i);
-            ProductDao productDao = DaoManager.session().getProductDao();
-            ProductPriceDao productPriceDao = DaoManager.session().getProductPriceDao();
-            ProductPrice productPrice = productPriceDao.queryBuilder()
-                    .where(ProductPriceDao.Properties.ProductId.eq(transactionProduct.getProductId()))
-                    .orderDesc(ProductPriceDao.Properties.CreatedAt)
-                    .unique();
-            Product product = productDao.load((long)transactionProduct.getProductId());
-            String[] row = {LocaleUtils.e2f(String.valueOf(i + 1)),
-                    product.getName(),
-                    LocaleUtils.e2f(String.valueOf((int) productPrice.getCustomerPrice())),
-                    LocaleUtils.e2f(String.valueOf(transactionProduct.getCount())),
-                    LocaleUtils.e2f(String.valueOf((int)(transactionProduct.getCount() * productPrice.getCustomerPrice())))};
-            t1Body[i] = row;
-        }
-        XlsUtils.getDefaultTable(productSheet, t1ColumnsSize, t1Headers, t1Body, cHeader);
-
+        XlsUtils.getDefaultTable(productSheet, getT1ColumnsSize(), getT1Headers(), getT1Body(), cHeader);
 
         Sheet readdedSheet = wb.createSheet("اضافات و کسورات");
-        float[] t2ColumnsSize = new float[]{1, 6, 3, 2};
-        String[] t2Headers = new String[] {"شماره", "توضیحات", "قیمت", "نوع"};
-        String[][] t2Body = new String[transactionReAddeds.size()][4];
-        for (int i = 0; i < transactionReAddeds.size(); i++) {
-            TransactionReAdded transactionReAdded = transactionReAddeds.get(i);
-            String type = (transactionReAdded.getType() == TransactionReAdded.INC)
-                    ? "اضافات" : "کسورات";
-            String[] row = {LocaleUtils.e2f(String.valueOf(i + 1)),
-                    transactionReAdded.getDescription(),
-                    LocaleUtils.e2f(String.valueOf((int) transactionReAdded.getPrice())),
-                    LocaleUtils.e2f(type)};
-            t2Body[i] = row;
-        }
-        XlsUtils.getDefaultTable(readdedSheet, t2ColumnsSize, t2Headers, t2Body, cHeader);
+        XlsUtils.getDefaultTable(readdedSheet, getT2ColumnsSize(), getT2Headers(), getT3Body(), cHeader);
 
         Sheet finallySheet = wb.createSheet("جمع بندی");
 
-        float[] t3ColumnsSize = {2, 6};
-        String paymentType =
-                (transaction.getPaymentType() == Transaction.PAYMENT_CHECK)
-                        ? "چک" : "نقد";
-        String[][] t3Body = {
-                {"تخفیف", LocaleUtils.e2f(String.valueOf((int)transaction.getOff())) + " درصد"},
-                {"مالیات", LocaleUtils.e2f(String.valueOf((int)transaction.getTax())) + " درصد"},
-                {"توضیحات", transaction.getDescription()},
-                {"مشتری", customerTitle},
-                {"نوع پرداخت", paymentType},
-                {"مبلغ قابل پرداخت", LocaleUtils.e2f(String.valueOf(transaction.getCustomerPrice()))}
-        };
-
-        XlsUtils.getDefaultTable(finallySheet, t3ColumnsSize, new String[]{"", ""}, t3Body, cHeader);
+        XlsUtils.getDefaultTable(finallySheet, getT3ColumnsSize(), new String[]{"", ""}, getT3Body(), cHeader);
         FileOutputStream os = new FileOutputStream(outputFile);
         wb.write(os);
         os.close();
@@ -156,14 +82,7 @@ public class XlsReportExporter {
 
 
     public void exportReportV1(String fileName) throws Exception{
-        if (!destinationFolder.exists()) {
-            destinationFolder.mkdirs();
-        }
-        File outputFile = new File(destinationFolder + File.separator + fileName);
-        if (!outputFile.exists()) {
-            outputFile.createNewFile();
-        }
-
+        File outputFile = initDir(fileName);
         Workbook wb = new HSSFWorkbook();
         CellStyle cHeader = wb.createCellStyle();
         cHeader.setFillForegroundColor(HSSFColor.LIGHT_ORANGE.index);

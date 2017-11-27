@@ -8,23 +8,28 @@ import android.view.View;
  */
 
 public class ViewAnimator {
-    public static void showWithFadeAndTranslationY(View view){
-        view.setTranslationY(view.getHeight() * -1);
+    public static void showWithFadeAndTranslationY(View view, int duration){
+        view.setTranslationY((view.getHeight() + view.getBottom()) * -1);
         view.setAlpha(0);
         view.setVisibility(View.VISIBLE);
         view.animate()
                 .translationY(0)
-                .setDuration(1000)
+                .setDuration(duration)
                 .alpha(1)
                 .start();
     }
 
-    public static void hideWithFadeAndTranslationY(final View view) {
+
+    public static void showWithFadeAndTranslationY(View view) {
+        showWithFadeAndTranslationY(view, 1000);
+    }
+
+    public static void hideWithFadeAndTranslationY(final View view, int duration) {
         view.setTranslationY(0);
         view.setAlpha(1);
         view.animate()
-                .translationY(view.getHeight())
-                .setDuration(1000)
+                .translationY(view.getHeight() + view.getBottom())
+                .setDuration(duration)
                 .alpha(0)
                 .setListener(new Animator.AnimatorListener() {
                     @Override public void onAnimationStart(Animator animation) {}
@@ -38,6 +43,10 @@ public class ViewAnimator {
                     @Override public void onAnimationRepeat(Animator animation) {}
                 })
                 .start();
+    }
+
+    public static void hideWithFadeAndTranslationY(View view) {
+        hideWithFadeAndTranslationY(view, 1000);
     }
 
     public static void scale(View view, float scale, int duration) {

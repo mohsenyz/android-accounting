@@ -1,5 +1,6 @@
 package com.mphj.accountry.utils;
 
+import android.graphics.PointF;
 import android.os.Environment;
 
 import com.itextpdf.text.Document;
@@ -20,7 +21,7 @@ import com.mphj.accountry.models.db.TransactionDao;
 import com.mphj.accountry.models.db.TransactionProduct;
 import com.mphj.accountry.models.db.TransactionProductDao;
 import com.mphj.accountry.models.db.TransactionReAdded;
-import com.mphj.accountry.models.db.TransactionReaddedDao;
+import com.mphj.accountry.models.db.TransactionReAddedDao;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -30,7 +31,7 @@ import java.util.List;
  * Created by mphj on 11/20/17.
  */
 
-public class PdfReportExporter {
+public class PdfReportExporter extends ReportExporter{
 
     public static File destinationFolder = Environment.getExternalStoragePublicDirectory("ShafaghAccounting");
 
@@ -41,140 +42,76 @@ public class PdfReportExporter {
     public PdfReportExporter(Transaction transaction,
                           List<TransactionProduct> transactionProductList,
                           List<TransactionReAdded> transactionReAddedList) {
-        this.transaction = transaction;
-        this.transactionProducts = transactionProductList;
-        this.transactionReAddeds = transactionReAddedList;
+        super(transaction, transactionProductList, transactionReAddedList);
     }
 
     public static PdfReportExporter byId(int id) {
-        TransactionDao transactionDao = DaoManager.session().getTransactionDao();
-        TransactionProductDao transactionProductDao = DaoManager.session().getTransactionProductDao();
-        TransactionReaddedDao transactionReaddedDao = DaoManager.session().getTransactionReaddedDao();
-
-        Transaction transaction = transactionDao.load((long) id);
-        List<TransactionProduct> transactionProducts = transactionProductDao.queryBuilder()
-                .where(TransactionProductDao.Properties.TransactionId.eq(id))
-                .list();
-        List<TransactionReAdded> transactionReAddeds = transactionReaddedDao.queryBuilder()
-                .where(TransactionReaddedDao.Properties.TransactionId.eq(id))
-                .list();
-        return new PdfReportExporter(transaction, transactionProducts, transactionReAddeds);
+        return (PdfReportExporter) ReportExporter.byId(id, Type.PDF);
     }
 
-
-    public void export(String fileName) throws Exception{
-        if (!destinationFolder.exists()) {
-            destinationFolder.mkdirs();
-        }
-        File outputFile = new File(destinationFolder + File.separator + fileName);
-        if (!outputFile.exists()) {
-            outputFile.createNewFile();
-        }
-
+    public Document initDocument(File outputFile) throws Exception {
         Document document = new Document(PageSize.A4);
         PdfWriter pdfWriter = PdfWriter.getInstance(document, new FileOutputStream(outputFile));
         PdfUtils.DefaultFooter event = new PdfUtils.DefaultFooter("حسابداری شفق", "صفحه ی");
         pdfWriter.setPageEvent(event);
         document.open();
+        return document;
+    }
 
+    public Paragraph getPageTitleParagraph() {
         String pageTitle = "فاکتور شماره ی ";
         pageTitle += LocaleUtils.englishNumberToArabic("" + transaction.getId());
-
-        Paragraph pBody = new Paragraph();
-
         Paragraph pTitle = new Paragraph(PdfUtils.asRtl(pageTitle), PdfUtils.getDefaultFont(15));
         pTitle.setAlignment(Element.ALIGN_CENTER);
+        return pTitle;
+    }
 
-        pBody.add(pTitle);
-        PdfUtils.addEmptyLine(pBody, 1);
-
-        CustomerDao customerDao = DaoManager.session().getCustomerDao();
-        Customer customer = customerDao.load((long)transaction.getCustomerId());
-        String customerTitle = "مشتری : " + customer.getName() + " (" + customer.getPhone() + ")";
-        Paragraph pCustomer = new Paragraph(new Phrase(PdfUtils.asRtl(customerTitle),
+    public Paragraph getCustomerParagraph() {
+        Paragraph pCustomer = new Paragraph(new Phrase(PdfUtils.asRtl(getCustomerTitle()),
                 PdfUtils.getDefaultFont()));
         pCustomer.setAlignment(Element.ALIGN_RIGHT);
         pCustomer.setExtraParagraphSpace(5);
-        pBody.add(pCustomer);
+        return pCustomer;
+    }
 
+
+    public Paragraph getTransactionReAddedParagraph() {
+        Paragraph pReadded = new Paragraph(new Phrase(
+                PdfUtils.asRtl("اضافات و کسورات"),
+                PdfUtils.getDefaultFont()
+        ));
+        pReadded.setAlignment(Element.ALIGN_CENTER);
+        return pReadded;
+    }
+
+    public void export(String fileName) throws Exception{
+        File outputFile = initDir(fileName);
+        Document document = initDocument(outputFile);
+        Paragraph pBody = new Paragraph();
+        pBody.add(getPageTitleParagraph());
         PdfUtils.addEmptyLine(pBody, 1);
-
-        float[] t1ColumnsSize = new float[]{1, 6, 3, 2, 3};
-        String[] t1Headers = new String[] {"شماره", "نام", "قیمت واحد", "تعداد", "قیمت کل"};
-        String[][] t1Body = new String[transactionProducts.size()][5];
-        for (int i = 0; i < transactionProducts.size(); i++) {
-            TransactionProduct transactionProduct = transactionProducts.get(i);
-            ProductDao productDao = DaoManager.session().getProductDao();
-            ProductPriceDao productPriceDao = DaoManager.session().getProductPriceDao();
-            ProductPrice productPrice = productPriceDao.queryBuilder()
-                    .where(ProductPriceDao.Properties.ProductId.eq(transactionProduct.getProductId()))
-                    .orderDesc(ProductPriceDao.Properties.CreatedAt)
-                    .unique();
-            Product product = productDao.load((long)transactionProduct.getProductId());
-            String[] row = {LocaleUtils.e2f(String.valueOf(i + 1)),
-                    product.getName(),
-                    LocaleUtils.e2f(String.valueOf((int) productPrice.getCustomerPrice())),
-                    LocaleUtils.e2f(String.valueOf(transactionProduct.getCount())),
-                    LocaleUtils.e2f(String.valueOf((int)(transactionProduct.getCount() * productPrice.getCustomerPrice())))};
-            t1Body[i] = row;
-        }
-        PdfPTable t1 = PdfUtils.getDefaultTable(t1ColumnsSize, t1Headers, t1Body);
+        pBody.add(getCustomerParagraph());
+        PdfUtils.addEmptyLine(pBody, 1);
+        PdfPTable t1 = PdfUtils.getDefaultTable(getT1ColumnsSize(), getT1Headers(), getT1Body());
         pBody.add(t1);
-
-
         PdfUtils.addEmptyLine(pBody, 1);
-
         if (transactionReAddeds.size() != 0) {
-            Paragraph pReadded = new Paragraph(new Phrase(
-                    PdfUtils.asRtl("اضافات و کسورات"),
-                    PdfUtils.getDefaultFont()
-            ));
-            pReadded.setAlignment(Element.ALIGN_CENTER);
-            pBody.add(pReadded);
-
+            pBody.add(getTransactionReAddedParagraph());
             PdfUtils.addEmptyLine(pBody, 1);
-        }
-
-
-        float[] t2ColumnsSize = new float[]{1, 6, 3, 2};
-        String[] t2Headers = new String[] {"شماره", "توضیحات", "قیمت", "نوع"};
-        String[][] t2Body = new String[transactionReAddeds.size()][4];
-        for (int i = 0; i < transactionReAddeds.size(); i++) {
-            TransactionReAdded transactionReAdded = transactionReAddeds.get(i);
-            String type = (transactionReAdded.getType() == TransactionReAdded.INC)
-                    ? "اضافات" : "کسورات";
-            String[] row = {LocaleUtils.e2f(String.valueOf(i + 1)),
-                    transactionReAdded.getDescription(),
-                    LocaleUtils.e2f(String.valueOf((int) transactionReAdded.getPrice())),
-                    LocaleUtils.e2f(type)};
-            t2Body[i] = row;
-        }
-        PdfPTable t2 = PdfUtils.getDefaultTable(t2ColumnsSize, t2Headers, t2Body);
-        if(transactionReAddeds.size() != 0)
+            PdfPTable t2 = PdfUtils.getDefaultTable(getT2ColumnsSize(), getT2Headers(), getT2Body());
             pBody.add(t2);
-
-
-        Paragraph pFinally = new Paragraph(PdfUtils.asRtl("جمع بندی"), PdfUtils.getDefaultFont(15));
-        pFinally.setAlignment(Element.ALIGN_CENTER);
-        pBody.add(pFinally);
-
+        }
+        pBody.add(getFinallyParagraph());
         PdfUtils.addEmptyLine(pBody, 1);
-
-        float[] t3ColumnsSize = {2, 6};
-        String paymentType =
-                (transaction.getPaymentType() == Transaction.PAYMENT_CHECK)
-                ? "چک" : "نقد";
-        String[][] t3Body = {
-                {"تخفیف", LocaleUtils.e2f(String.valueOf((int)transaction.getOff())) + " درصد"},
-                {"مالیات", LocaleUtils.e2f(String.valueOf((int)transaction.getTax())) + " درصد"},
-                {"توضیحات", transaction.getDescription()},
-                {"نوع پرداخت", paymentType},
-                {"مبلغ قابل پرداخت", LocaleUtils.e2f(String.valueOf(transaction.getCustomerPrice()))}
-        };
-        PdfPTable t3 = PdfUtils.getDefaultTable(t3ColumnsSize, new String[]{}, t3Body);
+        PdfPTable t3 = PdfUtils.getDefaultTable(getT3ColumnsSize(), getNullStringArr(), getT3Body());
         pBody.add(t3);
-
         document.add(pBody);
         document.close();
+    }
+
+    public Paragraph getFinallyParagraph() {
+        Paragraph pFinally = new Paragraph(PdfUtils.asRtl("جمع بندی"), PdfUtils.getDefaultFont(15));
+        pFinally.setAlignment(Element.ALIGN_CENTER);
+        return pFinally;
     }
 }
