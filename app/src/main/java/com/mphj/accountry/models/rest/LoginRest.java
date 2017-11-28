@@ -2,6 +2,7 @@ package com.mphj.accountry.models.rest;
 
 import com.mphj.accountry.AccountryApplication;
 import com.mphj.accountry.models.LoginModel;
+import com.mphj.accountry.mvp.Mvp;
 import com.mphj.accountry.rest.ApiClient;
 import com.mphj.accountry.rest.ApiInterface;
 import com.mphj.accountry.utils.DeviceUtils;
@@ -15,8 +16,9 @@ import retrofit2.Response;
  */
 
 public class LoginRest {
-    public interface LoginListener{
+    public interface LoginListener {
         void onSuccess(LoginModel loginModel);
+
         void onFailed(LoginModel loginModel);
     }
 
@@ -38,7 +40,7 @@ public class LoginRest {
 
                     @Override
                     public void onFailure(Call<LoginModel> call, Throwable t) {
-                        loginListener.onFailed(new LoginModel());
+                        loginListener.onFailed(new LoginModel(t));
                     }
                 });
     }

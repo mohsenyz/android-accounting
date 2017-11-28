@@ -23,6 +23,12 @@ public class LoginModel {
     @SerializedName("status")
     private int status = -1;
 
+    private transient Throwable failureThrowable;
+
+    public LoginModel(Throwable throwable) {
+        this.failureThrowable = throwable;
+    }
+
     public int getId() {
         return id;
     }

@@ -4,6 +4,7 @@ package com.mphj.accountry.presenters;
  * Created by mphj on 10/15/2017.
  */
 
+@Deprecated
 public interface LoginPresenter extends BasePresenter{
 
     void login(String username, String password);
