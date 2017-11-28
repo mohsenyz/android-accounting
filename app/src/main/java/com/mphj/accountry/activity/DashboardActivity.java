@@ -1,6 +1,5 @@
 package com.mphj.accountry.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.PagerAdapter;
@@ -12,7 +11,8 @@ import android.widget.TextView;
 
 import com.mphj.accountry.R;
 import com.mphj.accountry.adapter.SectionsPagerAdapter;
-import com.mphj.accountry.interfaces.DashboardView;
+import com.mphj.accountry.models.viewmodel.BottomBarModel;
+import com.mphj.accountry.mvp.activity.Dashboard;
 import com.mphj.accountry.presenters.DashboardPresenter;
 import com.mphj.accountry.presenters.DashboardPresenterImpl;
 import com.mphj.accountry.utils.ViewAnimator;
@@ -24,7 +24,7 @@ import butterknife.BindViews;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class DashboardActivity extends BaseActivity implements DashboardView, ViewPager.OnPageChangeListener, View.OnClickListener{
+public class DashboardActivity extends BaseActivity implements Dashboard.View, ViewPager.OnPageChangeListener, View.OnClickListener{
 
 
     @BindView(R.id.container)
@@ -92,54 +92,17 @@ public class DashboardActivity extends BaseActivity implements DashboardView, Vi
 
     @OnClick(R.id.fab)
     public void onFabClick(){
-        presenter.onFabClick();
-    }
-
-    @Override
-    public void startProgress() {
-        swipeRefreshLayout.setRefreshing(true);
-    }
-
-    @Override
-    public void endProgress() {
-        swipeRefreshLayout.setRefreshing(false);
+        //@TODO on fab click
     }
 
     @Override
     public void showFab() {
-        fab.animate()
-                .translationY(0)
-                .setDuration(400)
-                .alpha(1)
-                .start();
+        ViewAnimator.showWithFadeAndTranslationY(fab);
     }
 
     @Override
     public void hideFab() {
-        fab.animate()
-                .translationY(120)
-                .alpha(0)
-                .setDuration(400)
-                .start();
-    }
-
-    @Override
-    public void showNewProductActivity() {
-        startActivity(new Intent(this, NewProductActivity.class));
-    }
-
-    @Override
-    public void showNewCategoryActivity() {
-        startActivity(new Intent(this, NewCategoryActivity.class));
-    }
-
-    @Override
-    public void showNewCustomerActivity() {
-        startActivity(new Intent(this, NewCustomerActivity.class));
-    }
-    @Override
-    public void showExportProductActivity() {
-        startActivity(new Intent(this, ExportProductActivity.class));
+        ViewAnimator.hideWithFadeAndTranslationY(fab);
     }
 
     @Override
@@ -161,5 +124,35 @@ public class DashboardActivity extends BaseActivity implements DashboardView, Vi
     public void onClick(View v) {
         int position = (int)v.getTag();
         changeCurrentTo(position, true);
+    }
+
+    @Override
+    public void finishProgress() {
+
+    }
+
+    @Override
+    public void startProgress() {
+
+    }
+
+    @Override
+    public void attach() {
+
+    }
+
+    @Override
+    public void detach() {
+
+    }
+
+    @Override
+    public void showPage(int pageId) {
+
+    }
+
+    @Override
+    public void setBottomBarItems(List<BottomBarModel> list) {
+
     }
 }

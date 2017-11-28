@@ -33,7 +33,7 @@ public interface CommonView {
     }
 
     interface ResultReturner<T>{
-        void setResult(T obj);
+        void setResult(T obj, Object... etc);
     }
 
 }

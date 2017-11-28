@@ -24,6 +24,20 @@ public class TransactionReAdded
     public double price;
     public String description;
 
+    @Generated(hash = 865154194)
+    public TransactionReAdded(Long id, int type, long transactionId, double price,
+            String description) {
+        this.id = id;
+        this.type = type;
+        this.transactionId = transactionId;
+        this.price = price;
+        this.description = description;
+    }
+
+    @Generated(hash = 15012758)
+    public TransactionReAdded() {
+    }
+
     public Long getId() {
         return id;
     }
