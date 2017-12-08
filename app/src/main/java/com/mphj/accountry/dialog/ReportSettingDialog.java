@@ -1,5 +1,6 @@
 package com.mphj.accountry.dialog;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialogFragment;
@@ -47,8 +48,8 @@ public class ReportSettingDialog extends BottomSheetDialogFragment implements Re
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        Dialog dialog = super.onCreateDialog(savedInstanceState);
         View contentView = View.inflate(getContext(), R.layout.bs_dialog_simple_setting, null);
         getDialog().setContentView(contentView);
         ButterKnife.bind(this, contentView);
@@ -58,6 +59,7 @@ public class ReportSettingDialog extends BottomSheetDialogFragment implements Re
         }
         presenter = new ReportSettingPresenterImpl(this);
         presenter.loadList(transaction);
+        return dialog;
     }
 
     public void setupRecyclerView(){
