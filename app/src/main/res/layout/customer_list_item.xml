@@ -12,14 +12,26 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:id="@+id/user"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_margin="4dp"
+                android:src="@drawable/user"/>
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_toLeftOf="@id/user"
+                android:id="@+id/pan"
+                android:paddingBottom="30dp"
                 android:orientation="vertical">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingTop="7dp"
+                    android:paddingTop="3dp"
                     android:paddingRight="7dp"
                     android:textStyle="bold"
                     android:textColor="#000"
@@ -30,6 +42,37 @@
                     android:id="@+id/subText"
                     android:layout_marginRight="10dp"
                     android:textColor="@color/colorPrimaryDark" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_alignBottom="@id/pan"
+                android:background="#eaeaea">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.3333"
+                    android:textColor="#555"
+                    android:gravity="center"
+                    android:textSize="12dp"
+                    android:text="تماس"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.3334"
+                    android:textColor="#555"
+                    android:gravity="center"
+                    android:textSize="12dp"
+                    android:text="پیام"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.3333"
+                    android:textColor="#555"
+                    android:gravity="center"
+                    android:textSize="12dp"
+                    android:text="ویرایش"/>
             </LinearLayout>
             <ImageView
                 android:layout_width="20dp"
