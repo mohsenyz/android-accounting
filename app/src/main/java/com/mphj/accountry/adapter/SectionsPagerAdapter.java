@@ -11,6 +11,14 @@ import com.mphj.accountry.fragment.CustomerListFragment;
 import com.mphj.accountry.fragment.MainFragment;
 import com.mphj.accountry.fragment.PlaceHolderFragment;
 import com.mphj.accountry.fragment.ReportListFragment;
+import com.mphj.accountry.models.db.CheckDao;
+import com.mphj.accountry.models.db.CustomerDao;
+import com.mphj.accountry.models.db.Product;
+import com.mphj.accountry.models.db.ProductDao;
+import com.mphj.accountry.models.db.Transaction;
+import com.mphj.accountry.models.db.TransactionDao;
+import com.mphj.accountry.models.db.TransactionProduct;
+import com.mphj.accountry.utils.DaoManager;
 
 /**
  * Created by mphj on 10/20/2017.
@@ -29,12 +37,25 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
             case HOME:
                 return MainFragment.newInstance();
             case PRODUCTS:
+                ProductDao productDao = DaoManager.session().getProductDao();
+                if (productDao.count() == 0)
+                    return PlaceHolderFragment.newInstance(0);
                 return CategoryListFragment.newInstance();
             case CUSTOMERS:
+                CustomerDao customerDao = DaoManager.session().getCustomerDao();
+                if (customerDao.count() == 0)
+                    return PlaceHolderFragment.newInstance(0);
                 return CustomerListFragment.newInstance();
             case CHECKS:
+                CheckDao checkDao = DaoManager.session().getCheckDao();
+                int size = (int) checkDao.count();
+                if (size == 0)
+                    return PlaceHolderFragment.newInstance(0);
                 return CheckListFragment.newInstance();
             case REPORTS:
+                TransactionDao transactionDao = DaoManager.session().getTransactionDao();
+                if (transactionDao.count() == 0)
+                    return PlaceHolderFragment.newInstance(0);
                 return ReportListFragment.newInstance();
         }
         return PlaceHolderFragment.newInstance(position + 1);

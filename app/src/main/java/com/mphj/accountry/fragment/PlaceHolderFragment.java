@@ -30,7 +30,7 @@ public class PlaceHolderFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.layout_err_network, container, false);
+        View rootView = inflater.inflate(R.layout.empty_layout, container, false);
         return rootView;
     }
 }
