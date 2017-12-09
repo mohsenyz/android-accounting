@@ -11,6 +11,7 @@ import com.mphj.accountry.fragment.CustomerListFragment;
 import com.mphj.accountry.fragment.MainFragment;
 import com.mphj.accountry.fragment.PlaceHolderFragment;
 import com.mphj.accountry.fragment.ReportListFragment;
+import com.mphj.accountry.models.db.CategoryDao;
 import com.mphj.accountry.models.db.CheckDao;
 import com.mphj.accountry.models.db.CustomerDao;
 import com.mphj.accountry.models.db.Product;
@@ -37,8 +38,8 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
             case HOME:
                 return MainFragment.newInstance();
             case PRODUCTS:
-                ProductDao productDao = DaoManager.session().getProductDao();
-                if (productDao.count() == 0)
+                CategoryDao categoryDao = DaoManager.session().getCategoryDao();
+                if (categoryDao.count() == 0)
                     return PlaceHolderFragment.newInstance(0);
                 return CategoryListFragment.newInstance();
             case CUSTOMERS:
