@@ -68,7 +68,7 @@ public class CheckListAdapter extends RecyclerView.Adapter<CheckListAdapter.Chec
             viewHolder.setPaied.setVisibility(View.GONE);
         }
         viewHolder.subText.setText(
-                "تاریخ سررسید : "4
+                "تاریخ سررسید : "
                 + dateToString(check.getDueDate())
         );
         viewHolder.text.setText("چک ("
