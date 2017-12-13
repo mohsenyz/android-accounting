@@ -68,13 +68,12 @@ public class CheckListAdapter extends RecyclerView.Adapter<CheckListAdapter.Chec
             viewHolder.setPaied.setVisibility(View.GONE);
         }
         viewHolder.subText.setText(
-                "تاریخ سررسید : "
+                "تاریخ سررسید : "4
                 + dateToString(check.getDueDate())
         );
-        viewHolder.text.setText("چک به مبلغ "
-                + LocaleUtils.englishNumberToArabic("" + check.getPrice())
-                + " تومان بابت فاکتور "
-                + LocaleUtils.englishNumberToArabic("" + check.getTransactionId())
+        viewHolder.text.setText("چک ("
+                + LocaleUtils.englishNumberToArabic("" + check.getSerial())
+                + ")"
         );
         viewHolder.setPaied.setOnClickListener(new View.OnClickListener() {
             @Override
