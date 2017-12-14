@@ -10,8 +10,8 @@
     <string name="title_activity_dashboard">حسابداری شفق</string>
     <string name="turning_on_internet">روشن کردن اینترنت</string>
     <string name="err_while_connecting">خطا در اتصال!</string>
-    <string name="hint_new_storage">نام انبار جدید</string>
-    <string name="err_invalid_storage_name">نام انبار غیر معتبر است</string>
+    <string name="hint_new_storage">نام دسته بندی جدید</string>
+    <string name="err_invalid_storage_name">نام دسته بندی غیر معتبر است</string>
     <string name="submit">تایید</string>
     <string name="err_datas_may_wrong_because_network">لطفا به اینترنت متصل شوید. ممکن است اطلاعاتی که میبینید معتبر نباشند.</string>
     <string name="hint_name">نام</string>
@@ -26,13 +26,13 @@
     <string name="html_date_eq"><![CDATA[<font color="#297cde">تاریخ : </font><font color="#FBC02D">xxx</font>]]></string>
     <string name="html_price_eq"><![CDATA[<font color="#4CAF50">قیمت : </font> xxx]]></string>
     <string name="html_off_eq"><![CDATA[<font color="#F44336">تخفیف : </font> xxx درصد]]></string>
-    <string name="html_storage_title"><![CDATA[انبار <font color="#297cde">xxx</font>]]></string>
+    <string name="html_storage_title"><![CDATA[دسته بندی <font color="#297cde">xxx</font>]]></string>
     <string name="html_product_title"><![CDATA[محصول <font color="#297cde">xxx</font>]]></string>
     <string name="html_customer_title"><![CDATA[مشتری :  <font color="#297cde">xxx</font>]]></string>
-    <string name="select_storage">انتخاب انبار</string>
+    <string name="select_storage">انتخاب دسته بندی</string>
     <string name="select_customer">انتخاب مشتری</string>
     <string name="select_product">انتخاب محصول</string>
-    <string name="hint_storage">انبار</string>
+    <string name="hint_storage">دسته بندی</string>
     <string name="from_camera">دوربین</string>
     <string name="from_excel">فایل اکسل</string>
     <string name="add_product">لیست محصولات</string>

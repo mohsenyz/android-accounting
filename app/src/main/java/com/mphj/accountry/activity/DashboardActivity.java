@@ -57,13 +57,25 @@ public class DashboardActivity extends BaseActivity implements DashboardView, Vi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
         ButterKnife.bind(this);
+        mViewPager.addOnPageChangeListener(this);
+        mViewPager.setOffscreenPageLimit(0);
+        presenter = new DashboardPresenterImpl(this);
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(), this);
         mViewPager.setAdapter(mSectionsPagerAdapter);
-        mViewPager.addOnPageChangeListener(this);
-        presenter = new DashboardPresenterImpl(this);
         initTabs();
     }
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        int curr = mViewPager.getCurrentItem();
+        int newCurr = curr >= 1 ? curr - 1 : curr + 1;
+        mViewPager.destroyDrawingCache();
+        mSectionsPagerAdapter.notifyDataSetChanged();
+        mViewPager.setCurrentItem(newCurr, false);
+        mViewPager.setCurrentItem(curr, false);
+    }
 
     private void initTabs() {
         changeCurrentTo(mSectionsPagerAdapter.getCount() - 1, true);

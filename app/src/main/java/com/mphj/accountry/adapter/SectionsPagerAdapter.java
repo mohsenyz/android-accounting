@@ -1,8 +1,9 @@
 package com.mphj.accountry.adapter;
 
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.mphj.accountry.activity.DashboardActivity;
 import com.mphj.accountry.fragment.CategoryListFragment;
@@ -14,19 +15,18 @@ import com.mphj.accountry.fragment.ReportListFragment;
 import com.mphj.accountry.models.db.CategoryDao;
 import com.mphj.accountry.models.db.CheckDao;
 import com.mphj.accountry.models.db.CustomerDao;
-import com.mphj.accountry.models.db.Product;
-import com.mphj.accountry.models.db.ProductDao;
-import com.mphj.accountry.models.db.Transaction;
 import com.mphj.accountry.models.db.TransactionDao;
-import com.mphj.accountry.models.db.TransactionProduct;
 import com.mphj.accountry.utils.DaoManager;
 
 /**
  * Created by mphj on 10/20/2017.
  */
 
-public class SectionsPagerAdapter extends FragmentPagerAdapter {
+public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
     DashboardActivity dashboardActivity;
+
+    @Override
+    public void restoreState(Parcelable state, ClassLoader loader) { }
 
     public SectionsPagerAdapter(FragmentManager fm, DashboardActivity dashboardActivity) {
         super(fm);
@@ -83,6 +83,11 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
                 return "چک ها";
         }
         return null;
+    }
+
+    @Override
+    public int getItemPosition(Object object) {
+        return POSITION_NONE;
     }
 
     public static final int HOME = 4, REPORTS = 3, PRODUCTS = 2, CUSTOMERS = 1, CHECKS = 0;
