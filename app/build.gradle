@@ -64,6 +64,7 @@ dependencies {
     compile 'com.github.GrenderG:Toasty:1.2.5'
     debugCompile 'com.amitshekhar.android:debug-db:1.0.1'
     compile(name: 'tapsell-android-3.0.34', ext: 'aar')
+    implementation project(':wimagepicker')
 }
 
 apply plugin: 'com.google.gms.google-services'

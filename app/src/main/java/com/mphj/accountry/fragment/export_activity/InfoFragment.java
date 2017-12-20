@@ -111,12 +111,12 @@ public class InfoFragment extends Fragment implements
 
     @Override
     public void setTotalPriceWithOff(double totalPriceWithOff) {
+        totalCustomerPrice = (int) totalPriceWithOff;
         totalPrice.setText(LocaleUtils.englishNumberToArabic("" + totalPriceWithOff) + " تومان");
     }
 
     @Override
     public void setTotalOffPrice(double totalOffPrice) {
-        totalCustomerPrice = (int) totalOffPrice;
         totalOff.setText(LocaleUtils.englishNumberToArabic("" + totalOffPrice) + " تومان");
     }
 

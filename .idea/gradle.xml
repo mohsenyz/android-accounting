@@ -12,6 +12,7 @@
             <option value="$PROJECT_DIR$/calculator-dialog" />
             <option value="$PROJECT_DIR$/customview-helper" />
             <option value="$PROJECT_DIR$/sundatepicker" />
+            <option value="$PROJECT_DIR$/wimagepicker" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

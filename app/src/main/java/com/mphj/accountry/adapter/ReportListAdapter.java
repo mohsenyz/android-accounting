@@ -69,7 +69,7 @@ public class ReportListAdapter extends RecyclerView.Adapter<ReportListAdapter.Re
             viewHolder.loading.setVisibility(View.GONE);
         viewHolder.subText.setText(Html.fromHtml(
                 viewHolder.text.getResources().getString(R.string.html_date_eq).replace("xxx", LocaleUtils.e2f(dateToString(transaction.getCreatedAt() * 1000l)))));
-        viewHolder.text.setText("فاکتور شماره ی " + transaction.getId() + " (" + LocaleUtils.e2f("" + transaction.getCustomerPrice()) + " تومان" +")");
+        viewHolder.text.setText("فاکتور " + transaction.getId() + " (" + LocaleUtils.e2f("" + transaction.getCustomerPrice()) + " تومان" +")");
         viewHolder.container.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
