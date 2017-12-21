@@ -6,12 +6,17 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.mphj.wimagepicker.R;
+import com.mphj.wimagepicker.adapter.WImageListAdapter;
+import com.mphj.wimagepicker.model.WimageItem;
+
+import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -80,6 +85,8 @@ public class WImageFragment extends Fragment {
 
     private RecyclerView list;
     private CircleImageView selectImageView;
+    WImageListAdapter wImageListAdapter;
+    List<WimageItem> wimageItems;
     int defaultImageDrawable;
     int defaultImageBorderColor;
     int defaultListImageBorderColor;
@@ -121,6 +128,28 @@ public class WImageFragment extends Fragment {
         View view = inflater.inflate(R.layout.wimage_fragment_layout, container, false);
         list = (RecyclerView) view.findViewById(R.id.list);
         selectImageView = (CircleImageView) view.findViewById(R.id.image);
+        selectImageView.setImageResource(R.drawable.ic_wimage_camera);
+        selectImageView.setBorderColor(Color.BLACK);
+
+        wimageItems = WimageItem.createDefault();
+        wImageListAdapter = new WImageListAdapter(wimageItems);
+        wImageListAdapter.setOnItemClickListener(new WimageItem.OnItemClickListener() {
+            @Override
+            public void onItemClick(WimageItem item, WImageListAdapter.SimpleViewHolder holder, int pos) {
+                if (item.borderColor == Color.YELLOW) {
+                    item.borderColor = Color.RED;
+                } else {
+                    item.borderColor = Color.YELLOW;
+                }
+                wImageListAdapter.notifyItemChanged(pos);
+            }
+        });
+        list.setAdapter(wImageListAdapter);
+        list.setHasFixedSize(true);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        linearLayoutManager.scrollToPosition(Math.round(wImageListAdapter.getItemCount() / 2));
+        list.setLayoutManager(linearLayoutManager);
         return view;
     }
 }
