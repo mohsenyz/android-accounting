@@ -120,18 +120,20 @@ public class DashboardActivity extends BaseActivity implements DashboardView, Vi
     @Override
     public void showFab() {
         fab.animate()
-                .translationY(0)
-                .setDuration(400)
+                .scaleY(1)
+                .scaleX(1)
                 .alpha(1)
+                .setDuration(200)
                 .start();
     }
 
     @Override
     public void hideFab() {
         fab.animate()
-                .translationY(120)
+                .scaleX(0)
+                .scaleY(0)
                 .alpha(0)
-                .setDuration(400)
+                .setDuration(200)
                 .start();
     }
 
