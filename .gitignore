@@ -8,8 +8,6 @@
 /captures
 .externalNativeBuild
 
-app/google-services\.json
-
 app/release/output\.json
 
 *.log
