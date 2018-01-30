@@ -5,8 +5,8 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 
@@ -15,6 +15,7 @@ import com.mphj.accountry.interfaces.NewProductView;
 import com.mphj.accountry.models.db.Category;
 import com.mphj.accountry.presenters.NewProductPresenter;
 import com.mphj.accountry.presenters.NewProductPresenterImpl;
+import com.mphj.accountry.utils.ViewUtils;
 
 import org.parceler.Parcels;
 
@@ -23,6 +24,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnTextChanged;
+import butterknife.OnTouch;
 
 public class NewProductActivity extends BaseActivity implements NewProductView {
 
@@ -141,9 +143,11 @@ public class NewProductActivity extends BaseActivity implements NewProductView {
         startActivityForResult(new Intent(this, BarcodeReaderActivity.class), BARCODE_READER_REQUEST_CODE);
     }
 
-    @OnClick(R.id.input_category)
-    void onRequestCategory() {
-        startActivityForResult(new Intent(this, SelectCategoryActivity.class), SELECT_CATEGORY_REQUEST_CODE);
+    @OnTouch(R.id.input_category)
+    boolean onRequestCategory(View view, MotionEvent motionEvent) {
+        if (ViewUtils.isInViewBound(view, motionEvent) && motionEvent.getAction() == MotionEvent.ACTION_UP)
+            startActivityForResult(new Intent(this, SelectCategoryActivity.class), SELECT_CATEGORY_REQUEST_CODE);
+        return true;
     }
 
     @OnClick(R.id.pick_random)

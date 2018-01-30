@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -18,6 +19,7 @@ import com.mphj.accountry.interfaces.fragment.ReportListView;
 import com.mphj.accountry.models.db.Transaction;
 import com.mphj.accountry.presenters.fragment.ReportListPresenter;
 import com.mphj.accountry.presenters.fragment.ReportListPresenterImpl;
+import com.mphj.accountry.utils.ViewUtils;
 
 import java.util.Calendar;
 import java.util.List;
@@ -25,7 +27,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.OnFocusChange;
+import butterknife.OnTouch;
 
 /**
  * Created by mphj on 11/20/17.
@@ -95,9 +97,9 @@ public class ReportListFragment extends Fragment implements ReportListView, Date
     }
 
 
-    @OnFocusChange(R.id.fromDate)
-    void onRequestFromDate(View view, boolean hasFocus) {
-        if (hasFocus) {
+    @OnTouch(R.id.fromDate)
+    boolean onRequestFromDate(View view, MotionEvent motionEvent) {
+        if (ViewUtils.isInViewBound(view, motionEvent) && motionEvent.getAction() == MotionEvent.ACTION_UP) {
             DatePicker.Builder builder = new DatePicker.Builder()
                     .date(Calendar.getInstance())
                     .id(REQUEST_FROM_DATE)
@@ -105,11 +107,12 @@ public class ReportListFragment extends Fragment implements ReportListView, Date
             DatePicker datePicker = builder.build(this);
             datePicker.show(getFragmentManager(), "Request from date");
         }
+        return true;
     }
 
-    @OnFocusChange(R.id.toDate)
-    void onRequestToDate(View view, boolean hasFocus) {
-        if (hasFocus) {
+    @OnTouch(R.id.toDate)
+    boolean onRequestToDate(View view, MotionEvent motionEvent) {
+        if (ViewUtils.isInViewBound(view, motionEvent) && motionEvent.getAction() == MotionEvent.ACTION_UP) {
             DatePicker.Builder builder = new DatePicker.Builder()
                     .date(Calendar.getInstance())
                     .id(REQUEST_TO_DATE)
@@ -117,6 +120,7 @@ public class ReportListFragment extends Fragment implements ReportListView, Date
             DatePicker datePicker = builder.build(this);
             datePicker.show(getFragmentManager(), "Request to date");
         }
+        return true;
     }
 
     @Override
