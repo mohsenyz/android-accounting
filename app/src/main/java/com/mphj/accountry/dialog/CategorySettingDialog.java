@@ -3,13 +3,13 @@ package com.mphj.accountry.dialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.mphj.accountry.R;
+import com.mphj.accountry.activity.NewCategoryActivity;
 import com.mphj.accountry.activity.NewProductActivity;
 import com.mphj.accountry.adapter.SimpleListAdapter;
 import com.mphj.accountry.interfaces.dialog.CategorySettingView;
@@ -86,6 +86,14 @@ public class CategorySettingDialog extends BottomSheetDialogFragment implements 
     public void showAddProductActivity() {
         Intent i = new Intent(getActivity(), NewProductActivity.class);
         i.putExtra("category", Parcels.wrap(Category.class, category));
+        startActivity(i);
+    }
+
+
+    @Override
+    public void showEditPage() {
+        Intent i = new Intent(getActivity(), NewCategoryActivity.class);
+        i.putExtra("id", category.getId().intValue());
         startActivity(i);
     }
 }

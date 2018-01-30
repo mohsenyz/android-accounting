@@ -52,4 +52,28 @@ public class NewCustomerPresenterImpl implements NewCustomerPresenter {
 
         view.finishActivity();
     }
+
+
+    @Override
+    public void updateCustomer(String name, String phone, int id) {
+        if (TextUtils.isEmpty(name)) {
+            view.invalidName();
+            return;
+        }
+
+        if (TextUtils.isEmpty(phone)) {
+            view.invalidPhone();
+            return;
+        }
+
+        CustomerDao customerDao = DaoManager.session().getCustomerDao();
+
+        Customer customer = customerDao.load((long) id);
+        customer.setName(name);
+        customer.setPhone(phone);
+        customer.setCreatedAt(System.currentTimeMillis() / 1000L);
+        customerDao.save(customer);
+
+        view.finishActivity();
+    }
 }

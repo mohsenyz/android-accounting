@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.view.View;
 
 import com.mphj.accountry.R;
+import com.mphj.accountry.activity.NewCustomerActivity;
 import com.mphj.accountry.interfaces.dialog.CustomerSettingView;
 import com.mphj.accountry.models.SimpleListModel;
 import com.mphj.accountry.models.db.Customer;
@@ -37,7 +38,14 @@ public class CustomerSettingPresenterImpl implements CustomerSettingPresenter {
     @Override
     public void loadList(final Customer customer) {
         List<SimpleListModel> list = new ArrayList<>();
-        SimpleListModel model = new SimpleListModel("ویرایش", R.drawable.ic_gray_edit);
+        SimpleListModel model = new SimpleListModel("ویرایش", R.drawable.ic_gray_edit, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(v.getContext(), NewCustomerActivity.class);
+                i.putExtra("id", customer.getId().intValue());
+                v.getContext().startActivity(i);
+            }
+        });
         list.add(model);
         model = new SimpleListModel("تماس", R.drawable.ic_gray_call, new View.OnClickListener() {
             @Override
