@@ -1,9 +1,10 @@
 package com.mphj.accountry.models.db;
 
+import com.mphj.jodiff.JoDiffReporter;
+
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
-import org.json.JSONObject;
 import org.parceler.Parcel;
 
 /**
@@ -12,7 +13,7 @@ import org.parceler.Parcel;
 
 @Parcel
 @Entity
-public class TransactionProduct {
+public class TransactionProduct implements JoDiffReporter<TransactionProduct> {
 
     @Id(autoincrement = true)
     public Long id;
@@ -31,19 +32,6 @@ public class TransactionProduct {
 
     @Generated(hash = 126050318)
     public TransactionProduct() {
-    }
-
-    public static String toJson(TransactionProduct transactionProduct) {
-        try {
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("transactionId", transactionProduct.getTransactionId());
-            jsonObject.put("productId", transactionProduct.getProductId());
-            jsonObject.put("count", transactionProduct.getCount());
-            return jsonObject.toString();
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        return null;
     }
 
     public Long getId() {

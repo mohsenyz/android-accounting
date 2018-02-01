@@ -8,6 +8,7 @@ import com.mphj.accountry.interfaces.fragment.export_activity.ProductListView;
 import com.mphj.accountry.interfaces.fragment.export_activity.ReaddedListView;
 import com.mphj.accountry.models.db.Check;
 import com.mphj.accountry.models.db.CheckDao;
+import com.mphj.accountry.models.db.Log;
 import com.mphj.accountry.models.db.Product;
 import com.mphj.accountry.models.db.ProductDao;
 import com.mphj.accountry.models.db.Transaction;
@@ -16,6 +17,8 @@ import com.mphj.accountry.models.db.TransactionProduct;
 import com.mphj.accountry.models.db.TransactionProductDao;
 import com.mphj.accountry.models.db.TransactionReadded;
 import com.mphj.accountry.utils.DaoManager;
+import com.mphj.accountry.utils.GsonHelper;
+import com.mphj.accountry.utils.LogBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,11 +69,21 @@ public class ExportProductPresenterImpl implements ExportProductPresenter{
         transaction.setType(Transaction.TYPE_OUTGOING);
         transactionDao.save(transaction);
 
+        try {
+            LogBuilder.create(Transaction.class)
+                    .id(transaction.getId().intValue())
+                    .object(GsonHelper.toJson(transaction.reportDiff(null)))
+                    .build()
+                    .save();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
         ProductDao productDao = DaoManager.session().getProductDao();
         TransactionProductDao transactionProductDao = DaoManager.session().getTransactionProductDao();
         List<TransactionProduct> transactionProducts = new ArrayList<>();
         for (Product product : products) {
-            android.util.Log.i("PRODUCT", "" + product.getCount() + "," + product.getPendingCount());
             product.setCount(product.getCount() - product.getPendingCount());
             TransactionProduct transactionProduct = new TransactionProduct();
             transactionProduct.setTransactionId(transaction.getId().intValue());
@@ -80,12 +93,37 @@ public class ExportProductPresenterImpl implements ExportProductPresenter{
         }
 
         transactionProductDao.saveInTx(transactionProducts);
+        List<Log> logs = new ArrayList<>();
+        try {
+            for (TransactionProduct transactionProduct : transactionProducts) {
+                logs.add(
+                        LogBuilder.create(TransactionProduct.class)
+                                .id(transactionProduct.getId().intValue())
+                                .object(GsonHelper.toJson(transactionProduct.reportDiff(null)))
+                                .build()
+                );
+            }
+            DaoManager.session().getLogDao().saveInTx(logs);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         productDao.saveInTx(products);
 
         if (check != null) {
             CheckDao checkDao = DaoManager.session().getCheckDao();
             check.setTransactionId(transaction.getId().intValue());
             checkDao.save(check);
+
+            try {
+                LogBuilder.create(Check.class)
+                        .id(check.getId().intValue())
+                        .object(GsonHelper.toJson(check.reportDiff(null)))
+                        .build()
+                        .save();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         view.transactionSaved(transaction.getId().intValue());
     }

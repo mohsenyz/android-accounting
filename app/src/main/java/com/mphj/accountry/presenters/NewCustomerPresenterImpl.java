@@ -6,6 +6,8 @@ import com.mphj.accountry.interfaces.NewCustomerView;
 import com.mphj.accountry.models.db.Customer;
 import com.mphj.accountry.models.db.CustomerDao;
 import com.mphj.accountry.utils.DaoManager;
+import com.mphj.accountry.utils.GsonHelper;
+import com.mphj.accountry.utils.LogBuilder;
 
 
 /**
@@ -50,6 +52,16 @@ public class NewCustomerPresenterImpl implements NewCustomerPresenter {
         customer.setCreatedAt(System.currentTimeMillis() / 1000L);
         customerDao.save(customer);
 
+        try {
+            LogBuilder.create(Customer.class)
+                    .id(customer.getId().intValue())
+                    .object(GsonHelper.toJson(customer.reportDiff(null)))
+                    .build()
+                    .save();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         view.finishActivity();
     }
 
@@ -69,10 +81,26 @@ public class NewCustomerPresenterImpl implements NewCustomerPresenter {
         CustomerDao customerDao = DaoManager.session().getCustomerDao();
 
         Customer customer = customerDao.load((long) id);
+        Customer oldCustomer = null;
+        try {
+            oldCustomer = (Customer) customer.clone();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         customer.setName(name);
         customer.setPhone(phone);
         customer.setCreatedAt(System.currentTimeMillis() / 1000L);
         customerDao.save(customer);
+
+        try {
+            LogBuilder.update(Customer.class)
+                    .id(customer.getId().intValue())
+                    .object(GsonHelper.toJson(customer.reportDiff(oldCustomer)))
+                    .build();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         view.finishActivity();
     }

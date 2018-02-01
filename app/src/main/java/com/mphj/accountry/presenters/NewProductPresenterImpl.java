@@ -16,6 +16,8 @@ import com.mphj.accountry.models.db.TransactionProductDao;
 import com.mphj.accountry.utils.BarcodeGenerator;
 import com.mphj.accountry.utils.DaoManager;
 import com.mphj.accountry.utils.DoubleValidator;
+import com.mphj.accountry.utils.GsonHelper;
+import com.mphj.accountry.utils.LogBuilder;
 
 /**
  * Created by mphj on 10/20/2017.
@@ -83,6 +85,16 @@ public class NewProductPresenterImpl implements NewProductPresenter, BarcodeGene
         productDao.save(product);
         int id = product.getId().intValue();
 
+        try {
+            LogBuilder.create(Product.class)
+                    .id(product.getId().intValue())
+                    .object(GsonHelper.toJson(product.reportDiff(null)))
+                    .build()
+                    .save();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         // We should define price and off too
 
         ProductPrice productPrice = new ProductPrice();
@@ -94,12 +106,31 @@ public class NewProductPresenterImpl implements NewProductPresenter, BarcodeGene
         ProductPriceDao productPriceDao = DaoManager.session().getProductPriceDao();
         productPriceDao.save(productPrice);
 
+        try {
+            LogBuilder.create(ProductPrice.class)
+                    .id(productPrice.getId().intValue())
+                    .object(GsonHelper.toJson(productPrice.reportDiff(null)))
+                    .build()
+                    .save();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         TransactionDao transactionDao = DaoManager.session().getTransactionDao();
         Transaction transaction = new Transaction();
         transaction.setCreatedAt(System.currentTimeMillis() / 1000L);
         transaction.setType(Transaction.TYPE_INCOMING);
         transactionDao.save(transaction);
+
+        try {
+            LogBuilder.create(Transaction.class)
+                    .id(transaction.getId().intValue())
+                    .object(GsonHelper.toJson(transaction.reportDiff(null)))
+                    .build()
+                    .save();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         TransactionProductDao transactionProductDao = DaoManager.session().getTransactionProductDao();
 
@@ -108,6 +139,16 @@ public class NewProductPresenterImpl implements NewProductPresenter, BarcodeGene
         transactionProduct.setProductId(product.getId().intValue());
         transactionProduct.setTransactionId(transaction.getId().intValue());
         transactionProductDao.save(transactionProduct);
+
+        try {
+            LogBuilder.create(TransactionProduct.class)
+                    .id(transactionProduct.getId().intValue())
+                    .object(GsonHelper.toJson(transactionProduct.reportDiff(null)))
+                    .build()
+                    .save();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         view.finishActivity();
     }
@@ -147,6 +188,13 @@ public class NewProductPresenterImpl implements NewProductPresenter, BarcodeGene
 
         long currentTime = Math.round(System.currentTimeMillis() / 1000f);
         Product product = DaoManager.session().getProductDao().load((long) productId);
+        Product oldProduct = null;
+        try {
+            oldProduct = (Product) product.clone();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         product.setCreatedAt(currentTime);
         product.setName(name);
         product.setToken(token);
@@ -156,6 +204,16 @@ public class NewProductPresenterImpl implements NewProductPresenter, BarcodeGene
         ProductDao productDao = DaoManager.session().getProductDao();
         productDao.save(product);
         int id = product.getId().intValue();
+
+        try {
+            LogBuilder.update(Product.class)
+                    .id(product.getId().intValue())
+                    .object(GsonHelper.toJson(product.reportDiff(oldProduct)))
+                    .build()
+                    .save();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         // We should define price and off too
 
@@ -167,6 +225,16 @@ public class NewProductPresenterImpl implements NewProductPresenter, BarcodeGene
 
         ProductPriceDao productPriceDao = DaoManager.session().getProductPriceDao();
         productPriceDao.save(productPrice);
+
+        try {
+            LogBuilder.create(ProductPrice.class)
+                    .id(productPrice.getId().intValue())
+                    .object(GsonHelper.toJson(productPrice.reportDiff(null)))
+                    .build()
+                    .save();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         view.finishActivity();
     }

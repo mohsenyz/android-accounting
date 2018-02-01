@@ -1,10 +1,12 @@
 package com.mphj.accountry.models.db;
 
+import com.mphj.jodiff.JoDiffReporter;
+import com.mphj.jodiff.annonations.DiffTransient;
+
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Transient;
-import org.json.JSONObject;
 import org.parceler.Parcel;
 
 /**
@@ -13,14 +15,16 @@ import org.parceler.Parcel;
 
 @Parcel
 @Entity
-public class Transaction {
+public class Transaction implements JoDiffReporter<Product> {
 
     @Transient
     @org.parceler.Transient
+    @DiffTransient
     public static final int TYPE_INCOMING = 1, TYPE_OUTGOING = 2;
 
     @Transient
     @org.parceler.Transient
+    @DiffTransient
     public static final int PAYMENT_CHECK = 1, PAYMENT_CREDIT = 2;
 
     @Id(autoincrement = true)
@@ -60,25 +64,6 @@ public class Transaction {
 
     @Generated(hash = 750986268)
     public Transaction() {
-    }
-
-
-    public static String toJson(Transaction transaction) {
-        try {
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("customerId", transaction.getCustomerId());
-            jsonObject.put("canceled", transaction.isCanceled());
-            jsonObject.put("createdAt", transaction.getCreatedAt());
-            jsonObject.put("type", transaction.getType());
-            jsonObject.put("description", transaction.getDescription());
-            jsonObject.put("tax", transaction.getTax());
-            jsonObject.put("off", transaction.getOff());
-            jsonObject.put("serverId", transaction.getServerId());
-            return jsonObject.toString();
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        return null;
     }
 
     public Long getId() {

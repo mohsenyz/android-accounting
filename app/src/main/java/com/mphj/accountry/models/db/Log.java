@@ -1,6 +1,8 @@
 package com.mphj.accountry.models.db;
 
 
+import com.mphj.accountry.utils.DaoManager;
+
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
@@ -67,6 +69,10 @@ public class Log {
 
     public boolean getDone() {
         return this.done;
+    }
+
+    public void save() {
+        DaoManager.session().getLogDao().save(this);
     }
 
 }

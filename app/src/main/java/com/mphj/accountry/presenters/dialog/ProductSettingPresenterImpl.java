@@ -14,6 +14,8 @@ import com.mphj.accountry.models.db.TransactionDao;
 import com.mphj.accountry.models.db.TransactionProduct;
 import com.mphj.accountry.models.db.TransactionProductDao;
 import com.mphj.accountry.utils.DaoManager;
+import com.mphj.accountry.utils.GsonHelper;
+import com.mphj.accountry.utils.LogBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -84,12 +86,33 @@ public class ProductSettingPresenterImpl implements ProductSettingPresenter {
         transaction.setType(Transaction.TYPE_INCOMING);
         transactionDao.save(transaction);
 
+        try {
+            LogBuilder.create(Transaction.class)
+                    .id(transaction.getId().intValue())
+                    .object(GsonHelper.toJson(transaction.reportDiff(null)))
+                    .build()
+                    .save();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         TransactionProduct transactionProduct = new TransactionProduct();
         transactionProduct.setTransactionId(transaction.getId().intValue());
         transactionProduct.setProductId(product.getId().intValue());
         transactionProduct.setCount(count);
 
         transactionProductDao.save(transactionProduct);
+
+        try {
+            LogBuilder.create(TransactionProduct.class)
+                    .id(transactionProduct.getId().intValue())
+                    .object(GsonHelper.toJson(transactionProduct.reportDiff(null)))
+                    .build()
+                    .save();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         view.increasedSuccessfully();
     }
 }

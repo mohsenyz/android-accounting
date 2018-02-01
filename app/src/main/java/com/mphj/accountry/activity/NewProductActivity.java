@@ -101,6 +101,10 @@ public class NewProductActivity extends BaseActivity implements NewProductView {
             count.setText(String.valueOf(product.getCount()));
             count.setEnabled(false);
         }
+        Category category = Parcels.unwrap(getIntent().getParcelableExtra("category"));
+        if (category != null) {
+            setCategory(category);
+        }
     }
 
     @OnTextChanged(R.id.input_serial)

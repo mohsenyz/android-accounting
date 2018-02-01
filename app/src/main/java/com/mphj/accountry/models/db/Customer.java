@@ -1,9 +1,10 @@
 package com.mphj.accountry.models.db;
 
+import com.mphj.jodiff.JoDiffReporter;
+
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
-import org.json.JSONObject;
 import org.parceler.Parcel;
 
 /**
@@ -12,7 +13,7 @@ import org.parceler.Parcel;
 
 @Parcel
 @Entity
-public class Customer {
+public class Customer implements JoDiffReporter<Customer>, Cloneable {
 
     @Id(autoincrement = true)
     public Long id;
@@ -75,17 +76,8 @@ public class Customer {
         this.serverId = serverId;
     }
 
-    public static String toJson(Customer customer){
-        try{
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("name", customer.getName());
-            jsonObject.put("phone", customer.getPhone());
-            jsonObject.put("createdAt", customer.getCreatedAt());
-            jsonObject.put("serverId", customer.getServerId());
-            return jsonObject.toString();
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        return null;
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 }
