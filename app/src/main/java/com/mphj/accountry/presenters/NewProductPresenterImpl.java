@@ -112,6 +112,65 @@ public class NewProductPresenterImpl implements NewProductPresenter, BarcodeGene
         view.finishActivity();
     }
 
+
+    @Override
+    public void updateProduct(String name, String token, String price, String customerPrice, Category category, String count, int productId) {
+        if (category == null) {
+            view.invalidCategory();
+            return;
+        }
+
+        if (!DoubleValidator.isValid(price)){
+            view.invalidPrice();
+            return;
+        }
+
+        if (!DoubleValidator.isValid(customerPrice)){
+            view.invalidCustomerPrice();
+            return;
+        }
+
+        if (TextUtils.isEmpty(name)){
+            view.invalidName();
+            return;
+        }
+
+        if (TextUtils.isEmpty(token)){
+            view.invalidSerial();
+            return;
+        }
+
+        if (!DoubleValidator.isValid(count)) {
+            view.invalidCount();
+            return;
+        }
+
+        long currentTime = Math.round(System.currentTimeMillis() / 1000f);
+        Product product = DaoManager.session().getProductDao().load((long) productId);
+        product.setCreatedAt(currentTime);
+        product.setName(name);
+        product.setToken(token);
+        product.setCategoryId(category.getId().intValue());
+        product.setCount(Integer.parseInt(count));
+
+        ProductDao productDao = DaoManager.session().getProductDao();
+        productDao.save(product);
+        int id = product.getId().intValue();
+
+        // We should define price and off too
+
+        ProductPrice productPrice = new ProductPrice();
+        productPrice.setCreatedAt(currentTime);
+        productPrice.setProductId(id);
+        productPrice.setPrice(Double.parseDouble(price));
+        productPrice.setCustomerPrice(Double.parseDouble(customerPrice));
+
+        ProductPriceDao productPriceDao = DaoManager.session().getProductPriceDao();
+        productPriceDao.save(productPrice);
+
+        view.finishActivity();
+    }
+
     @Override
     public void generateBarcode(String barcode) {
         if (TextUtils.isEmpty(barcode))

@@ -1,8 +1,10 @@
 package com.mphj.accountry.presenters.dialog;
 
+import android.content.Intent;
 import android.view.View;
 
 import com.mphj.accountry.R;
+import com.mphj.accountry.activity.NewProductActivity;
 import com.mphj.accountry.interfaces.dialog.ProductSettingView;
 import com.mphj.accountry.models.SimpleListModel;
 import com.mphj.accountry.models.db.Product;
@@ -39,9 +41,16 @@ public class ProductSettingPresenterImpl implements ProductSettingPresenter {
     }
 
     @Override
-    public void loadList() {
+    public void loadList(final Product product) {
         List<SimpleListModel> list = new ArrayList<>();
-        SimpleListModel model = new SimpleListModel("ویرایش", R.drawable.ic_gray_edit);
+        SimpleListModel model = new SimpleListModel("ویرایش", R.drawable.ic_gray_edit, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), NewProductActivity.class);
+                intent.putExtra("id", product.getId().intValue());
+                v.getContext().startActivity(intent);
+            }
+        });
         list.add(model);
         model = new SimpleListModel("نمودار تغییر قیمت", R.drawable.ic_gray_line_chart);
         list.add(model);

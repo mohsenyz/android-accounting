@@ -63,7 +63,7 @@ public class ProductSettingDialog extends BottomSheetDialogFragment implements P
             product = Parcels.unwrap(getArguments().getParcelable("product"));
         }
         presenter = new ProductSettingPresenterImpl(this);
-        presenter.loadList();
+        presenter.loadList(product);
         return dialog;
     }
 
