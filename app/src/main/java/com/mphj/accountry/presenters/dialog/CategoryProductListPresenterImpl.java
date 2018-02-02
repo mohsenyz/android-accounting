@@ -6,7 +6,13 @@ import com.mphj.accountry.models.db.Product;
 import com.mphj.accountry.models.db.ProductDao;
 import com.mphj.accountry.models.db.ProductPrice;
 import com.mphj.accountry.models.db.ProductPriceDao;
+import com.mphj.accountry.models.db.Transaction;
+import com.mphj.accountry.models.db.TransactionDao;
+import com.mphj.accountry.models.db.TransactionProduct;
+import com.mphj.accountry.models.db.TransactionProductDao;
 import com.mphj.accountry.utils.DaoManager;
+import com.mphj.accountry.utils.GsonHelper;
+import com.mphj.accountry.utils.LogBuilder;
 
 import java.util.List;
 
@@ -49,5 +55,52 @@ public class CategoryProductListPresenterImpl implements CategoryProductListPres
             product.setCurrentProductPrice(productPrice);
         }
         view.setAdapter(products);
+    }
+
+    @Override
+    public void increaseProduct(Product product, int count) {
+        if (count <= 0)
+            return;
+
+        ProductDao productDao = DaoManager.session().getProductDao();
+        TransactionProductDao transactionProductDao = DaoManager.session().getTransactionProductDao();
+        TransactionDao transactionDao = DaoManager.session().getTransactionDao();
+
+        product.setCount(product.getCount() + count);
+        productDao.save(product);
+
+        Transaction transaction = new Transaction();
+        transaction.setCreatedAt(System.currentTimeMillis() / 1000L);
+        transaction.setType(Transaction.TYPE_INCOMING);
+        transactionDao.save(transaction);
+
+        try {
+            LogBuilder.create(Transaction.class)
+                    .id(transaction.getId().intValue())
+                    .object(GsonHelper.toJson(transaction.reportDiff(null)))
+                    .build()
+                    .save();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        TransactionProduct transactionProduct = new TransactionProduct();
+        transactionProduct.setTransactionId(transaction.getId().intValue());
+        transactionProduct.setProductId(product.getId().intValue());
+        transactionProduct.setCount(count);
+
+        transactionProductDao.save(transactionProduct);
+
+        try {
+            LogBuilder.create(TransactionProduct.class)
+                    .id(transactionProduct.getId().intValue())
+                    .object(GsonHelper.toJson(transactionProduct.reportDiff(null)))
+                    .build()
+                    .save();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        view.increasedSuccessfully();
     }
 }

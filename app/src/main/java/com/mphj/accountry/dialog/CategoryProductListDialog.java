@@ -1,8 +1,9 @@
 package com.mphj.accountry.dialog;
 
+import android.app.Activity;
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -22,6 +23,9 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import es.dmoral.toasty.Toasty;
+
+import static com.mphj.accountry.dialog.ProductSettingDialog.INCREASE_PRODUCT;
 
 /**
  * Created by mphj on 10/24/2017.
@@ -68,7 +72,31 @@ public class CategoryProductListDialog extends BottomSheetDialogFragment impleme
 
     @Override
     public void setAdapter(List<Product> list) {
-        productListAdapter = new ProductListAdapter(list, getActivity());
+        productListAdapter = new ProductListAdapter(list, getActivity(), this);
         recyclerView.setAdapter(productListAdapter);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        presenter.loadList(category);
+    }
+
+    @Override
+    public void increasedSuccessfully() {
+        Toasty.success(getActivity(), "تعداد محصول با موفقیت افزایش یافت").show();
+    }
+
+    public Product pendingProduct = null;
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == INCREASE_PRODUCT) {
+            if (resultCode == Activity.RESULT_OK) {
+                presenter.increaseProduct(pendingProduct, data.getIntExtra("count", 0));
+                pendingProduct = null;
+            }
+        }
     }
 }

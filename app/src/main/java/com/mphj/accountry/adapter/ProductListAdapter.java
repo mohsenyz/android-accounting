@@ -1,5 +1,6 @@
 package com.mphj.accountry.adapter;
 
+import android.content.Intent;
 import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.CardView;
@@ -11,6 +12,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.mphj.accountry.R;
+import com.mphj.accountry.activity.GetCountActivity;
+import com.mphj.accountry.activity.NewProductActivity;
+import com.mphj.accountry.dialog.CategoryProductListDialog;
 import com.mphj.accountry.dialog.ProductSettingDialog;
 import com.mphj.accountry.interfaces.OnObjectItemClick;
 import com.mphj.accountry.models.db.Product;
@@ -31,6 +35,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
     List<Product> list;
     FragmentActivity fragmentActivity;
     OnObjectItemClick<Product> onObjectItemClick;
+    CategoryProductListDialog categoryProductListDialog;
 
     public ProductListAdapter(List<Product> list, FragmentActivity fragmentActivity){
         this.list = list;
@@ -41,6 +46,12 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         this.list = list;
         this.fragmentActivity = fragmentActivity;
         this.onObjectItemClick = click;
+    }
+
+    public ProductListAdapter(List<Product> list, FragmentActivity fragmentActivity, CategoryProductListDialog categoryProductListDialog){
+        this.list = list;
+        this.fragmentActivity = fragmentActivity;
+        this.categoryProductListDialog = categoryProductListDialog;
     }
 
     @Override
@@ -80,6 +91,24 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
                 return true;
             }
         });
+        viewHolder.add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                categoryProductListDialog.pendingProduct = product;
+                categoryProductListDialog.startActivityForResult(
+                        new Intent(v.getContext(), GetCountActivity.class),
+                        ProductSettingDialog.INCREASE_PRODUCT
+                );
+            }
+        });
+        viewHolder.edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), NewProductActivity.class);
+                intent.putExtra("id", product.getId().intValue());
+                v.getContext().startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -100,6 +129,15 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
         @BindView(R.id.container)
         public CardView container;
+
+        @BindView(R.id.bottombar_edit)
+        TextView edit;
+
+        @BindView(R.id.bottombar_add)
+        TextView add;
+
+        @BindView(R.id.bottombar_stats)
+        TextView stat;
 
         public ProductViewHolder(View itemView) {
             super(itemView);
