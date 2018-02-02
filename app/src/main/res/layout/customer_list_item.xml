@@ -71,6 +71,7 @@
                     android:textColor="#555"
                     android:gravity="center"
                     android:textSize="12dp"
+                    android:id="@+id/bottombar_call"
                     android:text="تماس"/>
                 <TextView
                     android:layout_width="0dp"
@@ -79,6 +80,7 @@
                     android:textColor="#555"
                     android:gravity="center"
                     android:textSize="12dp"
+                    android:id="@+id/bottombar_msg"
                     android:text="پیام"/>
                 <TextView
                     android:layout_width="0dp"
@@ -87,6 +89,7 @@
                     android:textColor="#555"
                     android:gravity="center"
                     android:textSize="12dp"
+                    android:id="@+id/bottombar_edit"
                     android:text="ویرایش"/>
             </LinearLayout>
             <ImageView

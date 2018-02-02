@@ -71,15 +71,16 @@ public class CheckListAdapter extends RecyclerView.Adapter<CheckListAdapter.Chec
         );
         viewHolder.price.setText(LocaleUtils.e2f(String.valueOf(check.getPrice())) + " تومان");
         viewHolder.factor.setText("فاکتور " + LocaleUtils.e2f(String.valueOf(check.getId())));
-        viewHolder.container.setOnClickListener(new View.OnClickListener() {
+        viewHolder.container.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
-            public void onClick(View v) {
+            public boolean onLongClick(View v) {
                 if (onObjectItemClick != null){
                     onObjectItemClick.onClick(v, check);
-                    return;
+                    return true;
                 }
                 //BottomSheetDialogFragment bottomSheetDialogFragment = CustomerSettingDialog.create(customer);
                 //bottomSheetDialogFragment.show(fragmentActivity.getSupportFragmentManager(), "");
+                return true;
             }
         });
     }
