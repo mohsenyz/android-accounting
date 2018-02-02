@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Environment;
 import android.os.StatFs;
 import android.provider.Settings;
+import android.telephony.TelephonyManager;
 import android.util.DisplayMetrics;
 
 import com.mphj.accountry.AccountryApplication;
@@ -19,6 +20,21 @@ public class DeviceUtils {
     public static String getUnique(Context context){
         return Settings.Secure.getString(context.getContentResolver(),
                 Settings.Secure.ANDROID_ID);
+    }
+
+    public static String getDeviceId(Context context) {
+        try {
+            TelephonyManager tel = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+            return tel.getDeviceId();
+        } catch (SecurityException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+    public static String getDeviceIdChecksum(Context context) {
+        return Checksum.get(getDeviceId(context));
     }
 
 
