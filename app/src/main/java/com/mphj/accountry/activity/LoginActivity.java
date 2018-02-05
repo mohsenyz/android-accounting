@@ -2,6 +2,7 @@ package com.mphj.accountry.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.transition.TransitionManager;
 import android.support.v7.widget.CardView;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -11,6 +12,8 @@ import android.widget.LinearLayout;
 
 import com.mphj.accountry.R;
 import com.mphj.accountry.interfaces.LoginView;
+import com.mphj.accountry.models.LoginModel;
+import com.mphj.accountry.models.rest.LoginRest;
 import com.mphj.accountry.presenters.LoginPresenter;
 import com.mphj.accountry.presenters.LoginPresenterImpl;
 import com.mphj.accountry.utils.ViewAnimator;
@@ -18,6 +21,7 @@ import com.mphj.accountry.utils.ViewAnimator;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import es.dmoral.toasty.Toasty;
 
 public class LoginActivity extends BaseActivity implements LoginView {
 
@@ -52,10 +56,8 @@ public class LoginActivity extends BaseActivity implements LoginView {
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
         loginPresenter = new LoginPresenterImpl(this);
-        // Why to use presenter when it makes works harder??!!
         showLoginContainer();
         initView();
-        startActivity(new Intent(this, DashboardActivity.class));
     }
 
     public void initView(){
@@ -65,6 +67,7 @@ public class LoginActivity extends BaseActivity implements LoginView {
                 forgetPasswordContainer.setVisibility(View.GONE);
             }
         });
+        inputPassword.setVisibility(View.GONE);
     }
 
     @Override
@@ -114,17 +117,19 @@ public class LoginActivity extends BaseActivity implements LoginView {
 
     @Override
     public void showProgressBar() {
-
+        login.setEnabled(false);
+        login.setAlpha(0.7f);
     }
 
     @Override
     public void hideProgressBar() {
-
+        login.setEnabled(true);
+        login.setAlpha(1f);
     }
 
     @Override
     public void networkFailed(){
-        loginSucceed();
+        Toasty.error(this, "اتصال به سرور برقرار نشد").show();
     }
 
     @Override
@@ -134,22 +139,42 @@ public class LoginActivity extends BaseActivity implements LoginView {
 
     @Override
     public void badUsernameOrPassword() {
-        loginSucceed();
+        Toasty.error(this, "نام کاربری یا کلمه ی عبور اشتباه است").show();
     }
 
     @Override
     public void badEmail() {
-
+        Toasty.error(this, "ایمیل اشتباه است").show();
     }
 
     @Override
     public void unknownProblem(int status) {
-
+        Toasty.error(this,  "متاسفانه مشکلی رخ داده است").show();
     }
+
+
+    boolean isFirstAttempt= true;
 
     @OnClick(R.id.login)
     void onLoginClick(){
-        loginPresenter.login(inputUsername.getText().toString(), inputPassword.getText().toString());
+        if (!isFirstAttempt) {
+            loginPresenter.login(inputUsername.getText().toString(), inputPassword.getText().toString());
+        } else {
+            LoginRest.sendCode(inputUsername.getText().toString(), new LoginRest.LoginListener() {
+                @Override
+                public void onSuccess(LoginModel loginModel) {
+                    isFirstAttempt = false;
+                    TransitionManager.beginDelayedTransition(loginContainer);
+                    inputPassword.setVisibility(View.VISIBLE);
+                }
+
+                @Override
+                public void onFailed(LoginModel loginModel) {
+                    login.setVisibility(View.VISIBLE);
+                    unknownProblem(loginModel.getStatus());
+                }
+            });
+        }
     }
 
 

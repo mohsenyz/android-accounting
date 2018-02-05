@@ -11,8 +11,9 @@ import retrofit2.http.Query;
  */
 
 public interface ApiInterface {
-    @GET("login")
-    Call<LoginModel> login(@Query("imei") String imei,
-                           @Query("username") String username,
-                           @Query("password") String password);
+    @GET("login.php")
+    Call<LoginModel> login(@Query("phone") String phone);
+
+    @GET("verify.php")
+    Call<LoginModel> verify(@Query("phone") String phone, @Query("code") String code);
 }
