@@ -6,34 +6,26 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 
-import com.alirezaafkar.sundatepicker.DatePicker;
-import com.alirezaafkar.sundatepicker.interfaces.DateSetListener;
 import com.mphj.accountry.R;
 import com.mphj.accountry.adapter.ReportListAdapter;
 import com.mphj.accountry.interfaces.fragment.ReportListView;
 import com.mphj.accountry.models.db.Transaction;
 import com.mphj.accountry.presenters.fragment.ReportListPresenter;
 import com.mphj.accountry.presenters.fragment.ReportListPresenterImpl;
-import com.mphj.accountry.utils.ViewUtils;
 
-import java.util.Calendar;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
-import butterknife.OnTouch;
 
 /**
  * Created by mphj on 11/20/17.
  */
 
-public class ReportListFragment extends Fragment implements ReportListView, DateSetListener{
+public class ReportListFragment extends Fragment implements ReportListView{
 
     public static final int REQUEST_FROM_DATE = 1, REQUEST_TO_DATE = 2;
 
@@ -43,15 +35,6 @@ public class ReportListFragment extends Fragment implements ReportListView, Date
     ReportListAdapter reportListAdapter;
 
     ReportListPresenter presenter;
-
-    @BindView(R.id.fromDate)
-    EditText fromDateET;
-
-    @BindView(R.id.toDate)
-    EditText toDateET;
-
-    long fromDate;
-    long toDate = Long.MAX_VALUE;
 
     public ReportListFragment(){
 
@@ -97,7 +80,7 @@ public class ReportListFragment extends Fragment implements ReportListView, Date
     }
 
 
-    @OnTouch(R.id.fromDate)
+    /*@OnTouch(R.id.fromDate)
     boolean onRequestFromDate(View view, MotionEvent motionEvent) {
         if (ViewUtils.isInViewBound(view, motionEvent) && motionEvent.getAction() == MotionEvent.ACTION_UP) {
             DatePicker.Builder builder = new DatePicker.Builder()
@@ -108,9 +91,9 @@ public class ReportListFragment extends Fragment implements ReportListView, Date
             datePicker.show(getFragmentManager(), "Request from date");
         }
         return true;
-    }
+    }*/
 
-    @OnTouch(R.id.toDate)
+    /*@OnTouch(R.id.toDate)
     boolean onRequestToDate(View view, MotionEvent motionEvent) {
         if (ViewUtils.isInViewBound(view, motionEvent) && motionEvent.getAction() == MotionEvent.ACTION_UP) {
             DatePicker.Builder builder = new DatePicker.Builder()
@@ -121,7 +104,7 @@ public class ReportListFragment extends Fragment implements ReportListView, Date
             datePicker.show(getFragmentManager(), "Request to date");
         }
         return true;
-    }
+    }*/
 
     @Override
     public void setAdapter(List<Transaction> checks) {
@@ -133,7 +116,7 @@ public class ReportListFragment extends Fragment implements ReportListView, Date
         return "" + year + "/" + month + "/" + day;
     }
 
-    @Override
+    /*@Override
     public void onDateSet(int id, @Nullable Calendar calendar, int day, int month, int year) {
         String formattedDate = formatDate(day, month, year);
         if (id == REQUEST_FROM_DATE) {
@@ -146,11 +129,5 @@ public class ReportListFragment extends Fragment implements ReportListView, Date
             toDate = calendar.getTime().getTime() / 1000l;
         }
         presenter.loadList(fromDate, toDate);
-    }
-
-
-    @OnClick(R.id.v1)
-    void exportReportV1() {
-        presenter.exportV1(fromDate, toDate);
-    }
+    }*/
 }

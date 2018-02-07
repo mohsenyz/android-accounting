@@ -40,11 +40,11 @@ public class LogBuilder{
         log.setDone(false);
         log.setBody(body);
         log.setCommand(
-                methodName +
-                        "$" +
-                        className.toLowerCase() +
-                        "$" +
-                        id
+                methodName
+                + "$"
+                + className.toLowerCase()
+                + "$"
+                + id
         );
         return log;
     }
