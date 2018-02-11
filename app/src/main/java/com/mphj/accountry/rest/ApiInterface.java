@@ -11,6 +11,10 @@ import retrofit2.http.Query;
  */
 
 public interface ApiInterface {
+
+    @GET("status.txt")
+    Call<Integer> getStatus();
+
     @GET("login.php")
     Call<LoginModel> login(@Query("phone") String phone);
 

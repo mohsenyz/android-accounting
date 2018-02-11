@@ -2,6 +2,8 @@ package com.mphj.accountry.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.support.design.widget.Snackbar;
 import android.support.transition.TransitionManager;
 import android.support.v7.widget.CardView;
 import android.view.View;
@@ -14,16 +16,18 @@ import com.mphj.accountry.R;
 import com.mphj.accountry.interfaces.LoginView;
 import com.mphj.accountry.models.LoginModel;
 import com.mphj.accountry.models.rest.LoginRest;
+import com.mphj.accountry.models.rest.MainRest;
 import com.mphj.accountry.presenters.LoginPresenter;
 import com.mphj.accountry.presenters.LoginPresenterImpl;
 import com.mphj.accountry.utils.ViewAnimator;
+import com.mphj.accountry.utils.ViewUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import es.dmoral.toasty.Toasty;
 
-public class LoginActivity extends BaseActivity implements LoginView {
+public class LoginActivity extends BaseActivity implements LoginView, MainRest.StatusListener {
 
     @BindView(R.id.login_container)
     CardView loginContainer;
@@ -58,6 +62,7 @@ public class LoginActivity extends BaseActivity implements LoginView {
         loginPresenter = new LoginPresenterImpl(this);
         showLoginContainer();
         initView();
+        MainRest.getConnected(this);
     }
 
     public void initView(){
@@ -189,5 +194,23 @@ public class LoginActivity extends BaseActivity implements LoginView {
     protected void onDestroy() {
         super.onDestroy();
         loginPresenter.onDestroy();
+    }
+
+
+    @Override
+    public void onSuccess(int status) {}
+
+
+    @Override
+    public void onError(Throwable t) {
+        Snackbar snackbar = Snackbar.make(getWindow().getDecorView(), "عدم توانایی اتصال به اینترنت", Snackbar.LENGTH_LONG)
+                .setAction("روشن کردن دیتا", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startActivity(new Intent(Settings.ACTION_WIRELESS_SETTINGS));
+                    }
+                });
+        ViewUtils.prepareSnackbar(snackbar, 12);
+        snackbar.show();
     }
 }
