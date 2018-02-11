@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
+import android.widget.ScrollView;
 
 import com.mphj.accountry.R;
 import com.mphj.accountry.interfaces.LoginView;
@@ -36,7 +36,7 @@ public class LoginActivity extends BaseActivity implements LoginView, MainRest.S
     CardView forgetPasswordContainer;
 
     @BindView(R.id.container)
-    LinearLayout container;
+    ScrollView container;
 
     @BindView(R.id.login)
     Button login;
@@ -165,23 +165,37 @@ public class LoginActivity extends BaseActivity implements LoginView, MainRest.S
         if (!isFirstAttempt) {
             loginPresenter.login(inputUsername.getText().toString(), inputPassword.getText().toString());
         } else {
+            showProgressBar();
             LoginRest.sendCode(inputUsername.getText().toString(), new LoginRest.LoginListener() {
                 @Override
                 public void onSuccess(LoginModel loginModel) {
                     isFirstAttempt = false;
                     TransitionManager.beginDelayedTransition(loginContainer);
                     inputPassword.setVisibility(View.VISIBLE);
+                    hideProgressBar();
                 }
 
                 @Override
                 public void onFailed(LoginModel loginModel) {
                     login.setVisibility(View.VISIBLE);
                     unknownProblem(loginModel.getStatus());
+                    hideProgressBar();
                 }
             });
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        if (!isFirstAttempt) {
+            TransitionManager.beginDelayedTransition(loginContainer);
+            inputPassword.setVisibility(View.GONE);
+            inputUsername.setEnabled(true);
+            isFirstAttempt = true;
+        } else {
+            super.onBackPressed();
+        }
+    }
 
     @Override
     protected void onResume() {
