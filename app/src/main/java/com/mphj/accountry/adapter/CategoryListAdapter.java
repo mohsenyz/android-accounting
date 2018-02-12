@@ -64,10 +64,6 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
         viewHolder.container.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                if (onObjectItemClick != null){
-                    onObjectItemClick.onClick(v, category);
-                    return true;
-                }
                 BottomSheetDialogFragment bottomSheetDialogFragment = CategorySettingDialog.create(category);
                 bottomSheetDialogFragment.show(fragmentActivity.getSupportFragmentManager(), "");
                 return true;
@@ -92,6 +88,10 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
         viewHolder.container.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (onObjectItemClick != null){
+                    onObjectItemClick.onClick(v, category);
+                    return;
+                }
                 BottomSheetDialogFragment bottomSheetDialogFragment = CategoryProductListDialog.create(category);
                 bottomSheetDialogFragment.show(fragmentActivity.getSupportFragmentManager(), "");
             }

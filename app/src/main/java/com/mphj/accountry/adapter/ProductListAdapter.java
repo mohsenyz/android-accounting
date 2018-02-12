@@ -82,13 +82,17 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         viewHolder.container.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                if (onObjectItemClick != null){
-                    onObjectItemClick.onClick(v, product);
-                    return true;
-                }
                 BottomSheetDialogFragment bottomSheetDialogFragment = ProductSettingDialog.create(product);
                 bottomSheetDialogFragment.show(fragmentActivity.getSupportFragmentManager(), "");
                 return true;
+            }
+        });
+        viewHolder.container.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onObjectItemClick != null){
+                    onObjectItemClick.onClick(v, product);
+                }
             }
         });
         viewHolder.add.setOnClickListener(new View.OnClickListener() {

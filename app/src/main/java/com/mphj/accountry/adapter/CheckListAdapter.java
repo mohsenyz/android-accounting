@@ -74,13 +74,17 @@ public class CheckListAdapter extends RecyclerView.Adapter<CheckListAdapter.Chec
         viewHolder.container.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                if (onObjectItemClick != null){
-                    onObjectItemClick.onClick(v, check);
-                    return true;
-                }
                 //BottomSheetDialogFragment bottomSheetDialogFragment = CustomerSettingDialog.create(customer);
                 //bottomSheetDialogFragment.show(fragmentActivity.getSupportFragmentManager(), "");
                 return true;
+            }
+        });
+        viewHolder.container.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onObjectItemClick != null){
+                    onObjectItemClick.onClick(v, check);
+                }
             }
         });
     }

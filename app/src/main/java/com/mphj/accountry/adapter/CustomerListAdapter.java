@@ -66,13 +66,17 @@ public class CustomerListAdapter extends RecyclerView.Adapter<CustomerListAdapte
         viewHolder.container.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                if (onObjectItemClick != null){
-                    onObjectItemClick.onClick(v, customer);
-                    return true;
-                }
                 BottomSheetDialogFragment bottomSheetDialogFragment = CustomerSettingDialog.create(customer);
                 bottomSheetDialogFragment.show(fragmentActivity.getSupportFragmentManager(), "");
                 return true;
+            }
+        });
+        viewHolder.container.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onObjectItemClick != null){
+                    onObjectItemClick.onClick(v, customer);
+                }
             }
         });
         viewHolder.edit.setOnClickListener(new View.OnClickListener() {
