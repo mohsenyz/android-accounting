@@ -176,4 +176,28 @@ public class DashboardActivity extends BaseActivity implements DashboardView, Vi
         int position = (int)v.getTag();
         changeCurrentTo(position, true);
     }
+
+
+    @Override
+    public void onBackPressed() {
+        if (onBackPressedListener == null) {
+            super.onBackPressed();
+        } else {
+            if (onBackPressedListener.onBackPressed()) {
+                super.onBackPressed();
+            }
+        }
+    }
+
+    public void setOnBackPressedListener(OnBackPressedListener onBackPressedListener) {
+        this.onBackPressedListener = onBackPressedListener;
+    }
+
+
+    OnBackPressedListener onBackPressedListener;
+
+
+    public interface OnBackPressedListener {
+        boolean onBackPressed();
+    }
 }
