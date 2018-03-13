@@ -19,3 +19,10 @@ cache:
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
     - $HOME/.android/build-cache
+notifications:
+  webhooks:
+    urls:
+      - https://webhooks.gitter.im/e/1d411850734463d82a53
+    on_success: change
+    on_failure: always
+    on_start: never
