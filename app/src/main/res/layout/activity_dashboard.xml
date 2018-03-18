@@ -8,12 +8,36 @@
     android:layoutDirection="rtl"
     tools:context="com.mphj.accountry.activity.DashboardActivity"
     tools:targetApi="jelly_bean_mr1">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_gravity="top|left"
+        android:background="#ffba00">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#3b3b3b"
+            android:textSize="18dp"
+            android:gravity="center"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="15dp"
+            tools:ignore="MissingPrefix"
+            fontPath="fonts/title.ttf"
+            android:text="SHAFAGH"/>
+    </android.support.v7.widget.Toolbar>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:layout_marginTop="56dp"
+        android:background="@drawable/dropshadow_1"/>
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:layout_width="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:id="@+id/swipe_refresh"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginTop="56dp">
         <android.support.v4.view.ViewPager
             android:id="@+id/container"
             android:layout_width="match_parent"

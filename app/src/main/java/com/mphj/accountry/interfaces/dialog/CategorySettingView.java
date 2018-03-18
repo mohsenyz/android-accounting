@@ -12,4 +12,5 @@ public interface CategorySettingView {
     void setAdapter(List<SimpleListModel> list);
     void showProductList();
     void showAddProductActivity();
+    void showEditPage();
 }

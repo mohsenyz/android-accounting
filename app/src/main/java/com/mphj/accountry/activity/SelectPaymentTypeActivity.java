@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -17,6 +18,7 @@ import com.mphj.accountry.models.db.Check;
 import com.mphj.accountry.models.db.Transaction;
 import com.mphj.accountry.presenters.SelectPaymentTypePresenter;
 import com.mphj.accountry.presenters.SelectPaymentTypePresenterImpl;
+import com.mphj.accountry.utils.ViewUtils;
 
 import org.parceler.Parcels;
 
@@ -25,7 +27,7 @@ import java.util.Calendar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.OnFocusChange;
+import butterknife.OnTouch;
 
 public class SelectPaymentTypeActivity extends BaseActivity
         implements SelectPaymentTypeView, DateSetListener{
@@ -79,9 +81,9 @@ public class SelectPaymentTypeActivity extends BaseActivity
         presenter = new SelectPaymentTypePresenterImpl(this);
     }
 
-    @OnFocusChange(R.id.input_duedate)
-    void onDuedateFocusChange(View view, boolean hasFocus) {
-        if (hasFocus) {
+    @OnTouch(R.id.input_duedate)
+    boolean onDueDateFocusChange(View view, MotionEvent motionEvent) {
+        if (ViewUtils.isInViewBound(view, motionEvent) && motionEvent.getAction() == MotionEvent.ACTION_UP) {
             DatePicker.Builder datePicker = new DatePicker.Builder()
                     .theme(R.style.DatePickerDialog)
                     .id(SELECT_DATE)
@@ -89,6 +91,7 @@ public class SelectPaymentTypeActivity extends BaseActivity
             DatePicker datePickerDialog = datePicker.build(this);
             datePickerDialog.show(getSupportFragmentManager(), "Date Picker");
         }
+        return true;
     }
 
     @OnClick(R.id.submit)

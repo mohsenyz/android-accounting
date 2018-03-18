@@ -8,35 +8,27 @@ import com.google.gson.annotations.SerializedName;
 
 public class LoginModel {
 
-    @SerializedName("id")
-    private int id;
-
-    @SerializedName("createdAt")
-    private long createdAt;
+    @SerializedName("user_id")
+    private int userId;
 
     @SerializedName("token")
     private String token;
 
-    @SerializedName("name")
-    private String name;
+    @SerializedName("work_id")
+    private int workId;
 
     @SerializedName("status")
     private int status = -1;
 
-    public int getId() {
-        return id;
+    @SerializedName("msg")
+    String msg;
+
+    public int getUserId() {
+        return userId;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public long getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(long createdAt) {
-        this.createdAt = createdAt;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public String getToken() {
@@ -47,6 +39,14 @@ public class LoginModel {
         this.token = token;
     }
 
+    public int getWorkId() {
+        return workId;
+    }
+
+    public void setWorkId(int workId) {
+        this.workId = workId;
+    }
+
     public int getStatus() {
         return status;
     }
@@ -55,15 +55,15 @@ public class LoginModel {
         this.status = status;
     }
 
-    public boolean isSucceed(){
-        return this.status == 200;
+    public String getMsg() {
+        return msg;
     }
 
-    public String getName() {
-        return name;
+    public void setMsg(String msg) {
+        this.msg = msg;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public boolean isSucceed() {
+        return status == 200;
     }
 }

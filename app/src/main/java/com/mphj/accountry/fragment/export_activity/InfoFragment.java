@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -20,13 +21,14 @@ import com.mphj.accountry.models.db.Customer;
 import com.mphj.accountry.presenters.fragment.export_activity.InfoPresenter;
 import com.mphj.accountry.presenters.fragment.export_activity.InfoPresenterImpl;
 import com.mphj.accountry.utils.LocaleUtils;
+import com.mphj.accountry.utils.ViewUtils;
 
 import org.parceler.Parcels;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnFocusChange;
 import butterknife.OnTextChanged;
+import butterknife.OnTouch;
 
 /**
  * Created by mphj on 11/17/17.
@@ -111,12 +113,12 @@ public class InfoFragment extends Fragment implements
 
     @Override
     public void setTotalPriceWithOff(double totalPriceWithOff) {
+        totalCustomerPrice = (int) totalPriceWithOff;
         totalPrice.setText(LocaleUtils.englishNumberToArabic("" + totalPriceWithOff) + " تومان");
     }
 
     @Override
     public void setTotalOffPrice(double totalOffPrice) {
-        totalCustomerPrice = (int) totalOffPrice;
         totalOff.setText(LocaleUtils.englishNumberToArabic("" + totalOffPrice) + " تومان");
     }
 
@@ -136,10 +138,11 @@ public class InfoFragment extends Fragment implements
     }
 
 
-    @OnFocusChange(R.id.input_customer)
-    void onRequestCustomer(View view, boolean hasFocus) {
-        if (hasFocus)
+    @OnTouch(R.id.input_customer)
+    boolean onRequestCustomer(View view, MotionEvent motionEvent) {
+        if (ViewUtils.isInViewBound(view, motionEvent) && motionEvent.getAction() == MotionEvent.ACTION_UP)
             startActivityForResult(new Intent(getActivity(), SelectCustomerActivity.class), REQUEST_CUSTOMER);
+        return true;
     }
 
     @Override

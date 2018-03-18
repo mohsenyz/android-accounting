@@ -1,5 +1,7 @@
 package com.mphj.accountry.models.db;
 
+import com.mphj.jodiff.JoDiffReporter;
+
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
@@ -12,8 +14,7 @@ import org.parceler.Parcel;
 
 @Parcel
 @Entity
-public class TransactionReadded
-{
+public class TransactionReadded implements JoDiffReporter<TransactionReadded>{
     @Transient
     public static final int INC = 1, DEC = 2;
 

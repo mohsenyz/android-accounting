@@ -1,9 +1,10 @@
 package com.mphj.accountry.models.db;
 
+import com.mphj.jodiff.JoDiffReporter;
+
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
-import org.json.JSONObject;
 import org.parceler.Parcel;
 import org.parceler.Transient;
 
@@ -13,7 +14,7 @@ import org.parceler.Transient;
  */
 @Parcel
 @Entity
-public class Product {
+public class Product implements JoDiffReporter<Product>, Cloneable {
 
     @Id(autoincrement = true)
     public Long id;
@@ -103,24 +104,6 @@ public class Product {
         this.count = count;
     }
 
-
-
-    public static String toJson(Product product) {
-        try {
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("name", product.name);
-            jsonObject.put("token", product.token);
-            jsonObject.put("createdAt", product.name);
-            jsonObject.put("serverId", product.serverId);
-            jsonObject.put("categoryId", product.categoryId);
-            jsonObject.put("count", product.count);
-            return jsonObject.toString();
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        return null;
-    }
-
     public int getCategoryId() {
         return this.categoryId;
     }
@@ -135,5 +118,10 @@ public class Product {
 
     public void setPendingCount(int pendingCount) {
         this.pendingCount = pendingCount;
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 }

@@ -8,6 +8,6 @@ import com.mphj.accountry.presenters.BasePresenter;
  */
 
 public interface ProductSettingPresenter extends BasePresenter {
-    void loadList();
+    void loadList(Product product);
     void increaseProduct(Product product, int count);
 }

@@ -1,9 +1,9 @@
 package com.mphj.accountry.dialog;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -53,17 +53,18 @@ public class ProductSettingDialog extends BottomSheetDialogFragment implements P
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        Dialog dialog = super.onCreateDialog(savedInstanceState);
         View contentView = View.inflate(getContext(), R.layout.bs_dialog_simple_setting, null);
-        getDialog().setContentView(contentView);
+        dialog.setContentView(contentView);
         ButterKnife.bind(this, contentView);
         setupRecyclerView();
         if (getArguments() != null) {
             product = Parcels.unwrap(getArguments().getParcelable("product"));
         }
         presenter = new ProductSettingPresenterImpl(this);
-        presenter.loadList();
+        presenter.loadList(product);
+        return dialog;
     }
 
     public void setupRecyclerView(){

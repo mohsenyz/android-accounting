@@ -1,6 +1,7 @@
 package com.mphj.accountry.presenters.dialog;
 
 import com.mphj.accountry.models.db.Category;
+import com.mphj.accountry.models.db.Product;
 import com.mphj.accountry.presenters.BasePresenter;
 
 /**
@@ -10,5 +11,5 @@ import com.mphj.accountry.presenters.BasePresenter;
 public interface CategoryProductListPresenter extends BasePresenter {
 
     void loadList(Category category);
-
+    void increaseProduct(Product product, int count);
 }

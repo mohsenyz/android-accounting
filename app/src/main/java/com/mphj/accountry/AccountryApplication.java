@@ -5,6 +5,7 @@ import android.content.Context;
 
 import com.mphj.accountry.utils.DaoManager;
 import com.mphj.accountry.utils.TypefaceUtils;
+import com.mphj.wimagepicker.WImagePicker;
 import com.squareup.leakcanary.LeakCanary;
 
 import es.dmoral.toasty.Toasty;
@@ -35,6 +36,7 @@ public class AccountryApplication extends Application{
                 .setToastTypeface(TypefaceUtils.def())
                 .setTextSize(14)
                 .apply();
+        WImagePicker.init(this);
     }
 
 

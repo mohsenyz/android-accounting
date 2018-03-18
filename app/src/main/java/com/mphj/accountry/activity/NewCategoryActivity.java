@@ -1,12 +1,16 @@
 package com.mphj.accountry.activity;
 
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.mphj.accountry.R;
 import com.mphj.accountry.interfaces.NewCategoryView;
+import com.mphj.accountry.models.db.Category;
 import com.mphj.accountry.presenters.NewCategoryPresenter;
 import com.mphj.accountry.presenters.NewCategoryPresenterImpl;
+import com.mphj.accountry.utils.DaoManager;
 
 import butterknife.BindString;
 import butterknife.BindView;
@@ -21,7 +25,15 @@ public class NewCategoryActivity extends BaseActivity implements NewCategoryView
     @BindString(R.string.err_invalid_storage_name)
     String errStorageName;
 
+    @BindView(R.id.submit)
+    Button submit;
+
+    @BindView(R.id.title)
+    TextView title;
+
     NewCategoryPresenter presenter;
+
+    int categoryId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +41,13 @@ public class NewCategoryActivity extends BaseActivity implements NewCategoryView
         setContentView(R.layout.activity_new_storage);
         ButterKnife.bind(this);
         presenter = new NewCategoryPresenterImpl(this);
+        categoryId = getIntent().getIntExtra("id", -1);
+        if (categoryId != -1) {
+            title.setText("ویرایش دسته بندی");
+            submit.setText("ویرایش");
+            Category category = DaoManager.session().getCategoryDao().load((long) categoryId);
+            storage.setText(category.getName());
+        }
     }
 
     @Override
@@ -39,7 +58,11 @@ public class NewCategoryActivity extends BaseActivity implements NewCategoryView
 
     @OnClick(R.id.submit)
     void onSubmit(){
-        presenter.newStorage(storage.getText().toString());
+        if (categoryId == -1) {
+            presenter.newStorage(storage.getText().toString());
+        } else {
+            presenter.updateStorage(storage.getText().toString(), categoryId);
+        }
     }
 
 

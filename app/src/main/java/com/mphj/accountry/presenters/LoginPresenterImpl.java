@@ -1,5 +1,6 @@
 package com.mphj.accountry.presenters;
 
+import com.mphj.accountry.AccountryApplication;
 import com.mphj.accountry.interfaces.LoginView;
 import com.mphj.accountry.models.LoginModel;
 import com.mphj.accountry.models.rest.LoginRest;
@@ -25,7 +26,7 @@ public class LoginPresenterImpl implements LoginPresenter, LoginRest.LoginListen
 
     @Override
     public void onSuccess(LoginModel loginModel) {
-        Auth.login(loginModel);
+        Auth.login(loginModel, AccountryApplication.context());
         loginView.loginSucceed();
         loginView.hideProgressBar();
     }

@@ -42,7 +42,7 @@ public class ReportSettingPresenterImpl implements ReportSettingPresenter {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(v.getContext(), ExportTypeActivity.class);
-                i.putExtra("id", transaction.getId());
+                i.putExtra("id", transaction.getId().intValue());
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 v.getContext().startActivity(i);
             }

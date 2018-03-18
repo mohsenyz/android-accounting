@@ -5,16 +5,23 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.mphj.accountry.R;
 import com.mphj.accountry.interfaces.NewProductView;
 import com.mphj.accountry.models.db.Category;
+import com.mphj.accountry.models.db.CategoryDao;
+import com.mphj.accountry.models.db.Product;
+import com.mphj.accountry.models.db.ProductPriceDao;
 import com.mphj.accountry.presenters.NewProductPresenter;
 import com.mphj.accountry.presenters.NewProductPresenterImpl;
+import com.mphj.accountry.utils.DaoManager;
+import com.mphj.accountry.utils.ViewUtils;
 
 import org.parceler.Parcels;
 
@@ -23,6 +30,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnTextChanged;
+import butterknife.OnTouch;
 
 public class NewProductActivity extends BaseActivity implements NewProductView {
 
@@ -47,6 +55,12 @@ public class NewProductActivity extends BaseActivity implements NewProductView {
     @BindView(R.id.serial_img)
     ImageView serialImage;
 
+    @BindView(R.id.title)
+    TextView title;
+
+    @BindView(R.id.submit)
+    Button submit;
+
     @BindString(R.string.err_input_not_valid)
     String errInputNotValid;
 
@@ -58,12 +72,39 @@ public class NewProductActivity extends BaseActivity implements NewProductView {
 
     NewProductPresenter presenter;
 
+    int productId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_product);
         ButterKnife.bind(this);
         presenter = new NewProductPresenterImpl(this);
+        productId = getIntent().getIntExtra("id", -1);
+        if (productId != -1) {
+            title.setText("ویرایش محصول");
+            submit.setText("ویرایش");
+            Product product = DaoManager.session().getProductDao().load((long) productId);
+            product.setCurrentProductPrice(
+                    DaoManager.session().getProductPriceDao().queryBuilder().where(
+                            ProductPriceDao.Properties.ProductId.eq(productId)
+                    ).orderDesc(ProductPriceDao.Properties.CreatedAt).limit(1).list().get(0)
+            );
+            name.setText(product.getName());
+            setSerial(product.getToken());
+            price.setText(String.valueOf((int) product.getCurrentProductPrice().getPrice()));
+            customerPrice.setText(String.valueOf((int) product.getCurrentProductPrice().getCustomerPrice()));
+            Category category = DaoManager.session().getCategoryDao().queryBuilder()
+                    .where(CategoryDao.Properties.Id.eq(product.getCategoryId()))
+                    .unique();
+            setCategory(category);
+            count.setText(String.valueOf(product.getCount()));
+            count.setEnabled(false);
+        }
+        Category category = Parcels.unwrap(getIntent().getParcelableExtra("category"));
+        if (category != null) {
+            setCategory(category);
+        }
     }
 
     @OnTextChanged(R.id.input_serial)
@@ -125,14 +166,26 @@ public class NewProductActivity extends BaseActivity implements NewProductView {
 
     @OnClick(R.id.submit)
     void onSubmit(){
-        presenter.createProduct(
-                name.getText().toString(),
-                serial.getText().toString(),
-                price.getText().toString(),
-                customerPrice.getText().toString(),
-                productCategory,
-                count.getText().toString()
-        );
+        if (productId == -1) {
+            presenter.createProduct(
+                    name.getText().toString(),
+                    serial.getText().toString(),
+                    price.getText().toString(),
+                    customerPrice.getText().toString(),
+                    productCategory,
+                    count.getText().toString()
+            );
+        } else {
+            presenter.updateProduct(
+                    name.getText().toString(),
+                    serial.getText().toString(),
+                    price.getText().toString(),
+                    customerPrice.getText().toString(),
+                    productCategory,
+                    count.getText().toString(),
+                    productId
+            );
+        }
     }
 
 
@@ -141,9 +194,11 @@ public class NewProductActivity extends BaseActivity implements NewProductView {
         startActivityForResult(new Intent(this, BarcodeReaderActivity.class), BARCODE_READER_REQUEST_CODE);
     }
 
-    @OnClick(R.id.input_category)
-    void onRequestCategory() {
-        startActivityForResult(new Intent(this, SelectCategoryActivity.class), SELECT_CATEGORY_REQUEST_CODE);
+    @OnTouch(R.id.input_category)
+    boolean onRequestCategory(View view, MotionEvent motionEvent) {
+        if (ViewUtils.isInViewBound(view, motionEvent) && motionEvent.getAction() == MotionEvent.ACTION_UP)
+            startActivityForResult(new Intent(this, SelectCategoryActivity.class), SELECT_CATEGORY_REQUEST_CODE);
+        return true;
     }
 
     @OnClick(R.id.pick_random)

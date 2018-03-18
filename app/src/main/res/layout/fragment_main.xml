@@ -9,23 +9,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="top|left"
         android:orientation="vertical">
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="#ffba00">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="#3b3b3b"
-                android:textSize="18dp"
-                android:gravity="center"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="15dp"
-                tools:ignore="MissingPrefix"
-                fontPath="fonts/title.ttf"
-                android:text="SHAFAGH"/>
-        </android.support.v7.widget.Toolbar>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="250dp">
@@ -92,6 +75,7 @@
                 android:orientation="horizontal">
                 <android.support.v7.widget.CardView
                     android:layout_width="wrap_content"
+                    app:cardUseCompatPadding="true"
                     android:layout_height="wrap_content">
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -125,6 +109,7 @@
                 </android.support.v7.widget.CardView>
                 <android.support.v7.widget.CardView
                     android:layout_width="wrap_content"
+                    app:cardUseCompatPadding="true"
                     android:layout_height="wrap_content">
                     <LinearLayout
                         android:layout_width="wrap_content"

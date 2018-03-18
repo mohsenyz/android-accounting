@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -20,7 +21,8 @@
         <activity
             android:name="ir.tapsell.sdk.TapsellAdActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" />
-        <activity android:name=".activity.MainActivity">
+        <activity android:name=".activity.MainActivity"
+            android:theme="@style/AppTheme.Launcher">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -39,10 +41,10 @@
             android:theme="@style/AppTheme.Dialog.NoTitle" />
         <activity
             android:name=".activity.NewCustomerActivity"
-            android:theme="@style/AppTheme.Dialog.NoTitle" />
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.NewProductActivity"
-            android:theme="@style/AppTheme.Dialog.NoTitle" />
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.BarcodeReaderActivity"
             android:theme="@style/AppTheme.Dialog.NoTitle" />
@@ -60,7 +62,7 @@
             android:theme="@style/AppTheme.Dialog.NoTitle" />
         <activity
             android:name=".activity.ExportProductActivity"
-            android:theme="@style/AppTheme.Dialog.NoTitle" />
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.NewTransactionReaddedActivity"
             android:theme="@style/AppTheme.Dialog.NoTitle" />

@@ -1,5 +1,7 @@
 package com.mphj.accountry.models.db;
 
+import com.mphj.jodiff.JoDiffReporter;
+
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
@@ -12,7 +14,7 @@ import org.parceler.Parcel;
 
 @Entity
 @Parcel
-public class Check {
+public class Check implements JoDiffReporter<Check> {
 
     @Id(autoincrement = true)
     public Long id;

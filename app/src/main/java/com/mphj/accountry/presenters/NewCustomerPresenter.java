@@ -6,4 +6,5 @@ package com.mphj.accountry.presenters;
 
 public interface NewCustomerPresenter extends BasePresenter {
     void createCustomer(String name, String phone);
+    void updateCustomer(String name, String phone, int id);
 }

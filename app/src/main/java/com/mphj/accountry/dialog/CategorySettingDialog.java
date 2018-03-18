@@ -1,14 +1,15 @@
 package com.mphj.accountry.dialog;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.mphj.accountry.R;
+import com.mphj.accountry.activity.NewCategoryActivity;
 import com.mphj.accountry.activity.NewProductActivity;
 import com.mphj.accountry.adapter.SimpleListAdapter;
 import com.mphj.accountry.interfaces.dialog.CategorySettingView;
@@ -48,10 +49,10 @@ public class CategorySettingDialog extends BottomSheetDialogFragment implements 
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        Dialog dialog = super.onCreateDialog(savedInstanceState);
         View contentView = View.inflate(getContext(), R.layout.bs_dialog_simple_setting, null);
-        getDialog().setContentView(contentView);
+        dialog.setContentView(contentView);
         ButterKnife.bind(this, contentView);
         setupRecyclerView();
         if (getArguments() != null) {
@@ -59,6 +60,7 @@ public class CategorySettingDialog extends BottomSheetDialogFragment implements 
         }
         presenter = new CategorySettingPresenterImpl(this);
         presenter.loadList(category);
+        return dialog;
     }
 
     public void setupRecyclerView(){
@@ -84,6 +86,14 @@ public class CategorySettingDialog extends BottomSheetDialogFragment implements 
     public void showAddProductActivity() {
         Intent i = new Intent(getActivity(), NewProductActivity.class);
         i.putExtra("category", Parcels.wrap(Category.class, category));
+        startActivity(i);
+    }
+
+
+    @Override
+    public void showEditPage() {
+        Intent i = new Intent(getActivity(), NewCategoryActivity.class);
+        i.putExtra("id", category.getId().intValue());
         startActivity(i);
     }
 }

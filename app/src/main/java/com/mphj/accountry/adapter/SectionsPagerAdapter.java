@@ -1,8 +1,9 @@
 package com.mphj.accountry.adapter;
 
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.mphj.accountry.activity.DashboardActivity;
 import com.mphj.accountry.fragment.CategoryListFragment;
@@ -11,13 +12,21 @@ import com.mphj.accountry.fragment.CustomerListFragment;
 import com.mphj.accountry.fragment.MainFragment;
 import com.mphj.accountry.fragment.PlaceHolderFragment;
 import com.mphj.accountry.fragment.ReportListFragment;
+import com.mphj.accountry.models.db.CategoryDao;
+import com.mphj.accountry.models.db.CheckDao;
+import com.mphj.accountry.models.db.CustomerDao;
+import com.mphj.accountry.models.db.TransactionDao;
+import com.mphj.accountry.utils.DaoManager;
 
 /**
  * Created by mphj on 10/20/2017.
  */
 
-public class SectionsPagerAdapter extends FragmentPagerAdapter {
+public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
     DashboardActivity dashboardActivity;
+
+    @Override
+    public void restoreState(Parcelable state, ClassLoader loader) { }
 
     public SectionsPagerAdapter(FragmentManager fm, DashboardActivity dashboardActivity) {
         super(fm);
@@ -29,12 +38,25 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
             case HOME:
                 return MainFragment.newInstance();
             case PRODUCTS:
+                CategoryDao categoryDao = DaoManager.session().getCategoryDao();
+                if (categoryDao.count() == 0)
+                    return PlaceHolderFragment.newInstance(0);
                 return CategoryListFragment.newInstance();
             case CUSTOMERS:
+                CustomerDao customerDao = DaoManager.session().getCustomerDao();
+                if (customerDao.count() == 0)
+                    return PlaceHolderFragment.newInstance(0);
                 return CustomerListFragment.newInstance();
             case CHECKS:
+                CheckDao checkDao = DaoManager.session().getCheckDao();
+                int size = (int) checkDao.count();
+                if (size == 0)
+                    return PlaceHolderFragment.newInstance(0);
                 return CheckListFragment.newInstance();
             case REPORTS:
+                TransactionDao transactionDao = DaoManager.session().getTransactionDao();
+                if (transactionDao.count() == 0)
+                    return PlaceHolderFragment.newInstance(0);
                 return ReportListFragment.newInstance();
         }
         return PlaceHolderFragment.newInstance(position + 1);
@@ -61,6 +83,11 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
                 return "چک ها";
         }
         return null;
+    }
+
+    @Override
+    public int getItemPosition(Object object) {
+        return POSITION_NONE;
     }
 
     public static final int HOME = 4, REPORTS = 3, PRODUCTS = 2, CUSTOMERS = 1, CHECKS = 0;

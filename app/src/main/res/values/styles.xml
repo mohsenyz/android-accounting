@@ -7,6 +7,12 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="AppTheme.Launcher" parent="AppTheme.NoActionBar">
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowActionBarOverlay">false</item>
+        <item name="android:windowBackground">@drawable/launch_screen</item>
+    </style>
+
     <style name="DatePickerDialog" parent="Theme.AppCompat.Light.Dialog.MinWidth">
         <item name="colorPrimary">#297cde</item>
         <item name="colorPrimaryDark">#2962de</item>

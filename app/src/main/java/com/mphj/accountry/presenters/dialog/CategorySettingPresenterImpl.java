@@ -33,7 +33,12 @@ public class CategorySettingPresenterImpl implements CategorySettingPresenter {
     @Override
     public void loadList(final Category category) {
         List<SimpleListModel> list = new ArrayList<>();
-        SimpleListModel model = new SimpleListModel("ویرایش", R.drawable.ic_gray_edit);
+        SimpleListModel model = new SimpleListModel("ویرایش", R.drawable.ic_gray_edit, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                view.showEditPage();
+            }
+        });
         list.add(model);
         model = new SimpleListModel("لیست محصولات", R.drawable.ic_gray_list, new View.OnClickListener() {
             @Override

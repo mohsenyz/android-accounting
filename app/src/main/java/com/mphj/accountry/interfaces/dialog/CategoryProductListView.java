@@ -10,4 +10,5 @@ import java.util.List;
 
 public interface CategoryProductListView {
     void setAdapter(List<Product> list);
+    void increasedSuccessfully();
 }
