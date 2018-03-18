@@ -1,4 +1,6 @@
 # android-accounting
+
+[![Join the chat at https://gitter.im/android-accounting/Lobby](https://badges.gitter.im/android-accounting/Lobby.svg)](https://gitter.im/android-accounting/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Build Status](https://travis-ci.org/mphj/android-accounting.svg?branch=master)](https://travis-ci.org/mphj/android-accounting)
 [![Maintainability](https://api.codeclimate.com/v1/badges/37de5767dbe80d74de32/maintainability)](https://codeclimate.com/github/mphj/android-accounting/maintainability)
 
